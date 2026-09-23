@@ -11,6 +11,11 @@ const BANSHEE: Texture2D = preload("res://assets/sprites/banshee-front-128x128.p
 const DEMON_DOLL: Texture2D = preload("res://assets/sprites/demon-doll-front-128x128.png")
 const GHOSTLY_NUN: Texture2D = preload("res://assets/sprites/ghostly-nun-front-128x128.png")
 const DEMON_WALK: Texture2D = preload("res://assets/sprites/red-demon-walk-front-4x128.png")
+const SKELETON_FRONT: Texture2D = preload("res://assets/sprites/skeleton-front-master.png")
+const SKELETON_BACK: Texture2D = preload("res://assets/sprites/skeleton-back-master.png")
+const SKELETON_RIGHT: Texture2D = preload("res://assets/sprites/skeleton-right-master.png")
+const SKELETON_LEFT: Texture2D = preload("res://assets/sprites/skeleton-left-master.png")
+const SKELETON_PROJECTILE: Texture2D = preload("res://assets/sprites/skeleton-bone-projectile-master.png")
 const MOSS_FRONT: Texture2D = preload("res://assets/sprites/moss-monster-front-128x128.png")
 const MOSS_BACK: Texture2D = preload("res://assets/sprites/moss-monster-back-128x128.png")
 const MOSS_RIGHT: Texture2D = preload("res://assets/sprites/moss-monster-right-128x128.png")
@@ -58,6 +63,7 @@ const SOUL_LIGHTNING_1: Texture2D = preload("res://assets/effects/grim-reaper-or
 const SOUL_LIGHTNING_2: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-02-master.png")
 const SOUL_LIGHTNING_3: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-03-master.png")
 const SOUL_LIGHTNING_4: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-04-master.png")
+const SCARE_METER_FRAME: Texture2D = preload("res://assets/ui/scare-meter-dracula-frankenstein-master.png")
 
 const SIZE := Vector2(960, 540)
 const LEVEL_COUNT := 8
@@ -86,11 +92,11 @@ const PROJECTILE_SPIN := 11.0
 const PROJECTILE_DAMAGE := 30
 const STARTING_SCARE_POINTS := 200
 const SCARE_REWARD := [20, 35, 50, 65, 80, 100]
-const DRACULA_COST := 350
+const DRACULA_COST := 1000
 const DRACULA_DAMAGE := 100
 const DRACULA_SPEED := 260.0
 const DRACULA_CONTACT_RADIUS := 29.0
-const FRANK_COST := 500
+const FRANK_COST := 1500
 const FRANK_DAMAGE := 200
 const FRANK_ORIGIN := Vector2(459, 160)
 const FRANK_STEP_DISTANCE := 56.0
@@ -101,8 +107,8 @@ const FRANK_WALK_TIME := 1.1
 const FRANK_BLAST_TIME := 2.0
 const FRANK_SINK_TIME := 0.9
 const FRANK_PORTAL_CLOSE_TIME := 0.9
-const MONSTER_COST := {"moss": 50, "bog": 110, "gargoyle": 180, "werewolf": 240}
-const MONSTER_DAMAGE := {"moss": 30, "bog": 60, "gargoyle": 90, "werewolf": 120}
+const MONSTER_COST := {"skeleton": 30, "moss": 50, "bog": 110, "gargoyle": 180, "werewolf": 240}
+const MONSTER_DAMAGE := {"skeleton": 15, "moss": 30, "bog": 60, "gargoyle": 90, "werewolf": 120}
 const WEREWOLF_RANGE := 145.0
 const WEREWOLF_COOLDOWN := 1.8
 const HOWL_DURATION := 0.42
@@ -122,19 +128,25 @@ const SOUL_LIGHTNING_COOLDOWN := 5.5
 const SOUL_LIGHTNING_DURATION := 2.0
 const SOUL_LIGHTNING_HIT_TIME := 0.8
 const SOUL_LIGHTNING_DAMAGE := 90
-const MONSTER_HP := {"moss": 180, "bog": 270, "gargoyle": 380, "werewolf": 320}
-const SHOP_MOSS := Rect2(8, 461, 150, 65)
-const SHOP_BOG := Rect2(167, 461, 150, 65)
-const SHOP_GARGOYLE := Rect2(326, 461, 150, 65)
-const SHOP_WEREWOLF := Rect2(485, 461, 150, 65)
-const SHOP_DRACULA := Rect2(644, 461, 150, 65)
-const SHOP_FRANK := Rect2(803, 461, 149, 65)
+const MONSTER_HP := {"skeleton": 140, "moss": 180, "bog": 270, "gargoyle": 380, "werewolf": 320}
+const SHOP_SKELETON := Rect2(8, 461, 128, 65)
+const SHOP_MOSS := Rect2(143, 461, 128, 65)
+const SHOP_BOG := Rect2(278, 461, 128, 65)
+const SHOP_GARGOYLE := Rect2(413, 461, 128, 65)
+const SHOP_WEREWOLF := Rect2(548, 461, 128, 65)
+const SHOP_DRACULA := Rect2(683, 461, 128, 65)
+const SHOP_FRANK := Rect2(818, 461, 134, 65)
+const PORTRAIT_SKELETON := Rect2(285, 80, 454, 454)
 const PORTRAIT_MOSS := Rect2(38, 25, 52, 52)
 const PORTRAIT_BOG := Rect2(38, 24, 52, 52)
 const PORTRAIT_GARGOYLE := Rect2(38, 24, 52, 52)
 const PORTRAIT_WEREWOLF := Rect2(37, 6, 54, 54)
 const PORTRAIT_DRACULA := Rect2(43, 53, 44, 44)
 const PORTRAIT_FRANK := Rect2(42, 5, 44, 48)
+const SCARE_METER_MAX := 1500
+const SCARE_METER_RECT := Rect2(255, 55, 450, 104)
+const SCARE_METER_SOURCE := Rect2(0, 95, 2172, 500)
+const SCARE_METER_FILL_RECT := Rect2(284, 99, 373, 20)
 const BUILD_PADS: Array[Vector2] = [
 	Vector2(141, 226), Vector2(329, 178), Vector2(615, 321), Vector2(846, 210)
 ]
@@ -179,7 +191,8 @@ var time_passed := 0.0
 var wave_intro_elapsed := 0.0
 var current_level := 1
 var scare_points := STARTING_SCARE_POINTS
-var selected_monster := "moss"
+var scare_meter_points := 0
+var selected_monster := "skeleton"
 var dracula_active := false
 var dracula_distance := -60.0
 var dracula_hit_ids: Dictionary = {}
@@ -218,6 +231,7 @@ func start_level(level_number: int, keep_monsters: bool) -> void:
 	if not keep_monsters:
 		placed.clear()
 		scare_points = STARTING_SCARE_POINTS
+		scare_meter_points = 0
 	elif display_level() != old_display_level:
 		placed.clear()
 	else:
@@ -321,13 +335,13 @@ func start_boss_battle() -> void:
 
 
 func can_summon_dracula() -> bool:
-	return scare_points >= DRACULA_COST and not dracula_active and not wave_complete()
+	return scare_meter_points >= DRACULA_COST and not dracula_active and frank_phase == "idle" and not wave_complete()
 
 
 func summon_dracula() -> bool:
 	if not can_summon_dracula():
 		return false
-	scare_points -= DRACULA_COST
+	scare_meter_points = 0
 	dracula_active = true
 	dracula_distance = -60.0
 	dracula_route_id = 0
@@ -337,13 +351,13 @@ func summon_dracula() -> bool:
 
 
 func can_summon_frank() -> bool:
-	return scare_points >= FRANK_COST and frank_phase == "idle" and not wave_complete()
+	return scare_meter_points >= FRANK_COST and frank_phase == "idle" and not dracula_active and not wave_complete()
 
 
 func summon_frank() -> bool:
 	if not can_summon_frank():
 		return false
-	scare_points -= FRANK_COST
+	scare_meter_points = 0
 	frank_phase = "portal_opening"
 	frank_elapsed = 0.0
 	frank_blast_targets.clear()
@@ -361,9 +375,13 @@ func damage_enemy(enemy: Dictionary, damage: int) -> void:
 		scared += 1
 		if bool(enemy.get("is_boss", false)):
 			boss_defeated = true
-			scare_points += SOUL_REAPER_REWARD if boss_level == 2 else GRAVEWROUGHT_REWARD
+			var boss_reward := SOUL_REAPER_REWARD if boss_level == 2 else GRAVEWROUGHT_REWARD
+			scare_points += boss_reward
+			scare_meter_points = mini(SCARE_METER_MAX, scare_meter_points + boss_reward)
 		else:
-			scare_points += int(SCARE_REWARD[int(enemy["kind"]) - 1])
+			var reward := int(SCARE_REWARD[int(enemy["kind"]) - 1])
+			scare_points += reward
+			scare_meter_points = mini(SCARE_METER_MAX, scare_meter_points + reward)
 
 
 func _process(delta: float) -> void:
@@ -683,6 +701,9 @@ func try_remove_monster(pad_index: int) -> bool:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		if SHOP_SKELETON.has_point(event.position):
+			try_place_monster("skeleton")
+			return
 		if SHOP_MOSS.has_point(event.position):
 			try_place_monster("moss")
 			return
@@ -720,6 +741,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			start_level(event.keycode - KEY_1 + 1, false)
 		elif event.keycode == KEY_Q:
 			try_place_monster("moss")
+		elif event.keycode == KEY_A:
+			try_place_monster("skeleton")
 		elif event.keycode == KEY_W:
 			try_place_monster("bog")
 		elif event.keycode == KEY_G:
@@ -732,6 +755,7 @@ func _unhandled_input(event: InputEvent) -> void:
 			summon_frank()
 		elif event.keycode == KEY_T:
 			scare_points += 500
+			scare_meter_points = mini(SCARE_METER_MAX, scare_meter_points + 500)
 			queue_redraw()
 
 
@@ -834,6 +858,7 @@ func _draw() -> void:
 		draw_set_transform(projectile_pos, float(projectile["rotation"]))
 		var projectile_texture: Texture2D = MOSS_PROJECTILE
 		match str(projectile.get("kind", "moss")):
+			"skeleton": projectile_texture = SKELETON_PROJECTILE
 			"bog": projectile_texture = BOG_PROJECTILE
 			"gargoyle": projectile_texture = GARGOYLE_PROJECTILE
 		draw_texture_rect(projectile_texture, Rect2(-16, -16, 32, 32), false)
@@ -852,13 +877,15 @@ func _draw() -> void:
 	var boss_name := "SOUL REAPER" if boss_level == 2 else "THE GRAVEWROUGHT"
 	var stage_title := "GRAVEYARD  /  LEVEL %d: %s" % [boss_level, boss_name] if boss_mode else "GRAVEYARD  /  LEVEL %d  WAVE %d: %s" % [display_level(), display_wave(), LEVEL_NAMES[current_level - 1]]
 	draw_string(font, Vector2(22, 25), stage_title, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(0.94, 0.97, 0.89))
-	draw_string(font, Vector2(22, 45), "Click pad, then monster  |  Click placed monster: remove (2x cost)  |  E: Dracula  F: Frank", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.66, 0.85, 0.73))
+	draw_string(font, Vector2(22, 45), "Click pad, then monster  |  A: Skeleton  |  E: Dracula  F: Frank", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.66, 0.85, 0.73))
 	var progress_text := "BOSS" if boss_mode and not boss_defeated else ("DEFEATED" if boss_mode else "Scared: %d / %d" % [scared, level_enemy_count()])
 	draw_string(font, Vector2(625, 25), progress_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.99, 0.91, 0.69))
 	draw_string(font, Vector2(790, 25), "Points: %d" % scare_points, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.88, 0.42))
 	draw_string(font, Vector2(790, 45), "Escaped: %d  |  R" % escaped, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.84, 0.88, 0.91))
+	_draw_scare_meter(font)
 	draw_string(font, Vector2(791, 442), "T: +500 TEST PTS", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.78, 0.86, 1.0))
 	draw_rect(Rect2(0, 449, 960, 91), Color(0.03, 0.07, 0.10, 0.94))
+	_draw_shop_card(SHOP_SKELETON, "skeleton", SKELETON_FRONT, PORTRAIT_SKELETON, "SKELETON", "15 damage", font)
 	_draw_shop_card(SHOP_MOSS, "moss", MOSS_FRONT, PORTRAIT_MOSS, "MOSS MONSTER", "30 damage", font)
 	_draw_shop_card(SHOP_BOG, "bog", BOG_FRONT, PORTRAIT_BOG, "BOG GUARDIAN", "60 damage", font)
 	_draw_shop_card(SHOP_GARGOYLE, "gargoyle", GARGOYLE_FRONT, PORTRAIT_GARGOYLE, "GARGOYLE", "90 damage", font)
@@ -896,6 +923,18 @@ func _draw_wave_intro() -> void:
 		_draw_intro_title("WAVE %d" % display_wave(), 321.0, 76, Color.WHITE, Color(0.55, 0.72, 1.0), wave_alpha)
 
 
+func _draw_scare_meter(font: Font) -> void:
+	var ratio := clampf(float(scare_meter_points) / float(SCARE_METER_MAX), 0.0, 1.0)
+	var fill_width := SCARE_METER_FILL_RECT.size.x * ratio
+	if fill_width > 0.0:
+		var pulse := 0.82 + sin(time_passed * 4.0) * 0.08
+		draw_rect(Rect2(SCARE_METER_FILL_RECT.position, Vector2(fill_width, SCARE_METER_FILL_RECT.size.y)), Color(0.23, 0.90, 0.53, pulse))
+		draw_rect(Rect2(SCARE_METER_FILL_RECT.position + Vector2(0, 3), Vector2(fill_width, 5)), Color(0.72, 1.0, 0.72, 0.32))
+	draw_texture_rect_region(SCARE_METER_FRAME, SCARE_METER_RECT, SCARE_METER_SOURCE)
+	var meter_text := "%d / %d" % [scare_meter_points, SCARE_METER_MAX]
+	draw_string(font, Vector2(436, 145), meter_text, HORIZONTAL_ALIGNMENT_CENTER, 90, 11, Color(0.89, 1.0, 0.83))
+
+
 func _draw_boss_intro() -> void:
 	if not boss_mode or boss_intro_elapsed >= BOSS_INTRO_DURATION:
 		return
@@ -915,14 +954,21 @@ func _draw_gravewrought_shockwaves() -> void:
 	if boss_gravewail_elapsed < 0.0:
 		return
 	if boss_level == 2:
+		var boss := ghost_by_id(10000)
+		if boss.is_empty() or float(boss.get("flee", 0.0)) > 0.0:
+			return
 		var lightning_frame := int(floor(boss_gravewail_elapsed * 8.0)) % 4
 		var lightning_texture: Texture2D = SOUL_LIGHTNING_1
 		match lightning_frame:
 			1: lightning_texture = SOUL_LIGHTNING_2
 			2: lightning_texture = SOUL_LIGHTNING_3
 			3: lightning_texture = SOUL_LIGHTNING_4
+		var boss_pos := point_on_route(float(boss["distance"]), int(boss.get("route_id", 0)))
+		var bob := sin(time_passed * 5.0 + float(boss["phase"])) * 2.2
+		var left_eye := boss_pos + Vector2(-5.0, -87.0 + bob)
+		var right_eye := boss_pos + Vector2(5.0, -87.0 + bob)
 		draw_rect(Rect2(0, 55, SIZE.x, 394), Color(1.0, 0.25, 0.02, 0.10))
-		draw_texture_rect(lightning_texture, Rect2(Vector2.ZERO, SIZE), false, Color(1.0, 1.0, 1.0, 0.86))
+		_draw_soul_lightning_from_eyes(lightning_texture, left_eye, right_eye)
 		return
 	var boss := ghost_by_id(10000)
 	if boss.is_empty() or float(boss.get("flee", 0.0)) > 0.0:
@@ -937,6 +983,19 @@ func _draw_gravewrought_shockwaves() -> void:
 		var alpha := 0.82 * (1.0 - wave)
 		draw_arc(origin, radius, 0.0, TAU, 72, Color(0.75, 0.48, 1.0, alpha), 5.0)
 		draw_arc(origin, radius + 6.0, 0.0, TAU, 72, Color(1.0, 0.22, 0.38, alpha * 0.55), 2.5)
+
+
+func _draw_soul_lightning_from_eyes(texture: Texture2D, left_eye: Vector2, right_eye: Vector2) -> void:
+	var source_size := texture.get_size()
+	var split_x := source_size.x * 0.5
+	var split_y := source_size.y * 0.55
+	var tint := Color(1.0, 1.0, 1.0, 0.86)
+	# Map each source quadrant to a screen quadrant whose inner corner is one eye.
+	# This keeps the generated branches full-screen while moving both discharge origins with the boss.
+	draw_texture_rect_region(texture, Rect2(Vector2.ZERO, Vector2(left_eye.x, left_eye.y)), Rect2(0, 0, split_x, split_y), tint)
+	draw_texture_rect_region(texture, Rect2(Vector2(0, left_eye.y), Vector2(left_eye.x, SIZE.y - left_eye.y)), Rect2(0, split_y, split_x, source_size.y - split_y), tint)
+	draw_texture_rect_region(texture, Rect2(Vector2(right_eye.x, 0), Vector2(SIZE.x - right_eye.x, right_eye.y)), Rect2(split_x, 0, source_size.x - split_x, split_y), tint)
+	draw_texture_rect_region(texture, Rect2(right_eye, Vector2(SIZE.x - right_eye.x, SIZE.y - right_eye.y)), Rect2(split_x, split_y, source_size.x - split_x, source_size.y - split_y), tint)
 
 
 func _draw_intro_title(title: String, baseline_y: float, font_size: int, color: Color, glow: Color, alpha: float) -> void:
@@ -1060,6 +1119,14 @@ func texture_for_facing(facing: String) -> Texture2D:
 		_: return MOSS_FRONT
 
 
+func skeleton_texture_for_facing(facing: String) -> Texture2D:
+	match facing:
+		"back": return SKELETON_BACK
+		"right": return SKELETON_RIGHT
+		"left": return SKELETON_LEFT
+		_: return SKELETON_FRONT
+
+
 func bog_texture_for_facing(facing: String) -> Texture2D:
 	match facing:
 		"back": return BOG_BACK
@@ -1092,6 +1159,7 @@ func werewolf_texture_for_facing(facing: String, howling: bool = false) -> Textu
 
 func monster_texture_for_facing(kind: String, facing: String) -> Texture2D:
 	match kind:
+		"skeleton": return skeleton_texture_for_facing(facing)
 		"bog": return bog_texture_for_facing(facing)
 		"gargoyle": return gargoyle_texture_for_facing(facing)
 		"werewolf": return werewolf_texture_for_facing(facing)

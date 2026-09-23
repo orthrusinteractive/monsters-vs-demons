@@ -8,14 +8,14 @@ func _initialize() -> void:
 func run_test() -> void:
 	var level = load("res://graveyard_level_01.tscn").instantiate()
 	root.add_child(level)
-	if level.scare_points != 200 or level.selected_monster != "moss":
+	if level.scare_points != 200 or level.selected_monster != "skeleton":
 		push_error("Shop did not initialize")
 		quit(1)
 		return
 	var click := InputEventMouseButton.new()
 	click.button_index = MOUSE_BUTTON_LEFT
 	click.pressed = true
-	click.position = level.SHOP_MOSS.position + Vector2(30, 30)
+	click.position = level.SHOP_SKELETON.position + Vector2(30, 30)
 	level._unhandled_input(click)
 	if not level.placed.is_empty() or level.scare_points != 200:
 		push_error("Monster could be purchased before selecting a spawn point")
@@ -27,16 +27,37 @@ func run_test() -> void:
 		push_error("Empty spawn point was not selected first")
 		quit(1)
 		return
+	click.position = level.SHOP_SKELETON.position + Vector2(30, 30)
+	level._unhandled_input(click)
+	if level.scare_points != 170 or level.placed.size() != 1 or level.placed[0].get("kind") != "skeleton":
+		push_error("Skeleton purchase failed")
+		quit(1)
+		return
+	if level.MONSTER_DAMAGE["skeleton"] >= level.MONSTER_DAMAGE["moss"] or level.MONSTER_COST["skeleton"] >= level.MONSTER_COST["moss"]:
+		push_error("Skeleton is not the cheapest and weakest monster")
+		quit(1)
+		return
+	if level.monster_texture_for_facing("skeleton", "right") != level.SKELETON_RIGHT:
+		push_error("Skeleton facing sprite failed")
+		quit(1)
+		return
+	click.position = level.BUILD_PADS[0]
+	level._unhandled_input(click)
+	if level.scare_points != 110 or not level.placed.is_empty() or level.selected_pad != 0:
+		push_error("Removing a monster did not charge double its purchase price or free its spawn point")
+		quit(1)
+		return
+	level.scare_points = 150
 	click.position = level.SHOP_MOSS.position + Vector2(30, 30)
 	level._unhandled_input(click)
-	if level.scare_points != 150 or level.placed.size() != 1 or level.placed[0].get("kind") != "moss":
+	if level.scare_points != 100 or level.placed.size() != 1 or level.placed[0].get("kind") != "moss":
 		push_error("Moss purchase failed")
 		quit(1)
 		return
 	click.position = level.BUILD_PADS[0]
 	level._unhandled_input(click)
-	if level.scare_points != 50 or not level.placed.is_empty() or level.selected_pad != 0:
-		push_error("Removing a monster did not charge double its purchase price or free its spawn point")
+	if level.scare_points != 0 or not level.placed.is_empty() or level.selected_pad != 0:
+		push_error("Moss removal failed")
 		quit(1)
 		return
 	level.scare_points = 110
@@ -81,5 +102,5 @@ func run_test() -> void:
 		push_error("Werewolf howl facing sprite failed")
 		quit(1)
 		return
-	print("Shop test passed: all four monsters, prices, placement, and insufficient funds")
+	print("Shop test passed: Skeleton plus all four existing monsters, prices, placement, and insufficient funds")
 	quit(0)

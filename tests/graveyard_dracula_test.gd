@@ -10,19 +10,19 @@ func run_test() -> void:
 	root.add_child(level)
 	level.set_process(false)
 	level.spawned = level.level_enemy_count()
-	if level.summon_dracula() or level.scare_points != 200:
-		push_error("Dracula was summoned without enough scare points")
+	if level.summon_dracula() or level.scare_meter_points != 0:
+		push_error("Dracula was summoned without a full-enough scare meter")
 		quit(1)
 		return
-	level.scare_points = level.DRACULA_COST
+	level.scare_meter_points = level.DRACULA_COST
 	level.ghosts.append({"id": 0, "kind": 1, "distance": 160.0, "flee": 0.0, "phase": 0.0, "hp": 150, "max_hp": 150, "speed": 0.0, "hit_flash": 0.0})
 	level.ghosts.append({"id": 1, "kind": 2, "distance": 170.0, "flee": 0.0, "phase": 0.0, "hp": 80, "max_hp": 80, "speed": 0.0, "hit_flash": 0.0})
-	if not level.summon_dracula() or level.scare_points != 0 or level.summon_dracula():
-		push_error("Dracula cost or single-active-use rule failed")
+	if not level.summon_dracula() or level.scare_meter_points != 0 or level.scare_points != 200 or level.summon_dracula():
+		push_error("Dracula meter reset or single-active-use rule failed")
 		quit(1)
 		return
 	level._process(1.0)
-	if int(level.ghosts[0]["hp"]) != 50 or int(level.ghosts[1]["hp"]) != 0 or level.scared != 1 or level.scare_points != 35:
+	if int(level.ghosts[0]["hp"]) != 50 or int(level.ghosts[1]["hp"]) != 0 or level.scared != 1 or level.scare_points != 235 or level.scare_meter_points != 35:
 		push_error("Dracula did not hit both enemies and award the spectre's points")
 		quit(1)
 		return
@@ -37,8 +37,8 @@ func run_test() -> void:
 		push_error("Dracula was reusable without repaying the cost")
 		quit(1)
 		return
-	level.scare_points = level.DRACULA_COST
-	if not level.summon_dracula() or level.scare_points != 0:
+	level.scare_meter_points = level.DRACULA_COST
+	if not level.summon_dracula() or level.scare_meter_points != 0:
 		push_error("Dracula could not be purchased again after points accumulated")
 		quit(1)
 		return
@@ -61,5 +61,5 @@ func run_test() -> void:
 				push_error("Missing Dracula direction/frame: %s/%d" % [direction, frame])
 				quit(1)
 				return
-	print("Dracula test passed: cost, sweep, rewards, four directions, two frames, and repurchase")
+	print("Dracula test passed: 1000-point meter unlock/reset, sweep, rewards, directions, frames, and reuse")
 	quit(0)
