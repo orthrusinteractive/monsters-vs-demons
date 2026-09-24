@@ -18,7 +18,7 @@ func run_test() -> void:
 		level.ghosts.append({"id": kind, "kind": kind, "distance": 130.0, "flee": 0.0, "phase": 0.0, "hp": 30, "max_hp": 30, "speed": 0.0, "hit_flash": 0.0})
 		level.projectiles.append({"position": enemy_pos + Vector2(0, -19), "target_id": kind, "rotation": 0.0, "damage": 30, "kind": "moss"})
 		level._process(0.01)
-		if level.scare_points != 200 + rewards[kind - 1] or level.scare_meter_points != rewards[kind - 1] or level.scared != 1:
+		if level.scare_points != 200 + rewards[kind - 1] or level.scare_meter_points != rewards[kind - 1] or level.scare_meter_square_count() != int(rewards[kind - 1] / 5) or level.scared != 1:
 			push_error("Wrong scare-point reward for enemy kind %d: points=%d scared=%d" % [kind, level.scare_points, level.scared])
 			quit(1)
 			return

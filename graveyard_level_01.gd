@@ -5,6 +5,10 @@ const BACKGROUND_2: Texture2D = preload("res://assets/backgrounds/graveyard-roun
 const FOUL_FIEND: Font = preload("res://assets/fonts/Foul Fiend.otf")
 const TOMBSTONE_SCOTT: Texture2D = preload("res://assets/sprites/tombstone-scott-128x128.png")
 const TOMBSTONE_TOM: Texture2D = preload("res://assets/sprites/tombstone-tom-128x128.png")
+const TOMBSTONE_JAY: Texture2D = preload("res://assets/sprites/tombstone-jay-128x128.png")
+const TOMBSTONE_FRED: Texture2D = preload("res://assets/sprites/tombstone-fred-128x128.png")
+const TOMBSTONE_MIKE: Texture2D = preload("res://assets/sprites/tombstone-mike-128x128.png")
+const TOMBSTONE_CHUCK: Texture2D = preload("res://assets/sprites/tombstone-chuck-128x128.png")
 const GHOST: Texture2D = preload("res://assets/sprites/bedsheet-ghost-128x128.png")
 const SPECTRE: Texture2D = preload("res://assets/sprites/spectre-front-128x128.png")
 const BANSHEE: Texture2D = preload("res://assets/sprites/banshee-front-128x128.png")
@@ -63,7 +67,7 @@ const SOUL_LIGHTNING_1: Texture2D = preload("res://assets/effects/grim-reaper-or
 const SOUL_LIGHTNING_2: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-02-master.png")
 const SOUL_LIGHTNING_3: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-03-master.png")
 const SOUL_LIGHTNING_4: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-04-master.png")
-const SCARE_METER_FRAME: Texture2D = preload("res://assets/ui/scare-meter-dracula-frankenstein-master.png")
+const SCARE_METER_FRAME: Texture2D = preload("res://assets/ui/scare-meter-overlay-compact-master.png")
 
 const SIZE := Vector2(960, 540)
 const LEVEL_COUNT := 8
@@ -143,10 +147,11 @@ const PORTRAIT_GARGOYLE := Rect2(38, 24, 52, 52)
 const PORTRAIT_WEREWOLF := Rect2(37, 6, 54, 54)
 const PORTRAIT_DRACULA := Rect2(43, 53, 44, 44)
 const PORTRAIT_FRANK := Rect2(42, 5, 44, 48)
-const SCARE_METER_MAX := 1500
-const SCARE_METER_RECT := Rect2(255, 55, 450, 104)
-const SCARE_METER_SOURCE := Rect2(0, 95, 2172, 500)
-const SCARE_METER_FILL_RECT := Rect2(284, 99, 373, 20)
+const SCARE_METER_MAX := 2000
+const SCARE_METER_POINTS_PER_SQUARE := 5
+const SCARE_METER_RECT := Rect2(255, 354, 450, 74)
+const SCARE_METER_SOURCE := Rect2(0, 115, 2172, 355)
+const SCARE_METER_FILL_RECT := Rect2(284, 396, 373, 18)
 const BUILD_PADS: Array[Vector2] = [
 	Vector2(141, 226), Vector2(329, 178), Vector2(615, 321), Vector2(846, 210)
 ]
@@ -770,8 +775,12 @@ func _draw() -> void:
 	draw_texture_rect(BACKGROUND_2 if display_level() == 2 else BACKGROUND, Rect2(Vector2.ZERO, SIZE), false)
 	_draw_moving_clouds()
 	if display_level() == 1:
+		draw_texture_rect(TOMBSTONE_JAY, Rect2(82, 324, 76, 70), false)
+		draw_texture_rect(TOMBSTONE_FRED, Rect2(432, 94, 76, 70), false)
 		draw_texture_rect(TOMBSTONE_SCOTT, Rect2(347, 348, 76, 70), false)
 		draw_texture_rect(TOMBSTONE_TOM, Rect2(661, 315, 76, 70), false)
+		draw_texture_rect(TOMBSTONE_MIKE, Rect2(742, 350, 76, 70), false)
+		draw_texture_rect(TOMBSTONE_CHUCK, Rect2(820, 122, 76, 70), false)
 		_draw_mausoleum_candle()
 	else:
 		_draw_mausoleum_orange_glow()
@@ -923,16 +932,35 @@ func _draw_wave_intro() -> void:
 		_draw_intro_title("WAVE %d" % display_wave(), 321.0, 76, Color.WHITE, Color(0.55, 0.72, 1.0), wave_alpha)
 
 
-func _draw_scare_meter(font: Font) -> void:
-	var ratio := clampf(float(scare_meter_points) / float(SCARE_METER_MAX), 0.0, 1.0)
-	var fill_width := SCARE_METER_FILL_RECT.size.x * ratio
-	if fill_width > 0.0:
-		var pulse := 0.82 + sin(time_passed * 4.0) * 0.08
-		draw_rect(Rect2(SCARE_METER_FILL_RECT.position, Vector2(fill_width, SCARE_METER_FILL_RECT.size.y)), Color(0.23, 0.90, 0.53, pulse))
-		draw_rect(Rect2(SCARE_METER_FILL_RECT.position + Vector2(0, 3), Vector2(fill_width, 5)), Color(0.72, 1.0, 0.72, 0.32))
+func _draw_scare_meter(_font: Font) -> void:
+	# Layer 1: a dark backing that is exactly the size of the open channel.
+	draw_rect(SCARE_METER_FILL_RECT, Color(0.025, 0.008, 0.012, 0.94))
+	# Layer 2: keep the bar's top edge fixed and extend its previous height
+	# downward by 40%. The frame is drawn last, so both rails stay stationary.
+	var maximum_squares := int(SCARE_METER_MAX / SCARE_METER_POINTS_PER_SQUARE)
+	var filled_squares := scare_meter_square_count()
+	var segment_width := roundf(SCARE_METER_FILL_RECT.size.y * 0.65)
+	var bar_height := roundf(segment_width * 1.40)
+	var travel_width := SCARE_METER_FILL_RECT.size.x - segment_width
+	# A soft pulse behind the filled portion gives the red bar an eerie glow.
+	if filled_squares > 0:
+		var last_segment_x := SCARE_METER_FILL_RECT.position.x
+		if maximum_squares > 1:
+			last_segment_x += travel_width * float(filled_squares - 1) / float(maximum_squares - 1)
+		var filled_width := last_segment_x - SCARE_METER_FILL_RECT.position.x + segment_width
+		var glow_alpha := 0.18 + sin(time_passed * 3.5) * 0.05
+		draw_rect(Rect2(SCARE_METER_FILL_RECT.position - Vector2(2, 2), Vector2(filled_width + 4, bar_height + 4)), Color(1.0, 0.02, 0.03, glow_alpha))
+	for square_index in range(filled_squares):
+		var square_x := SCARE_METER_FILL_RECT.position.x
+		if maximum_squares > 1:
+			square_x += travel_width * float(square_index) / float(maximum_squares - 1)
+		draw_rect(Rect2(Vector2(square_x, SCARE_METER_FILL_RECT.position.y), Vector2(segment_width, bar_height)), Color(0.92, 0.015, 0.025, 1.0))
+	# Layer 3: transparent-channel frame and portraits always render over the fill.
 	draw_texture_rect_region(SCARE_METER_FRAME, SCARE_METER_RECT, SCARE_METER_SOURCE)
-	var meter_text := "%d / %d" % [scare_meter_points, SCARE_METER_MAX]
-	draw_string(font, Vector2(436, 145), meter_text, HORIZONTAL_ALIGNMENT_CENTER, 90, 11, Color(0.89, 1.0, 0.83))
+
+
+func scare_meter_square_count() -> int:
+	return clampi(int(scare_meter_points / SCARE_METER_POINTS_PER_SQUARE), 0, int(SCARE_METER_MAX / SCARE_METER_POINTS_PER_SQUARE))
 
 
 func _draw_boss_intro() -> void:
