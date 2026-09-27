@@ -43,6 +43,11 @@ const WEREWOLF_FRONT_HOWL: Texture2D = preload("res://assets/sprites/werewolf-fr
 const WEREWOLF_BACK_HOWL: Texture2D = preload("res://assets/sprites/werewolf-back-howl-128x128.png")
 const WEREWOLF_RIGHT_HOWL: Texture2D = preload("res://assets/sprites/werewolf-right-howl-128x128.png")
 const WEREWOLF_LEFT_HOWL: Texture2D = preload("res://assets/sprites/werewolf-left-howl-128x128.png")
+const KILLIAN_FRONT: Texture2D = preload("res://assets/sprites/clown-killer-front-master.png")
+const KILLIAN_BACK: Texture2D = preload("res://assets/sprites/clown-killer-back-master.png")
+const KILLIAN_RIGHT: Texture2D = preload("res://assets/sprites/clown-killer-right-master.png")
+const KILLIAN_LEFT: Texture2D = preload("res://assets/sprites/clown-killer-left-master.png")
+const KILLIAN_MACHETE: Texture2D = preload("res://assets/sprites/clown-killer-machete-projectile-master.png")
 const DRACULA_RIGHT_1: Texture2D = preload("res://assets/sprites/dracula-fly-right-01-128x128.png")
 const DRACULA_RIGHT_2: Texture2D = preload("res://assets/sprites/dracula-fly-right-02-128x128.png")
 const DRACULA_LEFT_1: Texture2D = preload("res://assets/sprites/dracula-fly-left-01-128x128.png")
@@ -67,7 +72,7 @@ const SOUL_LIGHTNING_1: Texture2D = preload("res://assets/effects/grim-reaper-or
 const SOUL_LIGHTNING_2: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-02-master.png")
 const SOUL_LIGHTNING_3: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-03-master.png")
 const SOUL_LIGHTNING_4: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-04-master.png")
-const SCARE_METER_FRAME: Texture2D = preload("res://assets/ui/scare-meter-overlay-compact-master.png")
+const SCARE_METER_FRAME: Texture2D = preload("res://assets/ui/scare-meter-three-specials-master.png")
 
 const SIZE := Vector2(960, 540)
 const LEVEL_COUNT := 8
@@ -102,6 +107,7 @@ const DRACULA_SPEED := 260.0
 const DRACULA_CONTACT_RADIUS := 29.0
 const FRANK_COST := 1500
 const FRANK_DAMAGE := 200
+const MUMMY_COST := 3000
 const FRANK_ORIGIN := Vector2(459, 160)
 const FRANK_STEP_DISTANCE := 56.0
 const FRANK_PORTAL_OPEN_TIME := 0.9
@@ -111,13 +117,16 @@ const FRANK_WALK_TIME := 1.1
 const FRANK_BLAST_TIME := 2.0
 const FRANK_SINK_TIME := 0.9
 const FRANK_PORTAL_CLOSE_TIME := 0.9
-const MONSTER_COST := {"skeleton": 30, "moss": 50, "bog": 110, "gargoyle": 180, "werewolf": 240}
-const MONSTER_DAMAGE := {"skeleton": 15, "moss": 30, "bog": 60, "gargoyle": 90, "werewolf": 120}
+const MONSTER_COST := {"skeleton": 30, "moss": 50, "bog": 110, "gargoyle": 180, "werewolf": 240, "killian": 500}
+const MONSTER_DAMAGE := {"skeleton": 15, "moss": 30, "bog": 60, "gargoyle": 90, "werewolf": 120, "killian": 100}
 const WEREWOLF_RANGE := 145.0
 const WEREWOLF_COOLDOWN := 1.8
+const KILLIAN_RANGE := 160.0
+const KILLIAN_COOLDOWN := 2.0
+const KILLIAN_ENEMY_TARGET_CHANCE := 0.90
 const HOWL_DURATION := 0.42
 const BOSS_INTRO_DURATION := 3.2
-const GRAVEWROUGHT_HP := 4200
+const GRAVEWROUGHT_HP := 3500
 const GRAVEWROUGHT_SPEED := 22.0
 const GRAVEWROUGHT_REWARD := 500
 const GRAVEWAIL_COOLDOWN := 4.5
@@ -125,35 +134,38 @@ const GRAVEWAIL_DURATION := 1.25
 const GRAVEWAIL_HIT_TIME := 0.62
 const GRAVEWAIL_RADIUS := 330.0
 const GRAVEWAIL_DAMAGE := 75
-const SOUL_REAPER_HP := 6500
+const SOUL_REAPER_HP := 4500
 const SOUL_REAPER_SPEED := 20.0
 const SOUL_REAPER_REWARD := 800
 const SOUL_LIGHTNING_COOLDOWN := 5.5
 const SOUL_LIGHTNING_DURATION := 2.0
 const SOUL_LIGHTNING_HIT_TIME := 0.8
 const SOUL_LIGHTNING_DAMAGE := 90
-const MONSTER_HP := {"skeleton": 140, "moss": 180, "bog": 270, "gargoyle": 380, "werewolf": 320}
-const SHOP_SKELETON := Rect2(8, 461, 128, 65)
-const SHOP_MOSS := Rect2(143, 461, 128, 65)
-const SHOP_BOG := Rect2(278, 461, 128, 65)
-const SHOP_GARGOYLE := Rect2(413, 461, 128, 65)
-const SHOP_WEREWOLF := Rect2(548, 461, 128, 65)
-const SHOP_DRACULA := Rect2(683, 461, 128, 65)
-const SHOP_FRANK := Rect2(818, 461, 134, 65)
-const PORTRAIT_SKELETON := Rect2(285, 80, 454, 454)
+const MONSTER_HP := {"skeleton": 140, "moss": 180, "bog": 270, "gargoyle": 380, "werewolf": 320, "killian": 350}
+const SHOP_SKELETON := Rect2(26, 467, 65, 65)
+const SHOP_MOSS := Rect2(143, 467, 65, 65)
+const SHOP_BOG := Rect2(260, 467, 65, 65)
+const SHOP_GARGOYLE := Rect2(377, 467, 65, 65)
+const SHOP_WEREWOLF := Rect2(494, 467, 65, 65)
+const SHOP_KILLIAN := Rect2(611, 467, 65, 65)
+const SHOP_DRACULA := Rect2(728, 467, 65, 65)
+const SHOP_FRANK := Rect2(845, 467, 65, 65)
+const PORTRAIT_SKELETON := Rect2(360, 70, 520, 520)
 const PORTRAIT_MOSS := Rect2(38, 25, 52, 52)
 const PORTRAIT_BOG := Rect2(38, 24, 52, 52)
 const PORTRAIT_GARGOYLE := Rect2(38, 24, 52, 52)
 const PORTRAIT_WEREWOLF := Rect2(37, 6, 54, 54)
+const PORTRAIT_KILLIAN := Rect2(341, 0, 564, 564)
 const PORTRAIT_DRACULA := Rect2(43, 53, 44, 44)
 const PORTRAIT_FRANK := Rect2(42, 5, 44, 48)
-const SCARE_METER_MAX := 2000
+const SCARE_METER_MAX := 3000
 const SCARE_METER_POINTS_PER_SQUARE := 5
-const SCARE_METER_RECT := Rect2(255, 354, 450, 74)
+const ESCAPE_METER_PENALTY := 0.25
+const SCARE_METER_RECT := Rect2(0, -10, 450, 74)
 const SCARE_METER_SOURCE := Rect2(0, 115, 2172, 355)
-const SCARE_METER_FILL_RECT := Rect2(284, 396, 373, 18)
+const SCARE_METER_FILL_RECT := Rect2(29, 32, 373, 18)
 const BUILD_PADS: Array[Vector2] = [
-	Vector2(141, 226), Vector2(329, 178), Vector2(615, 321), Vector2(846, 210)
+	Vector2(141, 226), Vector2(329, 178), Vector2(440, 253), Vector2(615, 321), Vector2(846, 210)
 ]
 const BUILD_PADS_2: Array[Vector2] = [
 	Vector2(164, 177), Vector2(332, 102), Vector2(400, 253), Vector2(584, 107),
@@ -213,6 +225,7 @@ var boss_attack_cooldown := GRAVEWAIL_COOLDOWN
 var boss_gravewail_elapsed := -1.0
 var boss_gravewail_hit := false
 var boss_level := 0
+var game_lost := false
 
 
 func _ready() -> void:
@@ -259,6 +272,7 @@ func start_level(level_number: int, keep_monsters: bool) -> void:
 	boss_gravewail_elapsed = -1.0
 	boss_gravewail_hit = false
 	boss_level = 0
+	game_lost = false
 	selected_pad = -1
 	spawn_clock = 0.0
 	spawned = 0
@@ -307,6 +321,8 @@ func enemy_speed_for_kind(kind: int) -> float:
 
 
 func wave_complete() -> bool:
+	if game_lost:
+		return false
 	if boss_mode:
 		return boss_defeated and ghosts.is_empty() and projectiles.is_empty() and howls.is_empty() and not dracula_active and frank_phase == "idle"
 	return spawned >= level_enemy_count() and ghosts.is_empty() and projectiles.is_empty() and howls.is_empty() and not dracula_active and frank_phase == "idle"
@@ -340,7 +356,7 @@ func start_boss_battle() -> void:
 
 
 func can_summon_dracula() -> bool:
-	return scare_meter_points >= DRACULA_COST and not dracula_active and frank_phase == "idle" and not wave_complete()
+	return not game_lost and scare_meter_points >= DRACULA_COST and not dracula_active and frank_phase == "idle" and not wave_complete()
 
 
 func summon_dracula() -> bool:
@@ -356,7 +372,7 @@ func summon_dracula() -> bool:
 
 
 func can_summon_frank() -> bool:
-	return scare_meter_points >= FRANK_COST and frank_phase == "idle" and not dracula_active and not wave_complete()
+	return not game_lost and scare_meter_points >= FRANK_COST and frank_phase == "idle" and not dracula_active and not wave_complete()
 
 
 func summon_frank() -> bool:
@@ -389,8 +405,34 @@ func damage_enemy(enemy: Dictionary, damage: int) -> void:
 			scare_meter_points = mini(SCARE_METER_MAX, scare_meter_points + reward)
 
 
+func register_enemy_escape() -> void:
+	escaped += 1
+	var retained_points := float(scare_meter_points) * (1.0 - ESCAPE_METER_PENALTY)
+	# Keep the meter aligned to its five-point visual segments.
+	scare_meter_points = maxi(0, int(floor(retained_points / float(SCARE_METER_POINTS_PER_SQUARE))) * SCARE_METER_POINTS_PER_SQUARE)
+	queue_redraw()
+
+
+func trigger_boss_escape_loss() -> void:
+	game_lost = true
+	escaped += 1
+	placed.clear()
+	ghosts.clear()
+	projectiles.clear()
+	howls.clear()
+	dracula_active = false
+	dracula_hit_ids.clear()
+	frank_phase = "idle"
+	frank_blast_targets.clear()
+	selected_pad = -1
+	queue_redraw()
+
+
 func _process(delta: float) -> void:
 	time_passed += delta
+	if game_lost:
+		queue_redraw()
+		return
 	wave_intro_elapsed = minf(wave_intro_elapsed + delta, WAVE_INTRO_DURATION)
 	if boss_mode:
 		boss_intro_elapsed = minf(boss_intro_elapsed + delta, BOSS_INTRO_DURATION)
@@ -420,10 +462,11 @@ func _process(delta: float) -> void:
 			ghost["distance"] = float(ghost["distance"]) + float(ghost["speed"]) * delta
 			if ghost["distance"] >= route_length_for(int(ghost.get("route_id", 0))):
 				if bool(ghost.get("is_boss", false)):
-					ghost["distance"] = maxf(0.0, route_length_for(int(ghost.get("route_id", 0))) - 82.0)
+					trigger_boss_escape_loss()
+					return
 				else:
 					ghosts.remove_at(i)
-					escaped += 1
+					register_enemy_escape()
 
 	for monster in placed:
 		monster["cooldown"] = maxf(0.0, float(monster["cooldown"]) - delta)
@@ -431,6 +474,25 @@ func _process(delta: float) -> void:
 		monster["hit_flash"] = maxf(0.0, float(monster.get("hit_flash", 0.0)) - delta)
 		var kind: String = str(monster.get("kind", "moss"))
 		var monster_pos: Vector2 = active_build_pads()[int(monster["pad"])]
+		if kind == "killian":
+			var wildcard_targets := killian_target_candidates(monster)
+			if monster["cooldown"] <= 0.0 and not wildcard_targets.is_empty():
+				var first_target := choose_killian_target(wildcard_targets)
+				set_monster_facing(monster, (first_target["position"] as Vector2) - monster_pos)
+				for machete_index in range(2):
+					var wildcard_target := first_target if machete_index == 0 else choose_killian_target(wildcard_targets)
+					var launch_offset := -6.0 if machete_index == 0 else 6.0
+					projectiles.append({
+						"position": monster_pos + Vector2(launch_offset, -29),
+						"target_type": str(wildcard_target["type"]),
+						"target_id": int(wildcard_target.get("id", -1)),
+						"target_pad": int(wildcard_target.get("pad", -1)),
+						"rotation": -0.35 if machete_index == 0 else 0.35,
+						"damage": int(MONSTER_DAMAGE[kind]),
+						"kind": kind
+					})
+				monster["cooldown"] = KILLIAN_COOLDOWN
+			continue
 		var nearest: Dictionary = {}
 		var nearest_distance := WEREWOLF_RANGE if kind == "werewolf" else (140.0 if kind == "gargoyle" else (125.0 if kind == "bog" else SCARE_RANGE))
 		for ghost in ghosts:
@@ -443,10 +505,7 @@ func _process(delta: float) -> void:
 				nearest = ghost
 		if not nearest.is_empty():
 			var direction: Vector2 = point_on_route(float(nearest["distance"]), int(nearest.get("route_id", 0))) - monster_pos
-			if absf(direction.x) > absf(direction.y):
-				monster["facing"] = "right" if direction.x > 0.0 else "left"
-			else:
-				monster["facing"] = "front" if direction.y > 0.0 else "back"
+			set_monster_facing(monster, direction)
 			if monster["cooldown"] <= 0.0:
 				if kind == "werewolf":
 					howls.append({"origin": werewolf_mouth_position(monster_pos, str(monster["facing"])), "target_id": int(nearest["id"]), "elapsed": 0.0, "damage": int(MONSTER_DAMAGE[kind])})
@@ -464,16 +523,31 @@ func _process(delta: float) -> void:
 
 	for i in range(projectiles.size() - 1, -1, -1):
 		var projectile: Dictionary = projectiles[i]
-		var target := ghost_by_id(int(projectile["target_id"]))
-		if target.is_empty() or float(target["flee"]) > 0.0:
-			projectiles.remove_at(i)
-			continue
-		var target_pos := point_on_route(float(target["distance"]), int(target.get("route_id", 0))) + Vector2(0, -19)
+		var target_type := str(projectile.get("target_type", "enemy"))
+		var target: Dictionary = {}
+		var target_pos := Vector2.ZERO
+		if target_type == "monster":
+			var target_pad := int(projectile.get("target_pad", -1))
+			var target_index := monster_index_at_pad(target_pad)
+			if target_index < 0:
+				projectiles.remove_at(i)
+				continue
+			target = placed[target_index]
+			target_pos = active_build_pads()[target_pad] + Vector2(0, -24)
+		else:
+			target = ghost_by_id(int(projectile["target_id"]))
+			if target.is_empty() or float(target["flee"]) > 0.0:
+				projectiles.remove_at(i)
+				continue
+			target_pos = point_on_route(float(target["distance"]), int(target.get("route_id", 0))) + Vector2(0, -19)
 		var projectile_pos: Vector2 = projectile["position"]
 		projectile["position"] = projectile_pos.move_toward(target_pos, PROJECTILE_SPEED * delta)
 		projectile["rotation"] = float(projectile["rotation"]) + PROJECTILE_SPIN * delta
 		if (projectile["position"] as Vector2).distance_to(target_pos) < 12.0:
-			damage_enemy(target, int(projectile.get("damage", PROJECTILE_DAMAGE)))
+			if target_type == "monster":
+				damage_monster_at_pad(int(projectile.get("target_pad", -1)), int(projectile.get("damage", PROJECTILE_DAMAGE)))
+			else:
+				damage_enemy(target, int(projectile.get("damage", PROJECTILE_DAMAGE)))
 			projectiles.remove_at(i)
 
 	for i in range(howls.size() - 1, -1, -1):
@@ -644,6 +718,65 @@ func ghost_by_id(id: int) -> Dictionary:
 	return {}
 
 
+func set_monster_facing(monster: Dictionary, direction: Vector2) -> void:
+	if absf(direction.x) > absf(direction.y):
+		monster["facing"] = "right" if direction.x > 0.0 else "left"
+	else:
+		monster["facing"] = "front" if direction.y > 0.0 else "back"
+
+
+func killian_target_candidates(killian: Dictionary) -> Array[Dictionary]:
+	var candidates: Array[Dictionary] = []
+	var killian_pad := int(killian["pad"])
+	var killian_pos: Vector2 = active_build_pads()[killian_pad]
+	for enemy in ghosts:
+		if float(enemy["flee"]) > 0.0:
+			continue
+		var enemy_pos := point_on_route(float(enemy["distance"]), int(enemy.get("route_id", 0)))
+		if killian_pos.distance_to(enemy_pos) <= KILLIAN_RANGE:
+			candidates.append({"type": "enemy", "id": int(enemy["id"]), "position": enemy_pos})
+	for ally in placed:
+		var ally_pad := int(ally["pad"])
+		if ally_pad == killian_pad:
+			continue
+		var ally_pos: Vector2 = active_build_pads()[ally_pad]
+		# Account for the visible body radius of placed monsters when measuring
+		# Killian's 160-pixel range against their build-pad centers.
+		if killian_pos.distance_to(ally_pos) <= KILLIAN_RANGE + 20.0:
+			candidates.append({"type": "monster", "pad": ally_pad, "position": ally_pos})
+	return candidates
+
+
+func choose_killian_target(candidates: Array[Dictionary]) -> Dictionary:
+	var enemy_targets: Array[Dictionary] = []
+	var monster_targets: Array[Dictionary] = []
+	for candidate in candidates:
+		if str(candidate.get("type", "enemy")) == "monster":
+			monster_targets.append(candidate)
+		else:
+			enemy_targets.append(candidate)
+	var preferred := enemy_targets if randf() < KILLIAN_ENEMY_TARGET_CHANCE else monster_targets
+	var fallback := monster_targets if preferred == enemy_targets else enemy_targets
+	var available: Array[Dictionary] = preferred if not preferred.is_empty() else fallback
+	if available.is_empty():
+		return {}
+	return available[randi() % available.size()]
+
+
+func damage_monster_at_pad(pad_index: int, damage: int) -> void:
+	var monster_index := monster_index_at_pad(pad_index)
+	if monster_index < 0:
+		return
+	var monster: Dictionary = placed[monster_index]
+	var kind := str(monster.get("kind", "moss"))
+	var max_hp := int(monster.get("max_hp", MONSTER_HP.get(kind, 180)))
+	monster["max_hp"] = max_hp
+	monster["hp"] = maxi(0, int(monster.get("hp", max_hp)) - damage)
+	monster["hit_flash"] = 0.28
+	if int(monster["hp"]) == 0:
+		placed.remove_at(monster_index)
+
+
 func werewolf_mouth_position(monster_pos: Vector2, facing: String) -> Vector2:
 	match facing:
 		"right": return monster_pos + Vector2(17, -37)
@@ -705,6 +838,13 @@ func try_remove_monster(pad_index: int) -> bool:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if game_lost:
+		if event is InputEventKey and event.pressed and not event.echo:
+			if event.keycode == KEY_R:
+				reset_level()
+			elif event.keycode >= KEY_1 and event.keycode <= KEY_8:
+				start_level(event.keycode - KEY_1 + 1, false)
+		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		if SHOP_SKELETON.has_point(event.position):
 			try_place_monster("skeleton")
@@ -720,6 +860,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if SHOP_WEREWOLF.has_point(event.position):
 			try_place_monster("werewolf")
+			return
+		if SHOP_KILLIAN.has_point(event.position):
+			try_place_monster("killian")
 			return
 		if SHOP_DRACULA.has_point(event.position):
 			summon_dracula()
@@ -754,6 +897,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			try_place_monster("gargoyle")
 		elif event.keycode == KEY_H:
 			try_place_monster("werewolf")
+		elif event.keycode == KEY_K:
+			try_place_monster("killian")
 		elif event.keycode == KEY_E:
 			summon_dracula()
 		elif event.keycode == KEY_F:
@@ -836,7 +981,7 @@ func _draw() -> void:
 		var texture := werewolf_texture_for_facing(str(monster["facing"]), true) if kind == "werewolf" and float(monster.get("howl_time", 0.0)) > 0.0 else monster_texture_for_facing(kind, str(monster["facing"]))
 		var monster_tint := Color(1.0, 0.55, 0.55) if float(monster.get("hit_flash", 0.0)) > 0.0 else Color.WHITE
 		draw_texture_rect(texture, Rect2(pos + Vector2(-37, -56), Vector2(74, 74)), false, monster_tint)
-		if boss_mode and monster.has("hp"):
+		if monster.has("hp") and (boss_mode or int(monster["hp"]) < int(monster["max_hp"])):
 			var monster_health := float(monster["hp"]) / float(monster["max_hp"])
 			draw_rect(Rect2(pos + Vector2(-19, -66), Vector2(38, 5)), Color(0.08, 0.09, 0.10, 0.50))
 			draw_rect(Rect2(pos + Vector2(-18, -65), Vector2(36.0 * monster_health, 3)), Color(0.30, 0.78, 0.92, 0.50))
@@ -870,6 +1015,7 @@ func _draw() -> void:
 			"skeleton": projectile_texture = SKELETON_PROJECTILE
 			"bog": projectile_texture = BOG_PROJECTILE
 			"gargoyle": projectile_texture = GARGOYLE_PROJECTILE
+			"killian": projectile_texture = KILLIAN_MACHETE
 		draw_texture_rect(projectile_texture, Rect2(-16, -16, 32, 32), false)
 		draw_set_transform(Vector2.ZERO)
 	if dracula_active:
@@ -881,24 +1027,16 @@ func _draw() -> void:
 	_draw_frank()
 	_draw_lightning()
 
-	draw_rect(Rect2(0, 0, 960, 55), Color(0.03, 0.07, 0.12, 0.84))
 	var font := ThemeDB.fallback_font
-	var boss_name := "SOUL REAPER" if boss_level == 2 else "THE GRAVEWROUGHT"
-	var stage_title := "GRAVEYARD  /  LEVEL %d: %s" % [boss_level, boss_name] if boss_mode else "GRAVEYARD  /  LEVEL %d  WAVE %d: %s" % [display_level(), display_wave(), LEVEL_NAMES[current_level - 1]]
-	draw_string(font, Vector2(22, 25), stage_title, HORIZONTAL_ALIGNMENT_LEFT, -1, 18, Color(0.94, 0.97, 0.89))
-	draw_string(font, Vector2(22, 45), "Click pad, then monster  |  A: Skeleton  |  E: Dracula  F: Frank", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.66, 0.85, 0.73))
-	var progress_text := "BOSS" if boss_mode and not boss_defeated else ("DEFEATED" if boss_mode else "Scared: %d / %d" % [scared, level_enemy_count()])
-	draw_string(font, Vector2(625, 25), progress_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(0.99, 0.91, 0.69))
-	draw_string(font, Vector2(790, 25), "Points: %d" % scare_points, HORIZONTAL_ALIGNMENT_LEFT, -1, 15, Color(1.0, 0.88, 0.42))
-	draw_string(font, Vector2(790, 45), "Escaped: %d  |  R" % escaped, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.84, 0.88, 0.91))
+	_draw_top_status(font)
 	_draw_scare_meter(font)
-	draw_string(font, Vector2(791, 442), "T: +500 TEST PTS", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.78, 0.86, 1.0))
 	draw_rect(Rect2(0, 449, 960, 91), Color(0.03, 0.07, 0.10, 0.94))
 	_draw_shop_card(SHOP_SKELETON, "skeleton", SKELETON_FRONT, PORTRAIT_SKELETON, "SKELETON", "15 damage", font)
 	_draw_shop_card(SHOP_MOSS, "moss", MOSS_FRONT, PORTRAIT_MOSS, "MOSS MONSTER", "30 damage", font)
 	_draw_shop_card(SHOP_BOG, "bog", BOG_FRONT, PORTRAIT_BOG, "BOG GUARDIAN", "60 damage", font)
 	_draw_shop_card(SHOP_GARGOYLE, "gargoyle", GARGOYLE_FRONT, PORTRAIT_GARGOYLE, "GARGOYLE", "90 damage", font)
 	_draw_shop_card(SHOP_WEREWOLF, "werewolf", WEREWOLF_FRONT, PORTRAIT_WEREWOLF, "WEREWOLF", "120 howl", font)
+	_draw_shop_card(SHOP_KILLIAN, "killian", KILLIAN_FRONT, PORTRAIT_KILLIAN, "KILLIAN CLOWN", "2x100 wild", font)
 	_draw_dracula_card(font)
 	_draw_frank_card(font)
 	if wave_complete():
@@ -918,6 +1056,7 @@ func _draw() -> void:
 			draw_string(font, Vector2(324, 292), "Click to restart  |  1-8: choose a level", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.66, 0.85, 0.73))
 	_draw_wave_intro()
 	_draw_boss_intro()
+	_draw_loss_screen()
 
 
 func _draw_wave_intro() -> void:
@@ -959,6 +1098,18 @@ func _draw_scare_meter(_font: Font) -> void:
 	draw_texture_rect_region(SCARE_METER_FRAME, SCARE_METER_RECT, SCARE_METER_SOURCE)
 
 
+func _draw_top_status(font: Font) -> void:
+	var status_panel := Rect2(773, 4, 179, 63)
+	var panel_color := Color(0.025, 0.065, 0.075, 0.92)
+	var border_color := Color(0.34, 0.56, 0.51, 0.78)
+	draw_rect(status_panel, panel_color)
+	draw_rect(status_panel, border_color, false, 2.0)
+	var shown_level := boss_level if boss_mode else display_level()
+	draw_string(font, Vector2(785, 23), "LEVEL: %d" % shown_level, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.94, 0.97, 0.89))
+	draw_string(font, Vector2(785, 42), "POINTS: %d" % scare_points, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.88, 0.42))
+	draw_string(font, Vector2(785, 60), "ESCAPED: %d" % escaped, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.84, 0.88, 0.91))
+
+
 func scare_meter_square_count() -> int:
 	return clampi(int(scare_meter_points / SCARE_METER_POINTS_PER_SQUARE), 0, int(SCARE_METER_MAX / SCARE_METER_POINTS_PER_SQUARE))
 
@@ -976,6 +1127,17 @@ func _draw_boss_intro() -> void:
 		var title_color := Color(1.0, 0.66, 0.20) if boss_level == 2 else Color(0.84, 0.72, 1.0)
 		var title_glow := Color(1.0, 0.24, 0.02) if boss_level == 2 else Color(0.54, 0.12, 0.88)
 		_draw_intro_title(boss_title, 326.0, 52, title_color, title_glow, name_alpha)
+
+
+func _draw_loss_screen() -> void:
+	if not game_lost:
+		return
+	draw_rect(Rect2(Vector2.ZERO, SIZE), Color(0.015, 0.0, 0.01, 0.88))
+	_draw_intro_title("YOU LOSE", 230.0, 94, Color(1.0, 0.88, 0.82), Color(1.0, 0.01, 0.04), 1.0)
+	_draw_intro_title("THE END", 327.0, 76, Color(0.72, 0.48, 1.0), Color(0.32, 0.04, 0.72), 1.0)
+	var restart_text := "PRESS R TO RESTART"
+	var restart_width := FOUL_FIEND.get_string_size(restart_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 30).x
+	draw_string(FOUL_FIEND, Vector2((SIZE.x - restart_width) * 0.5, 382), restart_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 30, Color(0.88, 0.74, 0.72))
 
 
 func _draw_gravewrought_shockwaves() -> void:
@@ -1016,14 +1178,19 @@ func _draw_gravewrought_shockwaves() -> void:
 func _draw_soul_lightning_from_eyes(texture: Texture2D, left_eye: Vector2, right_eye: Vector2) -> void:
 	var source_size := texture.get_size()
 	var split_x := source_size.x * 0.5
-	var split_y := source_size.y * 0.55
 	var tint := Color(1.0, 1.0, 1.0, 0.86)
-	# Map each source quadrant to a screen quadrant whose inner corner is one eye.
-	# This keeps the generated branches full-screen while moving both discharge origins with the boss.
-	draw_texture_rect_region(texture, Rect2(Vector2.ZERO, Vector2(left_eye.x, left_eye.y)), Rect2(0, 0, split_x, split_y), tint)
-	draw_texture_rect_region(texture, Rect2(Vector2(0, left_eye.y), Vector2(left_eye.x, SIZE.y - left_eye.y)), Rect2(0, split_y, split_x, source_size.y - split_y), tint)
-	draw_texture_rect_region(texture, Rect2(Vector2(right_eye.x, 0), Vector2(SIZE.x - right_eye.x, right_eye.y)), Rect2(split_x, 0, source_size.x - split_x, split_y), tint)
-	draw_texture_rect_region(texture, Rect2(right_eye, Vector2(SIZE.x - right_eye.x, SIZE.y - right_eye.y)), Rect2(split_x, split_y, source_size.x - split_x, source_size.y - split_y), tint)
+	# The generated art has one discharge point in each half. Draw both halves at
+	# their native, uniform scale and translate each discharge point to an eye.
+	# This preserves every lightning branch without the quadrant stretching that
+	# previously warped the attack as the Soul Reaper moved along the path.
+	var left_discharge := Vector2(source_size.x * 0.462, source_size.y * 0.555)
+	var right_discharge := Vector2(source_size.x * 0.535, source_size.y * 0.555)
+	var left_source := Rect2(0, 0, split_x, source_size.y)
+	var right_source := Rect2(split_x, 0, source_size.x - split_x, source_size.y)
+	var left_destination := Rect2(left_eye - left_discharge, left_source.size)
+	var right_destination := Rect2(right_eye - Vector2(right_discharge.x - split_x, right_discharge.y), right_source.size)
+	draw_texture_rect_region(texture, left_destination, left_source, tint)
+	draw_texture_rect_region(texture, right_destination, right_source, tint)
 
 
 func _draw_intro_title(title: String, baseline_y: float, font_size: int, color: Color, glow: Color, alpha: float) -> void:
@@ -1033,7 +1200,7 @@ func _draw_intro_title(title: String, baseline_y: float, font_size: int, color: 
 		draw_string(FOUL_FIEND, baseline + offset, title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(glow.r, glow.g, glow.b, 0.15 * alpha))
 	for offset in [Vector2(-3, 0), Vector2(3, 0), Vector2(0, -3), Vector2(0, 3)]:
 		draw_string(FOUL_FIEND, baseline + offset, title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(glow.r, glow.g, glow.b, 0.32 * alpha))
-	draw_string(FOUL_FIEND, baseline, title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(color.r, color.g, color.b, alpha))
+		draw_string(FOUL_FIEND, baseline, title, HORIZONTAL_ALIGNMENT_LEFT, -1, font_size, Color(color.r, color.g, color.b, alpha))
 
 
 func _draw_mausoleum_candle() -> void:
@@ -1185,49 +1352,50 @@ func werewolf_texture_for_facing(facing: String, howling: bool = false) -> Textu
 		_: return WEREWOLF_FRONT
 
 
+func killian_texture_for_facing(facing: String) -> Texture2D:
+	match facing:
+		"back": return KILLIAN_BACK
+		"right": return KILLIAN_RIGHT
+		"left": return KILLIAN_LEFT
+		_: return KILLIAN_FRONT
+
+
 func monster_texture_for_facing(kind: String, facing: String) -> Texture2D:
 	match kind:
 		"skeleton": return skeleton_texture_for_facing(facing)
 		"bog": return bog_texture_for_facing(facing)
 		"gargoyle": return gargoyle_texture_for_facing(facing)
 		"werewolf": return werewolf_texture_for_facing(facing)
+		"killian": return killian_texture_for_facing(facing)
 		_: return texture_for_facing(facing)
 
 
 func _draw_portrait(rect: Rect2, texture: Texture2D, source: Rect2, tint: Color) -> void:
-	var portrait_rect := Rect2(rect.position + Vector2(4, 7), Vector2(48, 50))
+	var portrait_rect := Rect2(rect.position + Vector2(4, 4), Vector2(57, 57))
 	draw_rect(portrait_rect, Color(0.04, 0.06, 0.08, 1.0))
-	draw_texture_rect_region(texture, Rect2(portrait_rect.position + Vector2(2, 2), Vector2(44, 46)), source, tint)
+	draw_texture_rect_region(texture, Rect2(portrait_rect.position + Vector2(2, 2), Vector2(53, 53)), source, tint)
 	draw_rect(portrait_rect, Color(0.40, 0.51, 0.48), false, 1.0)
 
 
-func _draw_shop_card(rect: Rect2, kind: String, texture: Texture2D, source: Rect2, title: String, subtitle: String, font: Font) -> void:
+func _draw_shop_card(rect: Rect2, kind: String, texture: Texture2D, source: Rect2, _title: String, _subtitle: String, _font: Font) -> void:
 	var selected := selected_pad >= 0 and not pad_occupied(selected_pad)
 	var affordable := selected_pad >= 0 and not pad_occupied(selected_pad) and scare_points >= int(MONSTER_COST[kind])
 	draw_rect(rect, Color(0.13, 0.23, 0.20, 1.0) if selected else Color(0.10, 0.15, 0.17, 1.0))
 	draw_rect(rect, Color(0.72, 0.95, 0.59) if selected else Color(0.33, 0.46, 0.40), false, 2.0)
 	_draw_portrait(rect, texture, source, Color.WHITE if affordable else Color(0.55, 0.55, 0.55))
-	draw_string(font, rect.position + Vector2(57, 23), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color.WHITE if affordable else Color(0.55, 0.59, 0.57))
-	draw_string(font, rect.position + Vector2(57, 45), "%d | %s" % [MONSTER_COST[kind], subtitle], HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(0.92, 0.86, 0.57) if affordable else Color(0.55, 0.59, 0.57))
 
 
-func _draw_dracula_card(font: Font) -> void:
+func _draw_dracula_card(_font: Font) -> void:
 	var usable := can_summon_dracula()
 	var outline := Color(0.95, 0.45, 0.52) if usable else Color(0.42, 0.29, 0.33)
 	draw_rect(SHOP_DRACULA, Color(0.27, 0.10, 0.15) if usable else Color(0.14, 0.10, 0.13))
 	draw_rect(SHOP_DRACULA, outline, false, 2.0)
 	_draw_portrait(SHOP_DRACULA, DRACULA_DOWN_1, PORTRAIT_DRACULA, Color.WHITE if usable else Color(0.55, 0.55, 0.55))
-	draw_string(font, SHOP_DRACULA.position + Vector2(57, 23), "DRACULA", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color.WHITE if usable else Color(0.63, 0.57, 0.59))
-	var status := "FLYING" if dracula_active else "%d | flight" % DRACULA_COST
-	draw_string(font, SHOP_DRACULA.position + Vector2(57, 45), status, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(1.0, 0.73, 0.74) if usable else Color(0.63, 0.57, 0.59))
 
 
-func _draw_frank_card(font: Font) -> void:
+func _draw_frank_card(_font: Font) -> void:
 	var usable := can_summon_frank()
 	var outline := Color(0.52, 0.77, 1.0) if usable else Color(0.30, 0.39, 0.46)
 	draw_rect(SHOP_FRANK, Color(0.10, 0.17, 0.25) if usable else Color(0.09, 0.13, 0.17))
 	draw_rect(SHOP_FRANK, outline, false, 2.0)
 	_draw_portrait(SHOP_FRANK, FRANK_FRONT, PORTRAIT_FRANK, Color.WHITE if usable else Color(0.55, 0.55, 0.55))
-	draw_string(font, SHOP_FRANK.position + Vector2(57, 23), "FRANKENSTEIN", HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color.WHITE if usable else Color(0.63, 0.67, 0.70))
-	var status := "ACTIVE" if frank_phase != "idle" else "%d | lightning" % FRANK_COST
-	draw_string(font, SHOP_FRANK.position + Vector2(57, 45), status, HORIZONTAL_ALIGNMENT_LEFT, -1, 9, Color(0.71, 0.86, 1.0) if usable else Color(0.63, 0.67, 0.70))

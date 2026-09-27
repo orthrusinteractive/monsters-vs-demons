@@ -10,7 +10,7 @@ func run_test() -> void:
 	root.add_child(level)
 	level.set_process(false)
 	level.start_level(4, false)
-	var expected_pads := [Vector2(141, 226), Vector2(329, 178), Vector2(615, 321), Vector2(846, 210)]
+	var expected_pads := [Vector2(141, 226), Vector2(329, 178), Vector2(440, 253), Vector2(615, 321), Vector2(846, 210)]
 	if level.BUILD_PADS != expected_pads or level.FRANK_ORIGIN != Vector2(459, 160):
 		push_error("Level 1 placement pads or Frankenstein portal origin do not match the annotated layout")
 		quit(1)
