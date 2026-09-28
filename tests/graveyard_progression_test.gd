@@ -10,7 +10,8 @@ func run_test() -> void:
 	var level = scene.instantiate()
 	root.add_child(level)
 	var expected_hp := [100, 180, 270, 340, 140, 330, 400, 500, 180, 280, 390, 250]
-	var expected_count := [12, 13, 14, 15, 16, 17, 12, 13, 14, 15, 16, 18]
+	var expected_count := [17, 18, 19, 20, 22, 23, 24, 25, 14, 15, 16, 18]
+	var expected_speed := [42.0, 44.0, 46.0, 48.0, 46.2, 50.6, 57.2, 53.9]
 	var expected_patterns := [[1], [2], [3], [4], [1, 2], [3, 4], [5], [6], [1, 5], [2, 6], [3, 4], [1, 2, 3, 4, 5, 6]]
 	for number in range(1, 13):
 		level.start_level(number, false)
@@ -39,6 +40,10 @@ func run_test() -> void:
 		var enemy: Dictionary = level.ghosts[0]
 		if int(enemy["kind"]) != expected_patterns[number - 1][0] or int(enemy["hp"]) != expected_hp[number - 1] or level.level_enemy_count() != expected_count[number - 1]:
 			push_error("Level %d enemy configuration is incorrect" % number)
+			quit(1)
+			return
+		if number <= 8 and not is_equal_approx(float(enemy["speed"]), expected_speed[number - 1]):
+			push_error("Level %d enemy speed is incorrect: %.2f" % [number, float(enemy["speed"])])
 			quit(1)
 			return
 		for index in range(level.level_enemy_count()):

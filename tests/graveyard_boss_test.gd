@@ -38,6 +38,10 @@ func run_test() -> void:
 		push_error("The Gravewrought did not begin Gravewail")
 		quit(1)
 		return
+	if level.GRAVEWROUGHT_SCREAM_SOUND == null or not level.gravewrought_audio.playing:
+		push_error("The Gravewrought ghost scream did not play when Gravewail began")
+		quit(1)
+		return
 	level._advance_gravewrought(level.GRAVEWAIL_HIT_TIME)
 	if level.placed.size() != 1 or int(level.placed[0]["hp"]) != 195:
 		push_error("Gravewail did not damage and destroy monsters in its large radius")
@@ -72,7 +76,7 @@ func run_test() -> void:
 		return
 	level._advance_gravewrought(level.SOUL_LIGHTNING_COOLDOWN)
 	level._advance_gravewrought(level.SOUL_LIGHTNING_HIT_TIME)
-	if level.placed.size() != 1 or int(level.placed[0]["hp"]) != 380:
+	if level.SOUL_LIGHTNING_DAMAGE != 180 or level.placed.size() != 1 or int(level.placed[0]["hp"]) != 380:
 		push_error("Soul Reaper lightning did not limit damage to monsters within its range")
 		quit(1)
 		return

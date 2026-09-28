@@ -36,13 +36,53 @@ func run_test() -> void:
 	root.add_child(upgrade_level)
 	upgrade_level.set_process(false)
 	upgrade_level.scare_meter_points = upgrade_level.SCARE_METER_MAX
+	if upgrade_level.nightmare_kind_at_position(upgrade_level.NIGHTMARE_STRENGTH_BUTTON.get_center()) != "strength" or upgrade_level.nightmare_kind_at_position(upgrade_level.NIGHTMARE_FLESH_BUTTON.get_center()) != "flesh" or upgrade_level.nightmare_kind_at_position(upgrade_level.NIGHTMARE_FOG_BUTTON.get_center()) != "fog":
+		push_error("Nightmare upgrade hover targets do not match their displayed icons")
+		quit(1)
+		return
+	if str(upgrade_level.monster_tooltip_at_position(upgrade_level.SHOP_KILLIAN.get_center()).get("title", "")) != "KILLIAN CLOWN" or str(upgrade_level.monster_tooltip_at_position(upgrade_level.SHOP_DRACULA.get_center()).get("title", "")) != "DRACULA" or str(upgrade_level.monster_tooltip_at_position(upgrade_level.SHOP_MUMMY.get_center()).get("title", "")) != "THE MUMMY":
+		push_error("Monster hover targets do not expose the correct character details")
+		quit(1)
+		return
 	if not upgrade_level.select_nightmare_upgrade("strength") or upgrade_level.scare_meter_points != 0 or upgrade_level.monster_damage_for("moss") != 45:
 		push_error("Monstrous Strength selection or 50-percent damage bonus failed")
 		quit(1)
 		return
 	upgrade_level.start_level(5, true)
-	if upgrade_level.nightmare_upgrade_active("strength") or not upgrade_level.activate_nightmare_upgrade() or upgrade_level.monster_damage_for("moss") != 45:
-		push_error("Nightmare upgrade did not become available once on the next game level")
+	if not upgrade_level.nightmare_upgrade_active("strength") or upgrade_level.monster_damage_for("moss") != 45:
+		push_error("Nightmare upgrade did not remain active on the next game level")
+		quit(1)
+		return
+	upgrade_level.scare_meter_points = upgrade_level.SCARE_METER_MAX
+	if not upgrade_level.select_nightmare_upgrade("flesh") or upgrade_level.nightmare_upgrades.size() != 2 or not upgrade_level.nightmare_upgrade_active("flesh"):
+		push_error("A second full meter did not unlock and add a remaining Nightmare upgrade")
+		quit(1)
+		return
+	upgrade_level.scare_meter_points = upgrade_level.SCARE_METER_MAX
+	if not upgrade_level.select_nightmare_upgrade("fog") or upgrade_level.nightmare_upgrades.size() != 3 or not upgrade_level.nightmare_upgrade_active("fog"):
+		push_error("A third full meter did not unlock the final Nightmare upgrade")
+		quit(1)
+		return
+	for upgrade_kind in ["blood_moon", "fury", "shadow", "siphon", "bargain", "rites"]:
+		upgrade_level.scare_meter_points = upgrade_level.SCARE_METER_MAX
+		if not upgrade_level.select_nightmare_upgrade(upgrade_kind):
+			push_error("A full meter did not unlock %s" % upgrade_kind)
+			quit(1)
+			return
+	if upgrade_level.nightmare_upgrades.size() != 9 or upgrade_level.nightmare_reward(20) != 30 or not is_equal_approx(upgrade_level.nightmare_cooldown(2.0), 1.5) or not is_equal_approx(upgrade_level.nightmare_range(100.0), 130.0) or upgrade_level.monster_purchase_cost("skeleton") != 23:
+		push_error("One or more expanded Nightmare Upgrade modifiers are incorrect")
+		quit(1)
+		return
+	upgrade_level.placed.append({"pad": 0, "kind": "moss", "facing": "front", "cooldown": 0.0, "howl_time": 0.0, "hp": 50, "max_hp": 100, "hit_flash": 0.0})
+	var siphon_target := {"id": 77, "kind": 1, "flee": 0.0, "hp": 1, "max_hp": 100, "hit_flash": 0.0}
+	upgrade_level.damage_enemy(siphon_target, 1)
+	if int(upgrade_level.placed[0]["hp"]) != 60:
+		push_error("Soul Siphon did not heal placed monsters")
+		quit(1)
+		return
+	upgrade_level.register_enemy_escape()
+	if upgrade_level.escaped != 0 or not upgrade_level.last_rites_used_this_wave:
+		push_error("Last Rites did not prevent the first escape")
 		quit(1)
 		return
 
@@ -59,5 +99,5 @@ func run_test() -> void:
 		push_error("Attacks continued after the encounter was resolved")
 		quit(1)
 		return
-	print("Mummy/Nightmare test passed: global slow, persistent once-per-level upgrade, and end-of-level attack stop")
+	print("Mummy/Nightmare test passed: all nine permanent upgrades and end-of-level attack stop")
 	quit(0)

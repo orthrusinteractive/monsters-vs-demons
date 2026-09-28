@@ -23,6 +23,10 @@ func run_test() -> void:
 		push_error("The Drowned King did not spawn with the Level 3 boss configuration")
 		quit(1)
 		return
+	if level.drowned_king_texture() != level.DROWNED_KING_1:
+		push_error("The Swamp King is not locked to his first non-dripping sprite")
+		quit(1)
+		return
 	boss["distance"] = 600.0
 	for pad in range(level.BUILD_PADS_3.size()):
 		level.placed.append({"pad": pad, "kind": "moss", "facing": "front", "cooldown": 99.0, "howl_time": 0.0, "hp": 180, "max_hp": 180, "hit_flash": 0.0})

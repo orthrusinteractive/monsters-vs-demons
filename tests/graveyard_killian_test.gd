@@ -23,6 +23,15 @@ func run_test() -> void:
 		return
 	level.placed.append({"pad": 2, "kind": "moss", "facing": "front", "cooldown": 99.0, "howl_time": 0.0, "hp": 180, "max_hp": 180, "hit_flash": 0.0})
 	var killian_pos: Vector2 = level.active_build_pads()[1]
+	if not level.killian_target_candidates(level.placed[0]).is_empty():
+		push_error("Killian considered attacking a friendly when no enemy was nearby")
+		quit(1)
+		return
+	level._process(0.01)
+	if not level.projectiles.is_empty():
+		push_error("Killian threw a machete without a nearby enemy")
+		quit(1)
+		return
 	level.ghosts.append({"id": 91, "kind": 1, "route_id": 0, "distance": 365.0, "flee": 0.0, "phase": 0.0, "hp": 300, "max_hp": 300, "speed": 0.0, "hit_flash": 0.0})
 	# Put the enemy in range explicitly while keeping it on a valid route.
 	var best_distance := 0.0

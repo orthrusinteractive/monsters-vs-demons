@@ -14,7 +14,7 @@ func run_test() -> void:
 	level.placed.append({"pad": 0, "kind": "werewolf", "facing": "front", "cooldown": 0.0, "howl_time": 0.0})
 	level.ghosts.append({"id": 1, "kind": 1, "distance": 130.0, "flee": 0.0, "phase": 0.0, "hp": 150, "max_hp": 150, "speed": 0.0, "hit_flash": 0.0})
 	level._process(0.01)
-	if level.howls.size() != 1 or not level.projectiles.is_empty() or float(level.placed[0]["howl_time"]) <= 0.0:
+	if level.howls.size() != 1 or not level.projectiles.is_empty() or float(level.placed[0]["howl_time"]) <= 0.0 or not level.werewolf_audio.playing:
 		push_error("Werewolf did not begin a visible howl")
 		quit(1)
 		return

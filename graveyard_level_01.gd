@@ -73,8 +73,6 @@ const GRAVEWROUGHT_GRAVEWAIL: Texture2D = preload("res://assets/sprites/level-1-
 const SOUL_REAPER_IDLE: Texture2D = preload("res://assets/sprites/level-2-grim-reaper-boss-front-master.png")
 const SOUL_REAPER_ATTACK: Texture2D = preload("res://assets/sprites/level-2-grim-reaper-boss-lightning-attack-master.png")
 const DROWNED_KING_1: Texture2D = preload("res://assets/sprites/drowned-king-front-drip-01-128x128.png")
-const DROWNED_KING_2: Texture2D = preload("res://assets/sprites/drowned-king-front-drip-02-128x128.png")
-const DROWNED_KING_3: Texture2D = preload("res://assets/sprites/drowned-king-front-drip-03-128x128.png")
 const DROWNED_KING_PROJECTILE: Texture2D = preload("res://assets/sprites/drowned-king-swamp-projectile-48x48.png")
 const SOUL_LIGHTNING_1: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-01-master.png")
 const SOUL_LIGHTNING_2: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-02-master.png")
@@ -84,6 +82,18 @@ const SCARE_METER_FRAME: Texture2D = preload("res://assets/ui/scare-meter-three-
 const NIGHTMARE_STRENGTH: Texture2D = preload("res://assets/ui/nightmare-upgrade-monstrous-strength-44x44.png")
 const NIGHTMARE_FLESH: Texture2D = preload("res://assets/ui/nightmare-upgrade-undying-flesh-44x44.png")
 const NIGHTMARE_FOG: Texture2D = preload("res://assets/ui/nightmare-upgrade-graveyard-fog-44x44.png")
+const NIGHTMARE_BLOOD_MOON: Texture2D = preload("res://assets/ui/nightmare-upgrade-blood-moon.png")
+const NIGHTMARE_FURY: Texture2D = preload("res://assets/ui/nightmare-upgrade-relentless-fury.png")
+const NIGHTMARE_LONG_SHADOW: Texture2D = preload("res://assets/ui/nightmare-upgrade-long-shadow.png")
+const NIGHTMARE_SOUL_SIPHON: Texture2D = preload("res://assets/ui/nightmare-upgrade-soul-siphon.png")
+const NIGHTMARE_GRAVE_BARGAIN: Texture2D = preload("res://assets/ui/nightmare-upgrade-grave-bargain.png")
+const NIGHTMARE_LAST_RITES: Texture2D = preload("res://assets/ui/nightmare-upgrade-last-rites.png")
+const PROJECTILE_WHOOSH: AudioStream = preload("res://assets/audio/projectile-whoosh.wav")
+const LIGHTNING_STRIKE_SOUND: AudioStream = preload("res://assets/audio/lightning-strike.wav")
+const LIGHTNING_STRIKE_CLOSE_SOUND: AudioStream = preload("res://assets/audio/lightning-strike-close.wav")
+const GRAVEYARD_AMBIENCE: AudioStream = preload("res://assets/audio/level-1-graveyard-ambience.wav")
+const WEREWOLF_GROWL_SOUND: AudioStream = preload("res://assets/audio/werewolf-growl.wav")
+const GRAVEWROUGHT_SCREAM_SOUND: AudioStream = preload("res://assets/audio/gravewrought-ghost-scream-trimmed.wav")
 
 const SIZE := Vector2(960, 540)
 const LEVEL_COUNT := 12
@@ -93,7 +103,7 @@ const WAVE_LABEL_DELAY := 1.1
 const LEVEL_NAMES := ["BEDSHEET GHOSTS", "SPECTRES", "RED DEMONS", "BANSHEES", "GHOSTS & SPECTRES", "DEMONS & BANSHEES", "DEMON DOLLS", "GHOSTLY NUNS", "GHOSTS & DOLLS", "SPECTRES & NUNS", "DEMONS & BANSHEES", "SWAMP HORDE"]
 const LEVEL_HP := [100, 180, 270, 320, 400, 500]
 const LEVEL_SPEED := [42.0, 44.0, 46.0, 48.0, 52.0, 49.0]
-const LEVEL_ENEMY_COUNT := [12, 13, 14, 15, 16, 17, 12, 13, 14, 15, 16, 18]
+const LEVEL_ENEMY_COUNT := [17, 18, 19, 20, 22, 23, 24, 25, 14, 15, 16, 18]
 const LEVEL_PATTERNS := [
 	[1], [2], [3],
 	[4],
@@ -107,7 +117,7 @@ const LEVEL_PATTERNS := [
 	[1, 2, 3, 4, 5, 6]
 ]
 const LEVEL_BONUS_HP := [0, 0, 0, 20, 40, 60, 0, 0, 80, 100, 120, 150]
-const LEVEL_BONUS_SPEED := [0.0, 0.0, 0.0, 3.0, 6.0, 9.0, 0.0, 0.0, 10.0, 12.0, 14.0, 16.0]
+const LEVEL_BONUS_SPEED := [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 12.0, 14.0, 16.0]
 const LEVEL_SPAWN_INTERVAL := [2.1, 2.1, 2.1, 1.9, 1.7, 1.5, 1.8, 2.0, 1.7, 1.6, 1.5, 1.35]
 const SCARE_RANGE := 105.0
 const SCARE_COOLDOWN := 1.5
@@ -164,7 +174,7 @@ const SOUL_REAPER_REWARD := 800
 const SOUL_LIGHTNING_COOLDOWN := 5.5
 const SOUL_LIGHTNING_DURATION := 2.0
 const SOUL_LIGHTNING_HIT_TIME := 0.8
-const SOUL_LIGHTNING_DAMAGE := 90
+const SOUL_LIGHTNING_DAMAGE := 180
 const SOUL_LIGHTNING_RANGE := 300.0
 const DROWNED_KING_HP := 5500
 const DROWNED_KING_SPEED := 18.0
@@ -175,19 +185,31 @@ const DROWNED_KING_PROJECTILE_DAMAGE := 120
 const NIGHTMARE_STRENGTH_MULTIPLIER := 1.5
 const NIGHTMARE_FLESH_MULTIPLIER := 1.5
 const NIGHTMARE_FOG_SPEED_MULTIPLIER := 0.65
+const NIGHTMARE_BLOOD_MOON_REWARD_MULTIPLIER := 1.5
+const NIGHTMARE_FURY_COOLDOWN_MULTIPLIER := 0.75
+const NIGHTMARE_LONG_SHADOW_RANGE_MULTIPLIER := 1.3
+const NIGHTMARE_SOUL_SIPHON_HEAL_RATIO := 0.10
+const NIGHTMARE_GRAVE_BARGAIN_COST_MULTIPLIER := 0.75
 const MONSTER_HP := {"skeleton": 140, "moss": 180, "bog": 270, "gargoyle": 380, "werewolf": 320, "killian": 350}
-const SHOP_SKELETON := Rect2(26, 467, 65, 65)
-const SHOP_MOSS := Rect2(143, 467, 65, 65)
-const SHOP_BOG := Rect2(260, 467, 65, 65)
-const SHOP_GARGOYLE := Rect2(377, 467, 65, 65)
-const SHOP_WEREWOLF := Rect2(494, 467, 65, 65)
-const SHOP_KILLIAN := Rect2(611, 467, 65, 65)
-const SHOP_DRACULA := Rect2(728, 467, 65, 65)
-const SHOP_FRANK := Rect2(845, 467, 65, 65)
+const SHOP_SKELETON := Rect2(10, 467, 65, 65)
+const SHOP_MOSS := Rect2(115, 467, 65, 65)
+const SHOP_BOG := Rect2(220, 467, 65, 65)
+const SHOP_GARGOYLE := Rect2(325, 467, 65, 65)
+const SHOP_WEREWOLF := Rect2(430, 467, 65, 65)
+const SHOP_KILLIAN := Rect2(535, 467, 65, 65)
+const SHOP_DRACULA := Rect2(640, 467, 65, 65)
+const SHOP_FRANK := Rect2(745, 467, 65, 65)
+const SHOP_MUMMY := Rect2(850, 467, 65, 65)
 const MUMMY_METER_BUTTON := Rect2(400, 8, 48, 52)
-const NIGHTMARE_STRENGTH_BUTTON := Rect2(462, 8, 44, 44)
-const NIGHTMARE_FLESH_BUTTON := Rect2(512, 8, 44, 44)
-const NIGHTMARE_FOG_BUTTON := Rect2(562, 8, 44, 44)
+const NIGHTMARE_STRENGTH_BUTTON := Rect2(398, 75, 44, 44)
+const NIGHTMARE_FLESH_BUTTON := Rect2(450, 75, 44, 44)
+const NIGHTMARE_FOG_BUTTON := Rect2(502, 75, 44, 44)
+const NIGHTMARE_BLOOD_MOON_BUTTON := Rect2(398, 127, 44, 44)
+const NIGHTMARE_FURY_BUTTON := Rect2(450, 127, 44, 44)
+const NIGHTMARE_LONG_SHADOW_BUTTON := Rect2(502, 127, 44, 44)
+const NIGHTMARE_SOUL_SIPHON_BUTTON := Rect2(398, 179, 44, 44)
+const NIGHTMARE_GRAVE_BARGAIN_BUTTON := Rect2(450, 179, 44, 44)
+const NIGHTMARE_LAST_RITES_BUTTON := Rect2(502, 179, 44, 44)
 const PORTRAIT_SKELETON := Rect2(360, 70, 520, 520)
 const PORTRAIT_MOSS := Rect2(38, 25, 52, 52)
 const PORTRAIT_BOG := Rect2(38, 24, 52, 52)
@@ -196,12 +218,13 @@ const PORTRAIT_WEREWOLF := Rect2(37, 6, 54, 54)
 const PORTRAIT_KILLIAN := Rect2(341, 0, 564, 564)
 const PORTRAIT_DRACULA := Rect2(43, 53, 44, 44)
 const PORTRAIT_FRANK := Rect2(42, 5, 44, 48)
+const PORTRAIT_MUMMY := Rect2(12, 0, 104, 104)
 const SCARE_METER_MAX := 3000
 const SCARE_METER_POINTS_PER_SQUARE := 5
 const ESCAPE_METER_PENALTY := 0.25
 const SCARE_METER_RECT := Rect2(0, -10, 450, 74)
 const SCARE_METER_SOURCE := Rect2(0, 115, 2172, 355)
-const SCARE_METER_FILL_RECT := Rect2(29, 32, 373, 18)
+const SCARE_METER_FILL_RECT := Rect2(29, 32, 397, 18)
 const BUILD_PADS: Array[Vector2] = [
 	Vector2(141, 226), Vector2(329, 178), Vector2(440, 253), Vector2(615, 321), Vector2(846, 210)
 ]
@@ -271,8 +294,17 @@ var frank_elapsed := 0.0
 var frank_blast_targets: Array[Vector2] = []
 var mummy_phase := "idle"
 var mummy_elapsed := 0.0
-var nightmare_upgrade := ""
+var nightmare_upgrades: Array[String] = []
 var nightmare_used_levels: Dictionary = {}
+var last_rites_used_this_wave := false
+var projectile_audio: AudioStreamPlayer
+var lightning_audio: AudioStreamPlayer
+var ambience_audio: AudioStreamPlayer
+var werewolf_audio: AudioStreamPlayer
+var gravewrought_audio: AudioStreamPlayer
+var sky_lightning_timer := 4.0
+var sky_lightning_elapsed := -1.0
+var sky_lightning_x := 500.0
 var boss_mode := false
 var boss_spawned := false
 var boss_defeated := false
@@ -285,6 +317,29 @@ var game_lost := false
 
 
 func _ready() -> void:
+	projectile_audio = AudioStreamPlayer.new()
+	projectile_audio.stream = PROJECTILE_WHOOSH
+	projectile_audio.volume_db = -8.0
+	projectile_audio.max_polyphony = 8
+	add_child(projectile_audio)
+	lightning_audio = AudioStreamPlayer.new()
+	lightning_audio.stream = LIGHTNING_STRIKE_SOUND
+	lightning_audio.volume_db = -5.0
+	add_child(lightning_audio)
+	ambience_audio = AudioStreamPlayer.new()
+	ambience_audio.stream = GRAVEYARD_AMBIENCE
+	ambience_audio.volume_db = -16.0
+	ambience_audio.finished.connect(_on_ambience_finished)
+	add_child(ambience_audio)
+	werewolf_audio = AudioStreamPlayer.new()
+	werewolf_audio.stream = WEREWOLF_GROWL_SOUND
+	werewolf_audio.volume_db = -6.0
+	werewolf_audio.max_polyphony = 4
+	add_child(werewolf_audio)
+	gravewrought_audio = AudioStreamPlayer.new()
+	gravewrought_audio.stream = GRAVEWROUGHT_SCREAM_SOUND
+	gravewrought_audio.volume_db = -5.0
+	add_child(gravewrought_audio)
 	for i in range(ROUTE.size() - 1):
 		route_length += ROUTE[i].distance_to(ROUTE[i + 1])
 	for i in range(ROUTE_2_UP.size() - 1):
@@ -335,15 +390,20 @@ func start_level(level_number: int, keep_monsters: bool) -> void:
 	boss_gravewail_hit = false
 	boss_level = 0
 	game_lost = false
+	last_rites_used_this_wave = false
 	if not keep_monsters:
-		nightmare_used_levels.erase(display_level())
+		for kind in ["strength", "flesh", "fog"]:
+			nightmare_used_levels.erase(nightmare_usage_key(display_level(), kind))
 	selected_pad = -1
 	spawn_clock = 0.0
 	spawned = 0
 	scared = 0
 	escaped = 0
 	time_passed = 0.0
+	sky_lightning_timer = randf_range(4.0, 9.0)
+	sky_lightning_elapsed = -1.0
 	wave_intro_elapsed = 0.0
+	_update_level_ambience()
 	queue_redraw()
 
 
@@ -388,7 +448,10 @@ func enemy_hp_for_kind(kind: int) -> int:
 
 
 func enemy_speed_for_kind(kind: int) -> float:
-	return float(LEVEL_SPEED[kind - 1]) + float(LEVEL_BONUS_SPEED[current_level - 1])
+	var speed := float(LEVEL_SPEED[kind - 1]) + float(LEVEL_BONUS_SPEED[current_level - 1])
+	if display_level() == 2:
+		speed *= 1.10
+	return speed
 
 
 func wave_complete() -> bool:
@@ -488,15 +551,24 @@ func damage_enemy(enemy: Dictionary, damage: int) -> void:
 				boss_reward = SOUL_REAPER_REWARD
 			elif boss_level == 3:
 				boss_reward = DROWNED_KING_REWARD
+			boss_reward = nightmare_reward(boss_reward)
 			scare_points += boss_reward
 			scare_meter_points = mini(SCARE_METER_MAX, scare_meter_points + boss_reward)
 		else:
-			var reward := int(SCARE_REWARD[int(enemy["kind"]) - 1])
+			var reward := nightmare_reward(int(SCARE_REWARD[int(enemy["kind"]) - 1]))
 			scare_points += reward
 			scare_meter_points = mini(SCARE_METER_MAX, scare_meter_points + reward)
+		if nightmare_upgrade_active("siphon"):
+			for monster in placed:
+				var max_hp := int(monster.get("max_hp", 1))
+				monster["hp"] = mini(max_hp, int(monster.get("hp", max_hp)) + maxi(1, int(round(max_hp * NIGHTMARE_SOUL_SIPHON_HEAL_RATIO))))
 
 
 func register_enemy_escape() -> void:
+	if nightmare_upgrade_active("rites") and not last_rites_used_this_wave:
+		last_rites_used_this_wave = true
+		queue_redraw()
+		return
 	escaped += 1
 	var retained_points := float(scare_meter_points) * (1.0 - ESCAPE_METER_PENALTY)
 	# Keep the meter aligned to its five-point visual segments.
@@ -523,9 +595,11 @@ func trigger_boss_escape_loss() -> void:
 
 func _process(delta: float) -> void:
 	time_passed += delta
+	_update_level_ambience()
 	if game_lost:
 		queue_redraw()
 		return
+	_advance_sky_lightning(delta)
 	wave_intro_elapsed = minf(wave_intro_elapsed + delta, WAVE_INTRO_DURATION)
 	if boss_mode:
 		boss_intro_elapsed = minf(boss_intro_elapsed + delta, BOSS_INTRO_DURATION)
@@ -590,7 +664,7 @@ func _process(delta: float) -> void:
 			if monster["cooldown"] <= 0.0 and not wildcard_targets.is_empty():
 				var wildcard_target := choose_killian_target(wildcard_targets)
 				set_monster_facing(monster, (wildcard_target["position"] as Vector2) - monster_pos)
-				projectiles.append({
+				throw_projectile({
 					"position": monster_pos + Vector2(0, -29),
 					"target_type": str(wildcard_target["type"]),
 					"target_id": int(wildcard_target.get("id", -1)),
@@ -599,10 +673,11 @@ func _process(delta: float) -> void:
 					"damage": monster_damage_for(kind),
 					"kind": kind
 				})
-				monster["cooldown"] = KILLIAN_COOLDOWN
+				monster["cooldown"] = nightmare_cooldown(KILLIAN_COOLDOWN)
 			continue
 		var nearest: Dictionary = {}
-		var nearest_distance := WEREWOLF_RANGE if kind == "werewolf" else (140.0 if kind == "gargoyle" else (125.0 if kind == "bog" else SCARE_RANGE))
+		var base_range := WEREWOLF_RANGE if kind == "werewolf" else (140.0 if kind == "gargoyle" else (125.0 if kind == "bog" else SCARE_RANGE))
+		var nearest_distance := nightmare_range(base_range)
 		for ghost in ghosts:
 			if ghost["flee"] > 0.0:
 				continue
@@ -617,17 +692,21 @@ func _process(delta: float) -> void:
 			if monster["cooldown"] <= 0.0:
 				if kind == "werewolf":
 					howls.append({"origin": werewolf_mouth_position(monster_pos, str(monster["facing"])), "target_id": int(nearest["id"]), "elapsed": 0.0, "damage": monster_damage_for(kind)})
+					if is_instance_valid(werewolf_audio):
+						werewolf_audio.pitch_scale = randf_range(0.96, 1.04)
+						werewolf_audio.play()
 					monster["howl_time"] = HOWL_DURATION
-					monster["cooldown"] = WEREWOLF_COOLDOWN
+					monster["cooldown"] = nightmare_cooldown(WEREWOLF_COOLDOWN)
 				else:
-					projectiles.append({
+					throw_projectile({
 						"position": monster_pos + Vector2(0, -29),
 						"target_id": int(nearest["id"]),
 						"rotation": 0.0,
 						"damage": monster_damage_for(kind),
 						"kind": kind
 					})
-					monster["cooldown"] = 1.35 if kind == "gargoyle" else (1.2 if kind == "bog" else SCARE_COOLDOWN)
+					var base_cooldown := 1.35 if kind == "gargoyle" else (1.2 if kind == "bog" else SCARE_COOLDOWN)
+					monster["cooldown"] = nightmare_cooldown(base_cooldown)
 
 	for i in range(projectiles.size() - 1, -1, -1):
 		var projectile: Dictionary = projectiles[i]
@@ -765,7 +844,7 @@ func _advance_mummy(delta: float) -> void:
 				for enemy in ghosts:
 					if float(enemy.get("flee", 0.0)) > 0.0:
 						continue
-					projectiles.append({"position": MUMMY_ORIGIN + Vector2(0, -48), "target_id": int(enemy["id"]), "rotation": randf_range(0.0, TAU), "damage": 0, "kind": "mummy"})
+					throw_projectile({"position": MUMMY_ORIGIN + Vector2(0, -48), "target_id": int(enemy["id"]), "rotation": randf_range(0.0, TAU), "damage": 0, "kind": "mummy"})
 		"cast":
 			if mummy_elapsed >= MUMMY_CAST_TIME:
 				mummy_phase = "linger"
@@ -806,12 +885,74 @@ func stop_active_attacks() -> void:
 	mummy_elapsed = 0.0
 
 
+func throw_projectile(data: Dictionary) -> void:
+	projectiles.append(data)
+	if is_instance_valid(projectile_audio):
+		projectile_audio.play()
+
+
+func _update_level_ambience() -> void:
+	if not is_instance_valid(ambience_audio):
+		return
+	var should_play := display_level() == 1 and not game_lost
+	if should_play and not ambience_audio.playing:
+		ambience_audio.play()
+	elif not should_play and ambience_audio.playing:
+		ambience_audio.stop()
+
+
+func _on_ambience_finished() -> void:
+	if display_level() == 1 and not game_lost and is_instance_valid(ambience_audio):
+		ambience_audio.play()
+
+
+func _advance_sky_lightning(delta: float) -> void:
+	if display_level() != 1:
+		sky_lightning_elapsed = -1.0
+		return
+	if sky_lightning_elapsed >= 0.0:
+		sky_lightning_elapsed += delta
+		if sky_lightning_elapsed >= 0.65:
+			sky_lightning_elapsed = -1.0
+			# A minimum gap over 20 seconds caps lightning at three events per minute.
+			sky_lightning_timer = randf_range(20.5, 32.0)
+		return
+	sky_lightning_timer -= delta
+	if sky_lightning_timer <= 0.0:
+		sky_lightning_x = randf_range(140.0, 825.0)
+		sky_lightning_elapsed = 0.0
+		if is_instance_valid(lightning_audio):
+			lightning_audio.stream = LIGHTNING_STRIKE_SOUND if randi() % 2 == 0 else LIGHTNING_STRIKE_CLOSE_SOUND
+			lightning_audio.pitch_scale = randf_range(0.94, 1.06)
+			lightning_audio.play()
+
+
 func nightmare_upgrade_active(kind: String) -> bool:
-	return nightmare_upgrade == kind and nightmare_used_levels.has(display_level())
+	return nightmare_upgrades.has(kind)
+
+
+func nightmare_usage_key(level_number: int, kind: String) -> String:
+	return "%d:%s" % [level_number, kind]
 
 
 func nightmare_damage(base_damage: int) -> int:
 	return int(round(float(base_damage) * (NIGHTMARE_STRENGTH_MULTIPLIER if nightmare_upgrade_active("strength") else 1.0)))
+
+
+func nightmare_reward(base_reward: int) -> int:
+	return int(round(float(base_reward) * (NIGHTMARE_BLOOD_MOON_REWARD_MULTIPLIER if nightmare_upgrade_active("blood_moon") else 1.0)))
+
+
+func nightmare_cooldown(base_cooldown: float) -> float:
+	return base_cooldown * (NIGHTMARE_FURY_COOLDOWN_MULTIPLIER if nightmare_upgrade_active("fury") else 1.0)
+
+
+func nightmare_range(base_range: float) -> float:
+	return base_range * (NIGHTMARE_LONG_SHADOW_RANGE_MULTIPLIER if nightmare_upgrade_active("shadow") else 1.0)
+
+
+func monster_purchase_cost(kind: String) -> int:
+	return int(ceil(float(MONSTER_COST[kind]) * (NIGHTMARE_GRAVE_BARGAIN_COST_MULTIPLIER if nightmare_upgrade_active("bargain") else 1.0)))
 
 
 func monster_damage_for(kind: String) -> int:
@@ -824,27 +965,34 @@ func monster_max_hp_for(kind: String) -> int:
 
 
 func select_nightmare_upgrade(kind: String) -> bool:
-	if not nightmare_upgrade.is_empty() or scare_meter_points < SCARE_METER_MAX or not ["strength", "flesh", "fog"].has(kind):
+	if nightmare_upgrades.has(kind) or nightmare_upgrades.size() >= 9 or scare_meter_points < SCARE_METER_MAX or not ["strength", "flesh", "fog", "blood_moon", "fury", "shadow", "siphon", "bargain", "rites"].has(kind):
 		return false
-	nightmare_upgrade = kind
+	nightmare_upgrades.append(kind)
 	scare_meter_points = 0
-	return activate_nightmare_upgrade()
-
-
-func activate_nightmare_upgrade() -> bool:
-	var level_number := display_level()
-	if nightmare_upgrade.is_empty() or nightmare_used_levels.has(level_number) or wave_complete():
-		return false
-	nightmare_used_levels[level_number] = true
-	if nightmare_upgrade == "flesh":
-		for monster in placed:
-			var kind := str(monster.get("kind", "moss"))
-			var old_max := int(monster.get("max_hp", MONSTER_HP.get(kind, 180)))
-			var new_max := int(round(float(MONSTER_HP.get(kind, 180)) * NIGHTMARE_FLESH_MULTIPLIER))
-			monster["max_hp"] = new_max
-			monster["hp"] = mini(new_max, int(monster.get("hp", old_max)) + new_max - old_max)
+	if kind == "flesh":
+		_apply_undying_flesh_to_placed_monsters()
 	queue_redraw()
 	return true
+
+
+func activate_nightmare_upgrade(kind: String) -> bool:
+	# Nightmare upgrades are passive for the remainder of the run once selected.
+	return nightmare_upgrades.has(kind)
+
+
+func _apply_undying_flesh_to_placed_monsters() -> void:
+	for monster in placed:
+		var monster_kind := str(monster.get("kind", "moss"))
+		var old_max := int(monster.get("max_hp", MONSTER_HP.get(monster_kind, 180)))
+		var new_max := int(round(float(MONSTER_HP.get(monster_kind, 180)) * NIGHTMARE_FLESH_MULTIPLIER))
+		monster["max_hp"] = new_max
+		monster["hp"] = mini(new_max, int(monster.get("hp", old_max)) + new_max - old_max)
+
+
+func choose_or_activate_nightmare_upgrade(kind: String) -> bool:
+	if nightmare_upgrades.has(kind):
+		return activate_nightmare_upgrade(kind)
+	return select_nightmare_upgrade(kind)
 
 
 func _advance_gravewrought(delta: float) -> void:
@@ -861,6 +1009,8 @@ func _advance_gravewrought(delta: float) -> void:
 		if boss_attack_cooldown <= 0.0:
 			boss_gravewail_elapsed = 0.0
 			boss_gravewail_hit = false
+			if boss_level == 1 and is_instance_valid(gravewrought_audio):
+				gravewrought_audio.play()
 		return
 	boss_gravewail_elapsed += delta
 	var hit_time := SOUL_LIGHTNING_HIT_TIME if boss_level == 2 else GRAVEWAIL_HIT_TIME
@@ -910,7 +1060,7 @@ func _advance_drowned_king(delta: float, boss: Dictionary) -> void:
 	candidate_pads.shuffle()
 	var target_count := mini(2, candidate_pads.size())
 	for target_index in range(target_count):
-		projectiles.append({
+		throw_projectile({
 			"position": boss_pos + Vector2(0, -58),
 			"target_type": "monster",
 			"target_pad": candidate_pads[target_index],
@@ -982,8 +1132,12 @@ func killian_target_candidates(killian: Dictionary) -> Array[Dictionary]:
 		if float(enemy["flee"]) > 0.0:
 			continue
 		var enemy_pos := point_on_route(float(enemy["distance"]), int(enemy.get("route_id", 0)))
-		if killian_pos.distance_to(enemy_pos) <= KILLIAN_RANGE:
+		if killian_pos.distance_to(enemy_pos) <= nightmare_range(KILLIAN_RANGE):
 			candidates.append({"type": "enemy", "id": int(enemy["id"]), "position": enemy_pos})
+	# Killian only becomes violent when an enemy is close enough to provoke him.
+	# Friendly fire is part of that attack roll, never an independent behavior.
+	if candidates.is_empty():
+		return candidates
 	for ally in placed:
 		var ally_pad := int(ally["pad"])
 		if ally_pad == killian_pad:
@@ -991,7 +1145,7 @@ func killian_target_candidates(killian: Dictionary) -> Array[Dictionary]:
 		var ally_pos: Vector2 = active_build_pads()[ally_pad]
 		# Account for the visible body radius of placed monsters when measuring
 		# Killian's 160-pixel range against their build-pad centers.
-		if killian_pos.distance_to(ally_pos) <= KILLIAN_RANGE + 20.0:
+		if killian_pos.distance_to(ally_pos) <= nightmare_range(KILLIAN_RANGE) + 20.0:
 			candidates.append({"type": "monster", "pad": ally_pad, "position": ally_pos})
 	return candidates
 
@@ -1060,7 +1214,7 @@ func pad_index_at_position(position: Vector2) -> int:
 func try_place_monster(kind: String) -> bool:
 	if selected_pad < 0 or pad_occupied(selected_pad):
 		return false
-	var cost := int(MONSTER_COST[kind])
+	var cost := monster_purchase_cost(kind)
 	if scare_points < cost:
 		return false
 	scare_points -= cost
@@ -1077,7 +1231,7 @@ func try_remove_monster(pad_index: int) -> bool:
 	if monster_index < 0:
 		return false
 	var kind := str(placed[monster_index].get("kind", "moss"))
-	var removal_cost := int(MONSTER_COST[kind]) * 2
+	var removal_cost := monster_purchase_cost(kind) * 2
 	if scare_points < removal_cost:
 		return false
 	scare_points -= removal_cost
@@ -1099,18 +1253,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if MUMMY_METER_BUTTON.has_point(event.position):
 			summon_mummy()
 			return
-		if nightmare_upgrade.is_empty() and scare_meter_points >= SCARE_METER_MAX:
-			if NIGHTMARE_STRENGTH_BUTTON.has_point(event.position):
-				select_nightmare_upgrade("strength")
-				return
-			if NIGHTMARE_FLESH_BUTTON.has_point(event.position):
-				select_nightmare_upgrade("flesh")
-				return
-			if NIGHTMARE_FOG_BUTTON.has_point(event.position):
-				select_nightmare_upgrade("fog")
-				return
-		elif not nightmare_upgrade.is_empty() and NIGHTMARE_STRENGTH_BUTTON.has_point(event.position):
-			activate_nightmare_upgrade()
+		var clicked_upgrade := nightmare_kind_at_position(event.position)
+		if not clicked_upgrade.is_empty():
+			choose_or_activate_nightmare_upgrade(clicked_upgrade)
 			return
 		if SHOP_SKELETON.has_point(event.position):
 			try_place_monster("skeleton")
@@ -1135,6 +1280,9 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if SHOP_FRANK.has_point(event.position):
 			summon_frank()
+			return
+		if SHOP_MUMMY.has_point(event.position):
+			summon_mummy()
 			return
 		if wave_complete() and Rect2(293, 222, 375, 96).has_point(event.position):
 			advance_after_complete()
@@ -1172,13 +1320,14 @@ func _unhandled_input(event: InputEvent) -> void:
 		elif event.keycode == KEY_M:
 			summon_mummy()
 		elif event.keycode == KEY_Z:
-			select_nightmare_upgrade("strength")
+			choose_or_activate_nightmare_upgrade("strength")
 		elif event.keycode == KEY_X:
-			select_nightmare_upgrade("flesh")
+			choose_or_activate_nightmare_upgrade("flesh")
 		elif event.keycode == KEY_C:
-			select_nightmare_upgrade("fog")
+			choose_or_activate_nightmare_upgrade("fog")
 		elif event.keycode == KEY_V:
-			activate_nightmare_upgrade()
+			for kind in nightmare_upgrades:
+				activate_nightmare_upgrade(kind)
 		elif event.keycode == KEY_T:
 			scare_points += 500
 			scare_meter_points = mini(SCARE_METER_MAX, scare_meter_points + 500)
@@ -1330,6 +1479,8 @@ func _draw() -> void:
 	_draw_shop_card(SHOP_KILLIAN, "killian", KILLIAN_FRONT, PORTRAIT_KILLIAN, "KILLIAN CLOWN", "2x100 wild", font)
 	_draw_dracula_card(font)
 	_draw_frank_card(font)
+	_draw_mummy_card(font)
+	_draw_hover_tooltips(font)
 	if wave_complete():
 		draw_rect(Rect2(293, 222, 375, 96), Color(0.03, 0.07, 0.12, 0.92))
 		if boss_mode:
@@ -1385,36 +1536,95 @@ func _draw_scare_meter(_font: Font) -> void:
 		if maximum_squares > 1:
 			square_x += travel_width * float(square_index) / float(maximum_squares - 1)
 		draw_rect(Rect2(Vector2(square_x, SCARE_METER_FILL_RECT.position.y), Vector2(segment_width, bar_height)), Color(0.92, 0.015, 0.025, 1.0))
+	# Seal the final segment against the right rail at the exact unlock value.
+	if filled_squares >= maximum_squares:
+		draw_rect(Rect2(SCARE_METER_FILL_RECT.position, Vector2(SCARE_METER_FILL_RECT.size.x, bar_height)), Color(0.92, 0.015, 0.025, 1.0))
 	# Layer 3: transparent-channel frame and portraits always render over the fill.
 	draw_texture_rect_region(SCARE_METER_FRAME, SCARE_METER_RECT, SCARE_METER_SOURCE)
-	if can_summon_mummy():
-		draw_arc(MUMMY_METER_BUTTON.get_center(), 22.0, 0.0, TAU, 32, Color(0.96, 0.76, 0.25, 0.95), 2.0)
 
 
 func _draw_nightmare_upgrades() -> void:
-	if nightmare_upgrade.is_empty():
-		if scare_meter_points < SCARE_METER_MAX:
-			return
-		for item in [
-			[NIGHTMARE_STRENGTH_BUTTON, NIGHTMARE_STRENGTH],
-			[NIGHTMARE_FLESH_BUTTON, NIGHTMARE_FLESH],
-			[NIGHTMARE_FOG_BUTTON, NIGHTMARE_FOG]
-		]:
-			var rect: Rect2 = item[0]
-			draw_circle(rect.get_center(), 24.0, Color(0.08, 0.02, 0.10, 0.92))
-			draw_texture_rect(item[1], rect, false)
-			draw_arc(rect.get_center(), 23.0, 0.0, TAU, 32, Color(0.72, 0.32, 0.96, 0.95), 2.0)
+	if scare_meter_points >= SCARE_METER_MAX and nightmare_upgrades.size() < 9:
+		draw_rect(Rect2(386, 61, 172, 174), Color(0.025, 0.018, 0.035, 0.94))
+		draw_rect(Rect2(386, 61, 172, 174), Color(0.62, 0.28, 0.78, 0.95), false, 2.0)
+	for item in nightmare_upgrade_items():
+		var kind: String = item[0]
+		var rect: Rect2 = item[1]
+		var texture: Texture2D = item[2]
+		var unlocked := nightmare_upgrades.has(kind)
+		var selectable := scare_meter_points >= SCARE_METER_MAX and not unlocked
+		if not unlocked and not selectable:
+			continue
+		var tint := Color.WHITE
+		var outline := Color(0.32, 0.95, 0.70, 1.0) if unlocked else Color(0.72, 0.32, 0.96, 0.95)
+		draw_circle(rect.get_center(), 24.0, Color(0.08, 0.02, 0.10, 0.92))
+		draw_texture_rect(texture, rect, false, tint)
+		draw_arc(rect.get_center(), 23.0, 0.0, TAU, 32, outline, 2.0)
+	_draw_nightmare_tooltip()
+
+
+func nightmare_upgrade_items() -> Array:
+	return [
+		["strength", NIGHTMARE_STRENGTH_BUTTON, NIGHTMARE_STRENGTH],
+		["flesh", NIGHTMARE_FLESH_BUTTON, NIGHTMARE_FLESH],
+		["fog", NIGHTMARE_FOG_BUTTON, NIGHTMARE_FOG],
+		["blood_moon", NIGHTMARE_BLOOD_MOON_BUTTON, NIGHTMARE_BLOOD_MOON],
+		["fury", NIGHTMARE_FURY_BUTTON, NIGHTMARE_FURY],
+		["shadow", NIGHTMARE_LONG_SHADOW_BUTTON, NIGHTMARE_LONG_SHADOW],
+		["siphon", NIGHTMARE_SOUL_SIPHON_BUTTON, NIGHTMARE_SOUL_SIPHON],
+		["bargain", NIGHTMARE_GRAVE_BARGAIN_BUTTON, NIGHTMARE_GRAVE_BARGAIN],
+		["rites", NIGHTMARE_LAST_RITES_BUTTON, NIGHTMARE_LAST_RITES]
+	]
+
+
+func nightmare_kind_at_position(position: Vector2) -> String:
+	for item in nightmare_upgrade_items():
+		var kind: String = item[0]
+		var rect: Rect2 = item[1]
+		if rect.has_point(position) and (nightmare_upgrades.has(kind) or scare_meter_points >= SCARE_METER_MAX):
+			return kind
+	return ""
+
+
+func _draw_nightmare_tooltip() -> void:
+	var kind := nightmare_kind_at_position(get_global_mouse_position())
+	if kind.is_empty():
 		return
-	var texture := NIGHTMARE_STRENGTH
-	if nightmare_upgrade == "flesh":
-		texture = NIGHTMARE_FLESH
-	elif nightmare_upgrade == "fog":
-		texture = NIGHTMARE_FOG
-	var used := nightmare_used_levels.has(display_level())
-	var tint := Color(0.48, 0.48, 0.48, 0.62) if used else Color.WHITE
-	draw_circle(NIGHTMARE_STRENGTH_BUTTON.get_center(), 24.0, Color(0.08, 0.02, 0.10, 0.92))
-	draw_texture_rect(texture, NIGHTMARE_STRENGTH_BUTTON, false, tint)
-	draw_arc(NIGHTMARE_STRENGTH_BUTTON.get_center(), 23.0, 0.0, TAU, 32, Color(0.32, 0.95, 0.70, 0.45 if used else 1.0), 2.0)
+	var title := "MONSTROUS STRENGTH"
+	var description := "All monsters deal 50% more damage for the rest of the game."
+	if kind == "flesh":
+		title = "UNDYING FLESH"
+		description = "All monsters gain 50% maximum health for the rest of the game."
+	elif kind == "fog":
+		title = "GRAVEYARD FOG"
+		description = "All enemies move 35% slower for the rest of the game."
+	elif kind == "blood_moon":
+		title = "BLOOD MOON"
+		description = "All scare-point rewards increase by 50%."
+	elif kind == "fury":
+		title = "RELENTLESS FURY"
+		description = "All monsters attack 25% faster."
+	elif kind == "shadow":
+		title = "LONG SHADOW"
+		description = "All monsters gain 30% attack range."
+	elif kind == "siphon":
+		title = "SOUL SIPHON"
+		description = "Each scared enemy heals every monster by 10%."
+	elif kind == "bargain":
+		title = "GRAVE BARGAIN"
+		description = "All monster purchase costs are reduced by 25%."
+	elif kind == "rites":
+		title = "LAST RITES"
+		description = "The first enemy escape of each wave is prevented."
+	var unlocked := nightmare_upgrades.has(kind)
+	var status := "Click to unlock permanently." if not unlocked else "Active for the remainder of the game."
+	var panel := Rect2(570, 120, 370, 65)
+	draw_rect(panel, Color(0.025, 0.018, 0.035, 0.96))
+	draw_rect(panel, Color(0.55, 0.34, 0.72, 0.95), false, 2.0)
+	var font := ThemeDB.fallback_font
+	draw_string(font, panel.position + Vector2(12, 19), title, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.92, 0.79, 1.0))
+	draw_string(font, panel.position + Vector2(12, 39), description, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.91, 0.94, 0.90))
+	draw_string(font, panel.position + Vector2(12, 56), status, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.54, 0.88, 0.70))
 
 
 func _draw_top_status(font: Font) -> void:
@@ -1544,8 +1754,7 @@ func _draw_boss_foreground() -> void:
 	if int(boss["kind"]) == 8:
 		boss_texture = SOUL_REAPER_ATTACK if boss_gravewail_elapsed >= 0.0 and not fleeing else SOUL_REAPER_IDLE
 	elif int(boss["kind"]) == 9:
-		var drip_frame := int(floor(time_passed * 4.0)) % 3
-		boss_texture = [DROWNED_KING_1, DROWNED_KING_2, DROWNED_KING_3][drip_frame]
+		boss_texture = drowned_king_texture()
 	else:
 		boss_texture = GRAVEWROUGHT_GRAVEWAIL if boss_gravewail_elapsed >= 0.0 and not fleeing else GRAVEWROUGHT_IDLE
 	draw_texture_rect(boss_texture, sprite_rect, false, tint)
@@ -1553,6 +1762,12 @@ func _draw_boss_foreground() -> void:
 		var health_ratio := float(boss["hp"]) / float(boss["max_hp"])
 		draw_rect(Rect2(pos + Vector2(-51, -130 + bob), Vector2(102, 9)), Color(0.10, 0.04, 0.08, 0.50))
 		draw_rect(Rect2(pos + Vector2(-50, -129 + bob), Vector2(100.0 * health_ratio, 7)), Color(0.84, 0.12, 0.28, 0.50))
+
+
+func drowned_king_texture() -> Texture2D:
+	# The Swamp King deliberately uses only his first pose; the previous
+	# three-frame cycle created an unwanted dripping animation.
+	return DROWNED_KING_1
 
 
 func _draw_intro_title(title: String, baseline_y: float, font_size: int, color: Color, glow: Color, alpha: float) -> void:
@@ -1595,16 +1810,18 @@ func _draw_moving_clouds() -> void:
 
 
 func _draw_lightning() -> void:
-	var phase := fmod(time_passed, 17.0)
+	if display_level() != 1 or sky_lightning_elapsed < 0.0:
+		return
 	var flash := 0.0
-	if phase > 10.25 and phase < 10.34:
+	if sky_lightning_elapsed < 0.10:
 		flash = 0.24
-	elif phase > 10.47 and phase < 10.60:
+	elif sky_lightning_elapsed > 0.22 and sky_lightning_elapsed < 0.38:
 		flash = 0.40
 	if flash <= 0.0:
 		return
 	draw_rect(Rect2(0, 0, SIZE.x, 449), Color(0.69, 0.78, 1.0, flash * 0.32))
-	draw_polyline(PackedVector2Array([Vector2(506, 7), Vector2(499, 19), Vector2(505, 19), Vector2(495, 37), Vector2(500, 37), Vector2(492, 58)]), Color(0.80, 0.87, 1.0, flash * 1.8), 2.0)
+	var x := sky_lightning_x
+	draw_polyline(PackedVector2Array([Vector2(x, 0), Vector2(x - 9, 14), Vector2(x + 2, 21), Vector2(x - 12, 37), Vector2(x - 4, 45), Vector2(x - 17, 68), Vector2(x - 10, 79)]), Color(0.80, 0.87, 1.0, flash * 1.8), 2.0)
 
 
 func frank_texture(back_view: bool, frame: int) -> Texture2D:
@@ -1759,10 +1976,57 @@ func _draw_portrait(rect: Rect2, texture: Texture2D, source: Rect2, tint: Color)
 
 func _draw_shop_card(rect: Rect2, kind: String, texture: Texture2D, source: Rect2, _title: String, _subtitle: String, _font: Font) -> void:
 	var selected := selected_pad >= 0 and not pad_occupied(selected_pad)
-	var affordable := selected_pad >= 0 and not pad_occupied(selected_pad) and scare_points >= int(MONSTER_COST[kind])
+	var affordable := selected_pad >= 0 and not pad_occupied(selected_pad) and scare_points >= monster_purchase_cost(kind)
 	draw_rect(rect, Color(0.13, 0.23, 0.20, 1.0) if selected else Color(0.10, 0.15, 0.17, 1.0))
 	draw_rect(rect, Color(0.72, 0.95, 0.59) if selected else Color(0.33, 0.46, 0.40), false, 2.0)
 	_draw_portrait(rect, texture, source, Color.WHITE if affordable else Color(0.55, 0.55, 0.55))
+
+
+func monster_tooltip_at_position(position: Vector2) -> Dictionary:
+	var regular_monsters := [
+		[SHOP_SKELETON, "SKELETON", "skeleton", SCARE_RANGE, SCARE_COOLDOWN, "Throws a spinning bone."],
+		[SHOP_MOSS, "MOSS MONSTER", "moss", SCARE_RANGE, SCARE_COOLDOWN, "Throws a seed clump."],
+		[SHOP_BOG, "BOG GUARDIAN", "bog", 125.0, 1.2, "Throws a heavy swamp projectile."],
+		[SHOP_GARGOYLE, "GARGOYLE", "gargoyle", 140.0, 1.35, "Throws a stone projectile."],
+		[SHOP_WEREWOLF, "WEREWOLF", "werewolf", WEREWOLF_RANGE, WEREWOLF_COOLDOWN, "Howl sends damaging shockwaves."],
+		[SHOP_KILLIAN, "KILLIAN CLOWN", "killian", KILLIAN_RANGE, KILLIAN_COOLDOWN, "With an enemy nearby, may hit an ally."]
+	]
+	for item in regular_monsters:
+		var rect: Rect2 = item[0]
+		if rect.has_point(position):
+			var kind: String = item[2]
+			return {"rect": rect, "title": item[1], "line1": "%d points  |  %d damage  |  %d health" % [monster_purchase_cost(kind), monster_damage_for(kind), monster_max_hp_for(kind)], "line2": "%d px range  |  %.2f sec attack" % [int(nightmare_range(float(item[3]))), nightmare_cooldown(float(item[4]))], "line3": item[5]}
+	if SHOP_DRACULA.has_point(position):
+		return {"rect": SHOP_DRACULA, "title": "DRACULA", "line1": "%d meter points  |  %d contact damage" % [DRACULA_COST, DRACULA_DAMAGE], "line2": "One-use special: flies along every route.", "line3": "Damages every enemy he contacts."}
+	if SHOP_FRANK.has_point(position):
+		return {"rect": SHOP_FRANK, "title": "FRANKENSTEIN", "line1": "%d meter points  |  %d lightning damage" % [FRANK_COST, FRANK_DAMAGE], "line2": "One-use special: damages all enemies.", "line3": "Rises through an electrical portal."}
+	if SHOP_MUMMY.has_point(position):
+		return {"rect": SHOP_MUMMY, "title": "THE MUMMY", "line1": "%d meter points  |  global slowdown" % MUMMY_COST, "line2": "One-use special: targets every enemy.", "line3": "Bandages halve movement speed for 10 seconds."}
+	return {}
+
+
+func _draw_hover_tooltips(font: Font) -> void:
+	var mouse := get_global_mouse_position()
+	var monster_info := monster_tooltip_at_position(mouse)
+	if not monster_info.is_empty():
+		var source_rect: Rect2 = monster_info["rect"]
+		var panel_x := clampf(source_rect.get_center().x - 145.0, 8.0, SIZE.x - 298.0)
+		var panel := Rect2(panel_x, 370, 290, 76)
+		draw_rect(panel, Color(0.025, 0.04, 0.045, 0.97))
+		draw_rect(panel, Color(0.42, 0.70, 0.59, 0.96), false, 2.0)
+		draw_string(font, panel.position + Vector2(10, 18), str(monster_info["title"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.93, 0.98, 0.91))
+		draw_string(font, panel.position + Vector2(10, 36), str(monster_info["line1"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.86, 0.42))
+		draw_string(font, panel.position + Vector2(10, 52), str(monster_info["line2"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.76, 0.88, 0.83))
+		draw_string(font, panel.position + Vector2(10, 68), str(monster_info["line3"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.70, 0.78, 0.75))
+		return
+	if not SCARE_METER_RECT.has_point(mouse):
+		return
+	var panel := Rect2(18, 62, 270, 48)
+	draw_rect(panel, Color(0.025, 0.018, 0.035, 0.97))
+	draw_rect(panel, Color(0.68, 0.28, 0.34, 0.96), false, 2.0)
+	draw_string(font, panel.position + Vector2(10, 19), "SCARE METER: %d / %d" % [scare_meter_points, SCARE_METER_MAX], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.83, 0.72))
+	var meter_help := "Nightmare Upgrade ready—choose a remaining icon." if scare_meter_points >= SCARE_METER_MAX and nightmare_upgrades.size() < 9 else "Fill the meter completely to unlock another upgrade."
+	draw_string(font, panel.position + Vector2(10, 38), meter_help, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.78, 0.82, 0.86))
 
 
 func _draw_dracula_card(_font: Font) -> void:
@@ -1779,3 +2043,11 @@ func _draw_frank_card(_font: Font) -> void:
 	draw_rect(SHOP_FRANK, Color(0.10, 0.17, 0.25) if usable else Color(0.09, 0.13, 0.17))
 	draw_rect(SHOP_FRANK, outline, false, 2.0)
 	_draw_portrait(SHOP_FRANK, FRANK_FRONT, PORTRAIT_FRANK, Color.WHITE if usable else Color(0.55, 0.55, 0.55))
+
+
+func _draw_mummy_card(_font: Font) -> void:
+	var usable := can_summon_mummy()
+	var outline := Color(0.96, 0.78, 0.38) if usable else Color(0.43, 0.38, 0.27)
+	draw_rect(SHOP_MUMMY, Color(0.24, 0.18, 0.08) if usable else Color(0.15, 0.13, 0.09))
+	draw_rect(SHOP_MUMMY, outline, false, 2.0)
+	_draw_portrait(SHOP_MUMMY, MUMMY_FRONT, PORTRAIT_MUMMY, Color.WHITE if usable else Color(0.55, 0.55, 0.55))
