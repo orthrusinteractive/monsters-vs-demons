@@ -9,10 +9,10 @@ func run_test() -> void:
 	var scene: PackedScene = load("res://graveyard_level_01.tscn")
 	var level = scene.instantiate()
 	root.add_child(level)
-	var expected_hp := [100, 180, 270, 340, 140, 330, 400, 500]
-	var expected_count := [12, 13, 14, 15, 16, 17, 12, 13]
-	var expected_patterns := [[1], [2], [3], [4], [1, 2], [3, 4], [5], [6]]
-	for number in range(1, 9):
+	var expected_hp := [100, 180, 270, 340, 140, 330, 400, 500, 180, 280, 390, 250]
+	var expected_count := [12, 13, 14, 15, 16, 17, 12, 13, 14, 15, 16, 18]
+	var expected_patterns := [[1], [2], [3], [4], [1, 2], [3, 4], [5], [6], [1, 5], [2, 6], [3, 4], [1, 2, 3, 4, 5, 6]]
+	for number in range(1, 13):
 		level.start_level(number, false)
 		if level.display_level() != int((number - 1) / 4) + 1 or level.display_wave() != (number - 1) % 4 + 1:
 			push_error("Incorrect level/wave label for stage %d" % number)
@@ -71,5 +71,5 @@ func run_test() -> void:
 			push_error("Transition from stage %d did not retain the correct monsters/scare points" % number)
 			quit(1)
 			return
-	print("Progression test passed: two levels, eight wave patterns, and level-boundary reset")
+	print("Progression test passed: three levels, twelve wave patterns, and level-boundary reset")
 	quit(0)

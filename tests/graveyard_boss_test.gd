@@ -72,8 +72,8 @@ func run_test() -> void:
 		return
 	level._advance_gravewrought(level.SOUL_LIGHTNING_COOLDOWN)
 	level._advance_gravewrought(level.SOUL_LIGHTNING_HIT_TIME)
-	if level.placed.size() != 1 or int(level.placed[0]["hp"]) != 290:
-		push_error("Soul Reaper lightning did not damage every remaining monster")
+	if level.placed.size() != 1 or int(level.placed[0]["hp"]) != 380:
+		push_error("Soul Reaper lightning did not limit damage to monsters within its range")
 		quit(1)
 		return
 	points_before = level.scare_points
@@ -84,8 +84,8 @@ func run_test() -> void:
 		quit(1)
 		return
 	level.advance_after_complete()
-	if level.current_level != 1 or level.boss_mode:
-		push_error("The game did not restart after the Level 2 boss")
+	if level.current_level != 9 or level.display_level() != 3 or level.boss_mode:
+		push_error("The game did not advance to Swamp Level 3 after the Level 2 boss")
 		quit(1)
 		return
 	print("Boss test passed: Level 1 pads, both boss intros, Gravewail, Soul Reaper lightning, rewards, progression")

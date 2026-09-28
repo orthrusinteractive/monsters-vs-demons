@@ -44,8 +44,8 @@ func run_test() -> void:
 		return
 	seed(7)
 	level._process(0.01)
-	if level.projectiles.size() != 2:
-		push_error("Killian did not throw exactly two machetes: candidates=%d gap=%.2f projectiles=%d" % [candidates.size(), best_gap, level.projectiles.size()])
+	if level.projectiles.size() != 1:
+		push_error("Killian did not throw exactly one machete: candidates=%d gap=%.2f projectiles=%d" % [candidates.size(), best_gap, level.projectiles.size()])
 		quit(1)
 		return
 	for projectile in level.projectiles:
@@ -57,9 +57,9 @@ func run_test() -> void:
 	var enemy_damage := 300 - int(level.ghosts[0]["hp"])
 	var moss_index: int = level.monster_index_at_pad(2)
 	var ally_damage := 180 if moss_index < 0 else 180 - int(level.placed[moss_index]["hp"])
-	if enemy_damage + ally_damage != 200:
-		push_error("Killian's two machetes did not deal 200 total damage")
+	if enemy_damage + ally_damage != 100:
+		push_error("Killian's machete did not deal 100 total damage")
 		quit(1)
 		return
-	print("Killian test passed: cost, health, range, dual spinning wildcard machetes")
+	print("Killian test passed: cost, health, range, and one spinning wildcard machete")
 	quit(0)
