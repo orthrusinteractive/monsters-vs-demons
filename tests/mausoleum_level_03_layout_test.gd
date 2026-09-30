@@ -12,7 +12,7 @@ func run_test() -> void:
 	level.start_level(9, false)
 	var expected_pads: Array[Vector2] = [
 		Vector2(253, 189), Vector2(785, 111), Vector2(756, 289),
-		Vector2(351, 429), Vector2(781, 441)
+		Vector2(407, 354), Vector2(781, 441)
 	]
 	if level.BUILD_PADS_3 != expected_pads or level.build_pads_for_level(3) != expected_pads:
 		push_error("Level 3 swamp placement pads do not match the annotated layout")
@@ -22,6 +22,23 @@ func run_test() -> void:
 		push_error("Swamp Level 3 did not become the active battlefield")
 		quit(1)
 		return
+	level.scare_points = 1000
+	level.selected_pad = level.LEVEL_3_SWAMP_ONLY_PAD
+	if level.try_place_monster("skeleton"):
+		push_error("The restricted Level 3 swamp pad accepted a Skeleton")
+		quit(1)
+		return
+	if not level.try_place_monster("moss"):
+		push_error("The restricted Level 3 swamp pad rejected the Moss Monster")
+		quit(1)
+		return
+	level.placed.clear()
+	level.selected_pad = level.LEVEL_3_SWAMP_ONLY_PAD
+	if not level.try_place_monster("bog"):
+		push_error("The restricted Level 3 swamp pad rejected the Bog Guardian")
+		quit(1)
+		return
+	level.placed.clear()
 	if level.point_on_route(0.0, 0) != level.point_on_route(0.0, 1):
 		push_error("Swamp route entrances do not match")
 		quit(1)

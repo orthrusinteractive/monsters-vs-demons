@@ -9,6 +9,7 @@ func run_test() -> void:
 	var level = load("res://graveyard_level_01.tscn").instantiate()
 	root.add_child(level)
 	level.set_process(false)
+	level.start_level(1, false)
 	level.ghosts.append({"id": 1, "kind": 1, "route_id": 0, "distance": 210.0, "flee": 0.0, "phase": 0.0, "hp": 100, "max_hp": 100, "speed": 42.0, "hit_flash": 0.0})
 	level.ghosts.append({"id": 2, "kind": 1, "route_id": 0, "distance": 430.0, "flee": 0.0, "phase": 0.0, "hp": 100, "max_hp": 100, "speed": 42.0, "hit_flash": 0.0})
 	level.scare_meter_points = level.MUMMY_COST
@@ -17,7 +18,16 @@ func run_test() -> void:
 		quit(1)
 		return
 	level._advance_mummy(level.MUMMY_SARCOPHAGUS_TIME)
-	level._advance_mummy(level.MUMMY_RISE_TIME)
+	if level.mummy_phase != "explosion":
+		push_error("Mummy sarcophagus did not transition from falling to its impact explosion")
+		quit(1)
+		return
+	level._advance_mummy(level.MUMMY_EXPLOSION_TIME)
+	if level.mummy_phase != "stand":
+		push_error("Mummy was not revealed standing after the explosion")
+		quit(1)
+		return
+	level._advance_mummy(level.MUMMY_REVEAL_PAUSE)
 	if level.projectiles.size() != 2:
 		push_error("Mummy did not throw one bandage at every active enemy")
 		quit(1)
@@ -35,6 +45,7 @@ func run_test() -> void:
 	var upgrade_level = load("res://graveyard_level_01.tscn").instantiate()
 	root.add_child(upgrade_level)
 	upgrade_level.set_process(false)
+	upgrade_level.start_level(1, false)
 	upgrade_level.scare_meter_points = upgrade_level.SCARE_METER_MAX
 	if upgrade_level.nightmare_kind_at_position(upgrade_level.NIGHTMARE_STRENGTH_BUTTON.get_center()) != "strength" or upgrade_level.nightmare_kind_at_position(upgrade_level.NIGHTMARE_FLESH_BUTTON.get_center()) != "flesh" or upgrade_level.nightmare_kind_at_position(upgrade_level.NIGHTMARE_FOG_BUTTON.get_center()) != "fog":
 		push_error("Nightmare upgrade hover targets do not match their displayed icons")
@@ -46,6 +57,11 @@ func run_test() -> void:
 		return
 	if not upgrade_level.select_nightmare_upgrade("strength") or upgrade_level.scare_meter_points != 0 or upgrade_level.monster_damage_for("moss") != 45:
 		push_error("Monstrous Strength selection or 50-percent damage bonus failed")
+		quit(1)
+		return
+	var strength_status_rect: Rect2 = upgrade_level.nightmare_upgrade_display_rect("strength", upgrade_level.NIGHTMARE_STRENGTH_BUTTON)
+	if strength_status_rect.position.y != 12.0 or upgrade_level.nightmare_kind_at_position(strength_status_rect.get_center()) != "strength" or upgrade_level.nightmare_kind_at_position(upgrade_level.NIGHTMARE_STRENGTH_BUTTON.get_center()) == "strength":
+		push_error("Selected Nightmare upgrade did not move from the choice grid into the horizontal status row")
 		quit(1)
 		return
 	upgrade_level.start_level(5, true)
@@ -73,6 +89,11 @@ func run_test() -> void:
 		push_error("One or more expanded Nightmare Upgrade modifiers are incorrect")
 		quit(1)
 		return
+	var last_status_rect: Rect2 = upgrade_level.nightmare_upgrade_display_rect("rites", upgrade_level.NIGHTMARE_LAST_RITES_BUTTON)
+	if last_status_rect.position != Vector2(730, 12) or last_status_rect.end.x > 780.0:
+		push_error("Selected Nightmare upgrades do not fit in one horizontal row beside the Scare Meter")
+		quit(1)
+		return
 	upgrade_level.placed.append({"pad": 0, "kind": "moss", "facing": "front", "cooldown": 0.0, "howl_time": 0.0, "hp": 50, "max_hp": 100, "hit_flash": 0.0})
 	var siphon_target := {"id": 77, "kind": 1, "flee": 0.0, "hp": 1, "max_hp": 100, "hit_flash": 0.0}
 	upgrade_level.damage_enemy(siphon_target, 1)
@@ -89,6 +110,7 @@ func run_test() -> void:
 	var end_level = load("res://graveyard_level_01.tscn").instantiate()
 	root.add_child(end_level)
 	end_level.set_process(false)
+	end_level.start_level(1, false)
 	end_level.spawned = end_level.level_enemy_count()
 	end_level.ghosts.append({"id": 3, "kind": 1, "route_id": 0, "distance": 300.0, "flee": 0.4, "phase": 0.0, "hp": 0, "max_hp": 100, "speed": 42.0, "hit_flash": 0.0})
 	end_level.placed.append({"pad": 0, "kind": "killian", "facing": "front", "cooldown": 0.0, "howl_time": 0.0, "hp": 350, "max_hp": 350, "hit_flash": 0.0})

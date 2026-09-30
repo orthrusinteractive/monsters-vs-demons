@@ -9,10 +9,10 @@ func run_test() -> void:
 	var scene: PackedScene = load("res://graveyard_level_01.tscn")
 	var level = scene.instantiate()
 	root.add_child(level)
-	var expected_hp := [100, 180, 270, 340, 140, 330, 400, 500, 180, 280, 390, 250]
-	var expected_count := [17, 18, 19, 20, 22, 23, 24, 25, 14, 15, 16, 18]
-	var expected_speed := [42.0, 44.0, 46.0, 48.0, 46.2, 50.6, 57.2, 53.9]
-	var expected_patterns := [[1], [2], [3], [4], [1, 2], [3, 4], [5], [6], [1, 5], [2, 6], [3, 4], [1, 2, 3, 4, 5, 6]]
+	var expected_hp := [100, 180, 270, 340, 140, 330, 400, 100, 580, 200, 390, 250]
+	var expected_count := [17, 18, 19, 20, 22, 23, 24, 25, 27, 28, 29, 30]
+	var expected_speed := [42.0, 44.0, 46.0, 48.0, 46.2, 50.6, 57.2, 46.2]
+	var expected_patterns := [[1], [2], [3], [4], [1, 2], [3, 4], [5], [1, 2, 3, 4, 5], [6], [1, 5], [3, 2], [1, 2, 3, 4, 5, 6]]
 	for number in range(1, 13):
 		level.start_level(number, false)
 		if level.display_level() != int((number - 1) / 4) + 1 or level.display_wave() != (number - 1) % 4 + 1:
