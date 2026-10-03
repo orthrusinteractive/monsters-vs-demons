@@ -10,16 +10,16 @@ func run_test() -> void:
 	var level = load("res://graveyard_level_01.tscn").instantiate()
 	root.add_child(level)
 	level.set_process(false)
-	if level.PROJECTILE_WHOOSH == null or level.LIGHTNING_STRIKE_SOUND == null or level.LIGHTNING_STRIKE_CLOSE_SOUND == null or level.GRAVEYARD_AMBIENCE == null or level.LEVEL_2_AMBIENCE == null or level.LEVEL_3_AMBIENCE == null or level.WEREWOLF_GROWL_SOUND == null or level.TITLE_SCREEN_MUSIC == null:
+	if level.PROJECTILE_WHOOSH == null or level.LIGHTNING_STRIKE_SOUND == null or level.LIGHTNING_STRIKE_CLOSE_SOUND == null or level.GRAVEYARD_AMBIENCE == null or level.LEVEL_2_AMBIENCE == null or level.LEVEL_3_AMBIENCE == null or level.LEVEL_4_HOWLS == null or level.LEVEL_4_FIRE_AMBIENCE == null or level.LEVEL_4_FIRE_ROAR == null or level.DEAD_FOREST_DARK_RITUAL == null or level.KILLIAN_ATTACK_SOUND == null or level.WEREWOLF_GROWL_SOUND == null or level.TITLE_SCREEN_MUSIC == null or level.TITLE_SCREEN_MUSIC_LAYER_2 == null:
 		push_error("One or more gameplay audio assets failed to load")
 		quit(1)
 		return
-	if not level.title_music_audio.playing or level.ambience_audio.playing:
+	if not level.title_music_audio.playing or not level.title_music_audio_layer_2.playing or level.ambience_audio.playing:
 		push_error("Title music did not replace the graveyard ambience on the opening screen")
 		quit(1)
 		return
 	level.start_level(1, false)
-	if level.title_music_audio.playing or not level.ambience_audio.playing:
+	if level.title_music_audio.playing or level.title_music_audio_layer_2.playing or not level.ambience_audio.playing:
 		push_error("PLAY did not stop title music and start Level 1 graveyard ambience")
 		quit(1)
 		return
@@ -40,10 +40,29 @@ func run_test() -> void:
 		quit(1)
 		return
 	level.start_level(13, false)
-	if level.ambience_audio.playing:
-		push_error("Swamp ambience continued into Level 4")
+	if not level.ambience_audio.playing or level.ambience_audio.stream != level.LEVEL_3_AMBIENCE:
+		push_error("Swamp II did not reuse the Level 3 frog ambience")
 		quit(1)
 		return
+	for player in level.level4_ambience_players:
+		if player.playing:
+			push_error("Dead Forest ambience played during Swamp II")
+			quit(1)
+			return
+	level.start_level(21, false)
+	if level.ambience_audio.playing:
+		push_error("Swamp ambience continued into the Dead Forest")
+		quit(1)
+		return
+	if level.level4_ambience_players.size() != 4:
+		push_error("Dead Forest did not create all four layered ambience players")
+		quit(1)
+		return
+	for player in level.level4_ambience_players:
+		if not player.playing:
+			push_error("A Dead Forest ambience layer did not begin looping")
+			quit(1)
+			return
 	level.start_level(1, false)
 	level.sky_lightning_timer = 0.0
 	level._advance_sky_lightning(0.01)
@@ -60,5 +79,5 @@ func run_test() -> void:
 		push_error("Lightning cooldown permits more than three strikes per minute")
 		quit(1)
 		return
-	print("Audio test passed: Level 1-3 ambience switching plus randomized lightning strike audio")
+	print("Audio test passed: layered title music, swamp ambience, four Dead Forest loops, and randomized lightning audio")
 	quit(0)

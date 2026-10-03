@@ -9,39 +9,26 @@ func run_test() -> void:
 	var level = load("res://graveyard_level_01.tscn").instantiate()
 	root.add_child(level)
 	level.set_process(false)
-	level.spawned = level.level_enemy_count()
-	if level.summon_dracula() or level.scare_meter_points != 0:
-		push_error("Dracula was summoned without a full-enough scare meter")
-		quit(1)
-		return
-	level.scare_meter_points = level.DRACULA_COST
-	level.ghosts.append({"id": 0, "kind": 1, "distance": 160.0, "flee": 0.0, "phase": 0.0, "hp": 150, "max_hp": 150, "speed": 0.0, "hit_flash": 0.0})
-	level.ghosts.append({"id": 1, "kind": 2, "distance": 170.0, "flee": 0.0, "phase": 0.0, "hp": 80, "max_hp": 80, "speed": 0.0, "hit_flash": 0.0})
-	if not level.summon_dracula() or level.scare_meter_points != 0 or level.scare_points != 200 or level.summon_dracula():
-		push_error("Dracula meter reset or single-active-use rule failed")
-		quit(1)
-		return
-	level._process(1.0)
-	if int(level.ghosts[0]["hp"]) != 50 or int(level.ghosts[1]["hp"]) != 0 or level.scared != 1 or level.scare_points != 235 or level.scare_meter_points != 35:
-		push_error("Dracula did not hit both enemies and award the spectre's points")
-		quit(1)
-		return
-	level._process(1.0)
-	if int(level.ghosts[0]["hp"]) != 50:
-		push_error("Dracula hit the same enemy more than once")
-		quit(1)
-		return
-	for i in range(10):
-		level._process(1.0)
-	if level.dracula_active or level.summon_dracula():
-		push_error("Dracula was reusable without repaying the cost")
-		quit(1)
-		return
-	level.scare_meter_points = level.DRACULA_COST
-	if not level.summon_dracula() or level.scare_meter_points != 0:
-		push_error("Dracula could not be purchased again after points accumulated")
-		quit(1)
-		return
+	if level.summon_dracula():
+		return fail("Dracula was available before 10,000 current scare points were held")
+	var defeated_enemy := {"id": 50, "kind": 1, "route_id": 0, "distance": 0.0, "flee": 0.0, "phase": 0.0, "hp": 1, "max_hp": 1, "speed": 0.0, "hit_flash": 0.0}
+	level.damage_enemy(defeated_enemy, 1)
+	if level.total_scare_points_earned != 20:
+		return fail("Defeated enemies did not add to current scare points")
+	level.scare_points = level.DRACULA_UNLOCK_POINTS
+	level.scare_meter_points = 777
+	if not level.summon_dracula():
+		return fail("Dracula did not unlock after 10,000 points were earned")
+	if level.scare_meter_points != 777 or not level.dracula_used_levels.has(1):
+		return fail("Using Dracula charged meter points or failed to record the level use")
+	level.dracula_active = false
+	if level.summon_dracula():
+		return fail("Dracula was usable twice during the same level")
+	level.start_level(5, true)
+	if level.scare_points != level.DRACULA_UNLOCK_POINTS or not level.can_summon_dracula():
+		return fail("Dracula's current-point unlock did not carry into the next level")
+	if not level.summon_dracula() or not level.dracula_used_levels.has(2):
+		return fail("Dracula was not available for his free Level 2 use")
 	var directions: Array[String] = []
 	var traveled := 0.0
 	for i in range(level.ROUTE.size() - 1):
@@ -51,15 +38,16 @@ func run_test() -> void:
 			directions.append(direction)
 		traveled += segment
 	if not directions.has("right") or not directions.has("up") or not directions.has("down"):
-		push_error("Dracula does not follow the route's right/up/down turns")
-		quit(1)
-		return
+		return fail("Dracula does not follow the route's directional turns")
 	for direction in ["right", "left", "up", "down"]:
 		for frame in range(2):
 			var texture: Texture2D = level.dracula_texture(direction, frame)
 			if texture == null or texture.get_size() != Vector2(128, 128):
-				push_error("Missing Dracula direction/frame: %s/%d" % [direction, frame])
-				quit(1)
-				return
-	print("Dracula test passed: 1000-point meter unlock/reset, sweep, rewards, directions, frames, and reuse")
+				return fail("Missing Dracula direction/frame: %s/%d" % [direction, frame])
+	print("Dracula test passed: 10,000 current-point unlock and one free use per level")
 	quit(0)
+
+
+func fail(message: String) -> void:
+	push_error(message)
+	quit(1)

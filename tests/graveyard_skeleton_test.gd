@@ -9,6 +9,7 @@ func run_test() -> void:
 	var level = load("res://graveyard_level_01.tscn").instantiate()
 	root.add_child(level)
 	level.set_process(false)
+	level.splash_active = false
 	level.placed.append({"pad": 0, "kind": "skeleton", "facing": "front", "cooldown": 0.0, "howl_time": 0.0, "hp": 140, "max_hp": 140, "hit_flash": 0.0})
 	level.ghosts.append({"id": 77, "kind": 1, "route_id": 0, "distance": 160.0, "flee": 0.0, "phase": 0.0, "hp": 100, "max_hp": 100, "speed": 0.0, "hit_flash": 0.0})
 	level._process(0.05)

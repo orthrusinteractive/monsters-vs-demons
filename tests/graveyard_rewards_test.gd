@@ -22,9 +22,9 @@ func run_test() -> void:
 			push_error("Wrong scare-point reward for enemy kind %d: points=%d scared=%d" % [kind, level.scare_points, level.scared])
 			quit(1)
 			return
-	if level.MUMMY_COST != 3000 or level.SCARE_METER_MAX != 3000:
-		push_error("Mummy unlock or Scare Meter maximum is incorrect")
+	if level.MUMMY_UNLOCK_POINTS != 20000 or level.FRANK_UNLOCK_POINTS != 30000 or level.DRACULA_UNLOCK_POINTS != 10000 or level.SCARE_METER_MAX != 3000:
+		push_error("Special unlock or Scare Meter maximum is incorrect")
 		quit(1)
 		return
-	print("Rewards test passed: enemy rewards and the 3000-point Mummy threshold are correct")
+	print("Rewards test passed: enemy rewards, 3000-point upgrades, and special unlock thresholds are correct")
 	quit(0)

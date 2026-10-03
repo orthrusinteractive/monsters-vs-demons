@@ -22,6 +22,19 @@ func run_test() -> void:
 		push_error("Swamp Level 3 did not become the active battlefield")
 		quit(1)
 		return
+	level.level3_mist_timer = 0.0
+	level._advance_level3_mist(0.01)
+	if level.level3_mist_elapsed < 0.0 or level.level3_mist_y < 135.0 or level.level3_mist_y > 385.0:
+		push_error("Level 3 periodic mist did not spawn within the battlefield")
+		quit(1)
+		return
+	level.start_level(21, false)
+	level._advance_level3_mist(1.0)
+	if level.level3_mist_elapsed >= 0.0:
+		push_error("Swamp mist continued into the Dead Forest")
+		quit(1)
+		return
+	level.start_level(9, false)
 	level.scare_points = 1000
 	level.selected_pad = level.LEVEL_3_SWAMP_ONLY_PAD
 	if level.try_place_monster("skeleton"):
@@ -58,5 +71,5 @@ func run_test() -> void:
 		push_error("Swamp enemies did not alternate across both routes")
 		quit(1)
 		return
-	print("Swamp Level 3 layout test passed: background stage, five pads, and two enemy routes")
+	print("Swamp Level 3 test passed: routes, pads, and periodic drifting mist")
 	quit(0)

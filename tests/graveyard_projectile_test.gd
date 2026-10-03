@@ -9,6 +9,8 @@ func run_test() -> void:
 	var scene: PackedScene = load("res://graveyard_level_01.tscn")
 	var level = scene.instantiate()
 	root.add_child(level)
+	level.splash_active = false
+	level.wave_intro_elapsed = level.WAVE_INTRO_DURATION
 	level.spawned = level.level_enemy_count()
 	level.ghosts.append({"id": 0, "kind": 1, "distance": 130.0, "flee": 0.0, "phase": 0.0, "hp": 100, "max_hp": 100, "speed": 42.0, "hit_flash": 0.0})
 	level.placed.append({"pad": 0, "facing": "front", "cooldown": 0.0})

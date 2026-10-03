@@ -9,6 +9,7 @@ func run_test() -> void:
 	var level = load("res://graveyard_level_01.tscn").instantiate()
 	root.add_child(level)
 	level.set_process(false)
+	level.splash_active = false
 	level.wave_intro_elapsed = level.WAVE_INTRO_DURATION
 	level.spawned = level.level_enemy_count()
 	level.placed.append({"pad": 0, "kind": "werewolf", "facing": "front", "cooldown": 0.0, "howl_time": 0.0})

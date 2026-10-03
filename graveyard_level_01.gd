@@ -3,7 +3,9 @@ extends Node2D
 const BACKGROUND: Texture2D = preload("res://assets/backgrounds/graveyard-round-01-960x540.png")
 const BACKGROUND_2: Texture2D = preload("res://assets/backgrounds/graveyard-round-02-v2-960x540.png")
 const BACKGROUND_3: Texture2D = preload("res://assets/backgrounds/swamp-level-after-mausoleum-v1-960x540.png")
-const BACKGROUND_4: Texture2D = preload("res://assets/backgrounds/burnt-forest-level-04-960x540.png")
+const BACKGROUND_4: Texture2D = preload("res://assets/backgrounds/swamp-level-ii-960x540.png")
+const BACKGROUND_5: Texture2D = preload("res://assets/backgrounds/pumpkin-patch-level-960x540.png")
+const BACKGROUND_6: Texture2D = preload("res://assets/backgrounds/burnt-forest-level-04-960x540.png")
 const TITLE_SCREEN_BACKGROUND: Texture2D = preload("res://assets/backgrounds/monsters-vs-demons-title-screen-960x540.png")
 const FOUL_FIEND: Font = preload("res://assets/fonts/Foul Fiend.otf")
 const TOMBSTONE_SCOTT: Texture2D = preload("res://assets/sprites/tombstone-scott-128x128.png")
@@ -22,6 +24,7 @@ const FIRE_DEMON_FRONT: Texture2D = preload("res://assets/sprites/fire-demon-fro
 const FIRE_DEMON_RIGHT_STEP: Texture2D = preload("res://assets/sprites/fire-demon-right-leg-up-128x128.png")
 const FIRE_DEMON_LEFT_STEP: Texture2D = preload("res://assets/sprites/fire-demon-left-leg-up-128x128.png")
 const FIRE_DEMON_FIREBALL: Texture2D = preload("res://assets/sprites/fire-demon-fireball-master.png")
+const HELLHOUND_RUN_LEFT: Texture2D = preload("res://assets/sprites/hellhound-run-left-6x128.png")
 const SKELETON_FRONT: Texture2D = preload("res://assets/sprites/skeleton-front-master.png")
 const SKELETON_BACK: Texture2D = preload("res://assets/sprites/skeleton-back-master.png")
 const SKELETON_RIGHT: Texture2D = preload("res://assets/sprites/skeleton-right-master.png")
@@ -37,6 +40,11 @@ const BOG_BACK: Texture2D = preload("res://assets/sprites/bog-guardian-back-128x
 const BOG_RIGHT: Texture2D = preload("res://assets/sprites/bog-guardian-right-128x128.png")
 const BOG_LEFT: Texture2D = preload("res://assets/sprites/bog-guardian-left-128x128.png")
 const BOG_PROJECTILE: Texture2D = preload("res://assets/sprites/bog-projectile-32x32.png")
+const SASQUATCH_FRONT: Texture2D = preload("res://assets/sprites/sasquatch-front-128x128.png")
+const SASQUATCH_BACK: Texture2D = preload("res://assets/sprites/sasquatch-back-128x128.png")
+const SASQUATCH_RIGHT: Texture2D = preload("res://assets/sprites/sasquatch-right-128x128.png")
+const SASQUATCH_LEFT: Texture2D = preload("res://assets/sprites/sasquatch-left-128x128.png")
+const SASQUATCH_PROJECTILE: Texture2D = preload("res://assets/sprites/sasquatch-boulder-projectile-48x48.png")
 const GARGOYLE_FRONT: Texture2D = preload("res://assets/sprites/graveyard-gargoyle-front-128x128.png")
 const GARGOYLE_BACK: Texture2D = preload("res://assets/sprites/graveyard-gargoyle-back-128x128.png")
 const GARGOYLE_RIGHT: Texture2D = preload("res://assets/sprites/graveyard-gargoyle-right-128x128.png")
@@ -74,18 +82,22 @@ const FRANK_LIGHTNING_ATLAS: Texture2D = preload("res://assets/effects/frankenst
 const MUMMY_FRONT: Texture2D = preload("res://assets/sprites/mummy-front-transparent-128x128.png")
 const MUMMY_SARCOPHAGUS: Texture2D = preload("res://assets/sprites/mummy-sarcophagus-closed-128x128.png")
 const MUMMY_REVEAL_ATLAS: Texture2D = preload("res://assets/effects/mummy-reveal-explosion-6frame-atlas-1536x256.png")
-const MUMMY_BANDAGE: Texture2D = preload("res://assets/sprites/mummy-bandage-projectile-48x48.png")
+const MUMMY_BANDAGE: Texture2D = preload("res://assets/sprites/mummy-bandage-projectile-transparent-48x48.png")
 const GRAVEWROUGHT_IDLE: Texture2D = preload("res://assets/sprites/level-1-fusion-boss-front-master.png")
 const GRAVEWROUGHT_GRAVEWAIL: Texture2D = preload("res://assets/sprites/level-1-fusion-boss-gravewail-master.png")
 const SOUL_REAPER_IDLE: Texture2D = preload("res://assets/sprites/level-2-grim-reaper-boss-front-master.png")
 const SOUL_REAPER_ATTACK: Texture2D = preload("res://assets/sprites/level-2-grim-reaper-boss-lightning-attack-master.png")
 const DROWNED_KING_1: Texture2D = preload("res://assets/sprites/swamp-king-front-no-water-128x128.png")
 const DROWNED_KING_PROJECTILE: Texture2D = preload("res://assets/sprites/drowned-king-swamp-projectile-48x48.png")
+const MIASMA_BOSS: Texture2D = preload("res://assets/sprites/miasma-boss-192x192.png")
+const MIASMA_GAS_CLOUD: Texture2D = preload("res://assets/sprites/miasma-gas-cloud-projectile-48x48.png")
+const HEADLESS_HORSEMAN: Texture2D = preload("res://assets/sprites/headless-horseman-boss-192x192.png")
+const HEADLESS_HORSEMAN_PROJECTILE: Texture2D = preload("res://assets/sprites/headless-horseman-pumpkin-projectile-48x48.png")
 const SOUL_LIGHTNING_1: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-01-master.png")
 const SOUL_LIGHTNING_2: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-02-master.png")
 const SOUL_LIGHTNING_3: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-03-master.png")
 const SOUL_LIGHTNING_4: Texture2D = preload("res://assets/effects/grim-reaper-orange-lightning-frame-04-master.png")
-const SCARE_METER_FRAME: Texture2D = preload("res://assets/ui/scare-meter-three-specials-master.png")
+const SCARE_METER_FRAME: Texture2D = preload("res://assets/ui/scare-meter-ornate-compact-no-faces.png")
 const NIGHTMARE_STRENGTH: Texture2D = preload("res://assets/ui/nightmare-upgrade-monstrous-strength-44x44.png")
 const NIGHTMARE_FLESH: Texture2D = preload("res://assets/ui/nightmare-upgrade-undying-flesh-44x44.png")
 const NIGHTMARE_FOG: Texture2D = preload("res://assets/ui/nightmare-upgrade-graveyard-fog-44x44.png")
@@ -101,19 +113,26 @@ const LIGHTNING_STRIKE_CLOSE_SOUND: AudioStream = preload("res://assets/audio/li
 const GRAVEYARD_AMBIENCE: AudioStream = preload("res://assets/audio/level-1-graveyard-ambience.wav")
 const LEVEL_2_AMBIENCE: AudioStream = preload("res://assets/audio/level-1-graveyard-ambience.wav")
 const LEVEL_3_AMBIENCE: AudioStream = preload("res://assets/audio/level-3-swamp-frogs.ogg")
+const LEVEL_4_HOWLS: AudioStream = preload("res://assets/audio/level-4-hellhound-pack-pcm.wav")
+const LEVEL_4_FIRE_AMBIENCE: AudioStream = preload("res://assets/audio/level-4-fire-ambience.mp3")
+const LEVEL_4_FIRE_ROAR: AudioStream = preload("res://assets/audio/level-4-fire-roar.mp3")
+const DEAD_FOREST_DARK_RITUAL: AudioStream = preload("res://assets/audio/dead-forest-dark-ritual.ogg")
+const KILLIAN_ATTACK_SOUND: AudioStream = preload("res://assets/audio/killian-clown-laugh.ogg")
+const SASQUATCH_ATTACK_SOUND: AudioStream = preload("res://assets/audio/sasquatch-roar.wav")
 const WEREWOLF_GROWL_SOUND: AudioStream = preload("res://assets/audio/werewolf-growl.wav")
 const GRAVEWROUGHT_SCREAM_SOUND: AudioStream = preload("res://assets/audio/gravewrought-ghost-scream-trimmed.wav")
-const TITLE_SCREEN_MUSIC: AudioStream = preload("res://assets/audio/title-screen-intense-horror.ogg")
+const TITLE_SCREEN_MUSIC: AudioStream = preload("res://assets/audio/title-screen-thriller-layer.ogg")
+const TITLE_SCREEN_MUSIC_LAYER_2: AudioStream = preload("res://assets/audio/title-screen-drone-layer.ogg")
 
 const SIZE := Vector2(960, 540)
-const LEVEL_COUNT := 16
+const LEVEL_COUNT := 24
 const WAVES_PER_LEVEL := 4
 const WAVE_INTRO_DURATION := 3.5
 const WAVE_LABEL_DELAY := 1.1
-const LEVEL_NAMES := ["BEDSHEET GHOSTS", "SPECTRES", "RED DEMONS", "BANSHEES", "GHOSTS & SPECTRES", "DEMONS & BANSHEES", "DEMON DOLLS", "FIVE-ENEMY HORDE", "GHOSTLY NUNS", "GHOSTS & DOLLS", "DEMONS & SPECTRES", "SWAMP HORDE", "FIRE DEMONS", "DEMONS & FIRE DEMONS", "DEMONS, FIRE & NUNS", "EVERY ENEMY HORDE"]
+const LEVEL_NAMES := ["BEDSHEET GHOSTS", "SPECTRES", "RED DEMONS", "BANSHEES", "GHOSTS & SPECTRES", "DEMONS & BANSHEES", "DEMON DOLLS", "FIVE-ENEMY HORDE", "GHOSTLY NUNS", "GHOSTS & DOLLS", "DEMONS & SPECTRES", "SWAMP HORDE", "NUNS & SPECTRES", "DOLLS & DEMONS", "BANSHEES & FIRE", "SWAMP II HORDE", "HARVEST HAUNTS", "ROTTEN PROCESSION", "PUMPKIN FIRE", "PATCH HORDE", "FIRE DEMONS", "DEMONS & FIRE DEMONS", "DEMONS, FIRE & NUNS", "EVERY ENEMY HORDE"]
 const LEVEL_HP := [100, 180, 270, 320, 400, 500]
 const LEVEL_SPEED := [42.0, 44.0, 46.0, 48.0, 52.0, 49.0]
-const LEVEL_ENEMY_COUNT := [17, 18, 19, 20, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34]
+const LEVEL_ENEMY_COUNT := [17, 18, 19, 20, 22, 23, 24, 25, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 33, 32, 33, 34]
 const LEVEL_PATTERNS := [
 	[1], [2], [3],
 	[4],
@@ -125,21 +144,35 @@ const LEVEL_PATTERNS := [
 	[1, 5],
 	[3, 2],
 	[1, 2, 3, 4, 5, 6],
-	[10],
+	[6, 2],
+	[5, 3],
+	[4, 10],
+	[1, 2, 3, 4, 5, 6, 10],
+	[1, 2, 5],
+	[4, 5, 6],
+	[3, 10],
+	[1, 2, 3, 4, 5, 6, 10],
+	[11, 11, 11, 11, 11, 11, 11, 11, 11, 11, 10],
 	[3, 10],
 	[3, 10, 6],
 	[1, 2, 3, 4, 5, 6, 10]
 ]
-const LEVEL_BONUS_HP := [0, 0, 0, 20, 40, 60, 0, 0, 80, 100, 120, 150, 170, 190, 210, 240]
-const LEVEL_BONUS_SPEED := [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 12.0, 14.0, 16.0, 10.0, 12.0, 14.0, 16.0]
-const LEVEL_SPAWN_INTERVAL := [2.1, 2.1, 2.1, 1.9, 1.7, 1.5, 1.8, 2.0, 1.7, 1.6, 1.5, 1.35, 1.45, 1.35, 1.25, 1.15]
+const LEVEL_BONUS_HP := [0, 0, 0, 20, 40, 60, 0, 0, 80, 100, 120, 150, 170, 190, 210, 240, 210, 225, 240, 260, 170, 190, 210, 240]
+const LEVEL_BONUS_SPEED := [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 10.0, 12.0, 14.0, 16.0, 18.0, 19.0, 20.0, 21.0, 20.0, 21.0, 22.0, 23.0, 10.0, 12.0, 14.0, 16.0]
+const LEVEL_SPAWN_INTERVAL := [2.1, 2.1, 2.1, 1.9, 1.7, 1.5, 1.8, 2.0, 1.7, 1.6, 1.5, 1.35, 1.35, 1.28, 1.20, 1.12, 1.30, 1.22, 1.15, 1.08, 1.45, 1.35, 1.25, 1.15]
 const FIRE_DEMON_HP := 700
 const FIRE_DEMON_SPEED := 50.0
 const FIRE_DEMON_REWARD := 125
 const FIRE_DEMON_ATTACK_RANGE := 240.0
 const FIRE_DEMON_ATTACK_COOLDOWN := 3.0
 const FIRE_DEMON_ATTACK_DAMAGE := 110
+const HELLHOUND_HP := 450
+const HELLHOUND_REWARD := 85
+const HELLHOUND_SPEED_MULTIPLIER := 2.0
 const LEVEL_4_SPEED_MULTIPLIER := 1.10
+const LEVEL_3_MIST_MIN_INTERVAL := 12.0
+const LEVEL_3_MIST_MAX_INTERVAL := 25.0
+const LEVEL_3_MIST_DURATION := 14.0
 const SCARE_RANGE := 105.0
 const SCARE_COOLDOWN := 1.5
 const PROJECTILE_SPEED := 190.0
@@ -147,13 +180,13 @@ const PROJECTILE_SPIN := 11.0
 const PROJECTILE_DAMAGE := 30
 const STARTING_SCARE_POINTS := 200
 const SCARE_REWARD := [20, 35, 50, 65, 80, 100]
-const DRACULA_COST := 1000
+const DRACULA_UNLOCK_POINTS := 10000
 const DRACULA_DAMAGE := 100
 const DRACULA_SPEED := 260.0
 const DRACULA_CONTACT_RADIUS := 29.0
-const FRANK_COST := 1500
+const FRANK_UNLOCK_POINTS := 30000
 const FRANK_DAMAGE := 200
-const MUMMY_COST := 3000
+const MUMMY_UNLOCK_POINTS := 20000
 const MUMMY_ORIGIN := Vector2(596, 188)
 const MUMMY_SARCOPHAGUS_TIME := 0.8
 const MUMMY_EXPLOSION_TIME := 0.72
@@ -174,8 +207,10 @@ const FRANK_WALK_TIME := 1.1
 const FRANK_BLAST_TIME := 2.0
 const FRANK_SINK_TIME := 0.9
 const FRANK_PORTAL_CLOSE_TIME := 0.9
-const MONSTER_COST := {"skeleton": 30, "moss": 50, "bog": 110, "gargoyle": 180, "werewolf": 240, "killian": 500}
-const MONSTER_DAMAGE := {"skeleton": 15, "moss": 30, "bog": 60, "gargoyle": 90, "werewolf": 120, "killian": 100}
+const MONSTER_COST := {"skeleton": 30, "moss": 50, "bog": 110, "sasquatch": 150, "gargoyle": 180, "werewolf": 240, "killian": 500}
+const MONSTER_DAMAGE := {"skeleton": 15, "moss": 30, "bog": 60, "sasquatch": 75, "gargoyle": 90, "werewolf": 120, "killian": 100}
+const SASQUATCH_RANGE := 135.0
+const SASQUATCH_COOLDOWN := 1.3
 const WEREWOLF_RANGE := 145.0
 const WEREWOLF_COOLDOWN := 1.8
 const KILLIAN_RANGE := 160.0
@@ -191,20 +226,33 @@ const GRAVEWAIL_DURATION := 1.25
 const GRAVEWAIL_HIT_TIME := 0.62
 const GRAVEWAIL_RADIUS := 330.0
 const GRAVEWAIL_DAMAGE := 75
-const SOUL_REAPER_HP := 4500
-const SOUL_REAPER_SPEED := 20.0
+const SOUL_REAPER_HP := 4250
+const SOUL_REAPER_SPEED := 23.0
 const SOUL_REAPER_REWARD := 800
 const SOUL_LIGHTNING_COOLDOWN := 5.5
 const SOUL_LIGHTNING_DURATION := 2.0
 const SOUL_LIGHTNING_HIT_TIME := 0.8
 const SOUL_LIGHTNING_DAMAGE := 180
 const SOUL_LIGHTNING_RANGE := 300.0
-const DROWNED_KING_HP := 5500
-const DROWNED_KING_SPEED := 18.0
+const DROWNED_KING_HP := 5000
+const DROWNED_KING_SPEED := 24.0
 const DROWNED_KING_REWARD := 1000
 const DROWNED_KING_ATTACK_COOLDOWN := 3.0
 const DROWNED_KING_ATTACK_RANGE := 300.0
 const DROWNED_KING_PROJECTILE_DAMAGE := 120
+const MIASMA_HP := 5250
+const MIASMA_SPEED := 25.0
+const MIASMA_REWARD := 1150
+const MIASMA_ATTACK_COOLDOWN := 3.0
+const MIASMA_ATTACK_RANGE := 340.0
+const MIASMA_PROJECTILE_DAMAGE := 130
+const MIASMA_CHOKE_DURATION := 2.0
+const HEADLESS_HORSEMAN_HP := 5500
+const HEADLESS_HORSEMAN_SPEED := 26.0
+const HEADLESS_HORSEMAN_REWARD := 1300
+const HEADLESS_HORSEMAN_ATTACK_COOLDOWN := 3.0
+const HEADLESS_HORSEMAN_ATTACK_RANGE := 360.0
+const HEADLESS_HORSEMAN_PROJECTILE_DAMAGE := 150
 const NIGHTMARE_STRENGTH_MULTIPLIER := 1.5
 const NIGHTMARE_FLESH_MULTIPLIER := 1.5
 const NIGHTMARE_FOG_SPEED_MULTIPLIER := 0.65
@@ -213,20 +261,25 @@ const NIGHTMARE_FURY_COOLDOWN_MULTIPLIER := 0.75
 const NIGHTMARE_LONG_SHADOW_RANGE_MULTIPLIER := 1.3
 const NIGHTMARE_SOUL_SIPHON_HEAL_RATIO := 0.10
 const NIGHTMARE_GRAVE_BARGAIN_COST_MULTIPLIER := 0.75
-const MONSTER_HP := {"skeleton": 140, "moss": 180, "bog": 270, "gargoyle": 380, "werewolf": 320, "killian": 350}
-const SHOP_SKELETON := Rect2(10, 467, 65, 65)
-const SHOP_MOSS := Rect2(115, 467, 65, 65)
-const SHOP_BOG := Rect2(220, 467, 65, 65)
-const SHOP_GARGOYLE := Rect2(325, 467, 65, 65)
-const SHOP_WEREWOLF := Rect2(430, 467, 65, 65)
-const SHOP_KILLIAN := Rect2(535, 467, 65, 65)
-const SHOP_DRACULA := Rect2(640, 467, 65, 65)
-const SHOP_FRANK := Rect2(745, 467, 65, 65)
-const SHOP_MUMMY := Rect2(850, 467, 65, 65)
-const TEST_SPEED_BUTTON := Rect2(920, 500, 36, 32)
+const MONSTER_HP := {"skeleton": 140, "moss": 180, "bog": 270, "sasquatch": 325, "gargoyle": 380, "werewolf": 320, "killian": 350}
+const SHOP_SKELETON := Rect2(4, 467, 65, 65)
+const SHOP_MOSS := Rect2(99, 467, 65, 65)
+const SHOP_BOG := Rect2(194, 467, 65, 65)
+const SHOP_SASQUATCH := Rect2(289, 467, 65, 65)
+const SHOP_GARGOYLE := Rect2(384, 467, 65, 65)
+const SHOP_WEREWOLF := Rect2(479, 467, 65, 65)
+const SHOP_KILLIAN := Rect2(574, 467, 65, 65)
+# Retained only as legacy layout metadata for helper methods/tests. Special
+# characters are now summoned exclusively from the top unlock icons.
+const SHOP_DRACULA := Rect2(669, 467, 65, 65)
+const SHOP_FRANK := Rect2(764, 467, 65, 65)
+const SHOP_MUMMY := Rect2(859, 467, 65, 65)
+const TEST_SPEED_BUTTON := Rect2(920, 430, 36, 32)
 const TEST_SPEEDS := [1.0, 2.0, 3.0, 4.0, 5.0]
 const PLAY_BUTTON := Rect2(390, 386, 180, 58)
-const MUMMY_METER_BUTTON := Rect2(400, 8, 48, 52)
+const SPECIAL_DRACULA_ICON := Rect2(240, 8, 40, 40)
+const SPECIAL_FRANK_ICON := Rect2(286, 8, 40, 40)
+const SPECIAL_MUMMY_ICON := Rect2(332, 8, 40, 40)
 const NIGHTMARE_STRENGTH_BUTTON := Rect2(398, 75, 44, 44)
 const NIGHTMARE_FLESH_BUTTON := Rect2(450, 75, 44, 44)
 const NIGHTMARE_FOG_BUTTON := Rect2(502, 75, 44, 44)
@@ -239,6 +292,7 @@ const NIGHTMARE_LAST_RITES_BUTTON := Rect2(502, 179, 44, 44)
 const PORTRAIT_SKELETON := Rect2(360, 70, 520, 520)
 const PORTRAIT_MOSS := Rect2(38, 25, 52, 52)
 const PORTRAIT_BOG := Rect2(38, 24, 52, 52)
+const PORTRAIT_SASQUATCH := Rect2(25, 4, 78, 78)
 const PORTRAIT_GARGOYLE := Rect2(38, 24, 52, 52)
 const PORTRAIT_WEREWOLF := Rect2(37, 6, 54, 54)
 const PORTRAIT_KILLIAN := Rect2(341, 0, 564, 564)
@@ -248,9 +302,8 @@ const PORTRAIT_MUMMY := Rect2(12, 0, 104, 104)
 const SCARE_METER_MAX := 3000
 const SCARE_METER_POINTS_PER_SQUARE := 5
 const ESCAPE_METER_PENALTY := 0.25
-const SCARE_METER_RECT := Rect2(0, -10, 450, 74)
-const SCARE_METER_SOURCE := Rect2(0, 115, 2172, 355)
-const SCARE_METER_FILL_RECT := Rect2(29, 32, 397, 18)
+const SCARE_METER_RECT := Rect2(4, 2, 228, 76)
+const SCARE_METER_FILL_RECT := Rect2(39, 33, 150, 13)
 const BUILD_PADS: Array[Vector2] = [
 	Vector2(141, 226), Vector2(329, 178), Vector2(440, 253), Vector2(615, 321), Vector2(846, 210)
 ]
@@ -264,6 +317,14 @@ const BUILD_PADS_3: Array[Vector2] = [
 ]
 const LEVEL_3_SWAMP_ONLY_PAD := 3
 const BUILD_PADS_4: Array[Vector2] = [
+	Vector2(186, 137), Vector2(102, 206), Vector2(347, 326), Vector2(134, 403),
+	Vector2(807, 149), Vector2(857, 221), Vector2(707, 235), Vector2(815, 410)
+]
+const BUILD_PADS_5: Array[Vector2] = [
+	Vector2(379, 180), Vector2(762, 179), Vector2(605, 312),
+	Vector2(899, 330), Vector2(100, 385), Vector2(327, 456)
+]
+const BUILD_PADS_6: Array[Vector2] = [
 	Vector2(202, 136), Vector2(455, 109), Vector2(717, 178),
 	Vector2(183, 348), Vector2(480, 382), Vector2(741, 316)
 ]
@@ -294,22 +355,62 @@ const ROUTE_3_DOWN: Array[Vector2] = [
 	Vector2(-35, 178), Vector2(145, 198), Vector2(285, 250), Vector2(475, 271),
 	Vector2(590, 308), Vector2(700, 365), Vector2(825, 405), Vector2(995, 474)
 ]
-const ROUTE_4_UPPER_TOP: Array[Vector2] = [
+const ROUTE_4_LEFT_OUTER: Array[Vector2] = [
+	Vector2(218, 575), Vector2(217, 494), Vector2(204, 420), Vector2(222, 348),
+	Vector2(241, 283), Vector2(205, 232), Vector2(164, 202), Vector2(122, 154),
+	Vector2(76, 93), Vector2(34, 45), Vector2(18, -35)
+]
+const ROUTE_4_LEFT_INNER: Array[Vector2] = [
+	Vector2(218, 575), Vector2(217, 494), Vector2(204, 420), Vector2(222, 348),
+	Vector2(241, 283), Vector2(205, 232), Vector2(177, 198), Vector2(232, 170),
+	Vector2(298, 130), Vector2(343, 69), Vector2(370, -35)
+]
+const ROUTE_4_RIGHT_INNER: Array[Vector2] = [
+	Vector2(744, 575), Vector2(744, 494), Vector2(758, 420), Vector2(738, 348),
+	Vector2(721, 283), Vector2(756, 232), Vector2(785, 198), Vector2(730, 168),
+	Vector2(664, 127), Vector2(620, 67), Vector2(594, -35)
+]
+const ROUTE_4_RIGHT_OUTER: Array[Vector2] = [
+	Vector2(744, 575), Vector2(744, 494), Vector2(758, 420), Vector2(738, 348),
+	Vector2(721, 283), Vector2(756, 232), Vector2(797, 202), Vector2(840, 154),
+	Vector2(885, 93), Vector2(928, 45), Vector2(944, -35)
+]
+const ROUTE_5_TOP: Array[Vector2] = [
+	Vector2(995, 116), Vector2(880, 119), Vector2(780, 120), Vector2(680, 118),
+	Vector2(580, 111), Vector2(480, 99), Vector2(380, 103), Vector2(280, 116),
+	Vector2(180, 120), Vector2(78, 105), Vector2(-35, 88)
+]
+const ROUTE_5_UPPER_MIDDLE: Array[Vector2] = [
+	Vector2(995, 218), Vector2(880, 210), Vector2(780, 209), Vector2(680, 220),
+	Vector2(580, 235), Vector2(480, 247), Vector2(380, 250), Vector2(280, 239),
+	Vector2(180, 218), Vector2(78, 198), Vector2(-35, 207)
+]
+const ROUTE_5_LOWER_MIDDLE: Array[Vector2] = [
+	Vector2(995, 379), Vector2(880, 377), Vector2(780, 382), Vector2(680, 386),
+	Vector2(580, 380), Vector2(480, 368), Vector2(380, 357), Vector2(280, 348),
+	Vector2(180, 335), Vector2(78, 316), Vector2(-35, 318)
+]
+const ROUTE_5_BOTTOM: Array[Vector2] = [
+	Vector2(995, 468), Vector2(880, 456), Vector2(780, 447), Vector2(680, 445),
+	Vector2(580, 453), Vector2(480, 465), Vector2(380, 475), Vector2(280, 482),
+	Vector2(180, 486), Vector2(78, 486), Vector2(-35, 488)
+]
+const ROUTE_6_UPPER_TOP: Array[Vector2] = [
 	Vector2(995, 108), Vector2(844, 106), Vector2(758, 126), Vector2(690, 165),
 	Vector2(611, 190), Vector2(526, 179), Vector2(445, 148), Vector2(340, 112),
 	Vector2(225, 79), Vector2(105, 51), Vector2(-35, 44)
 ]
-const ROUTE_4_UPPER_BOTTOM: Array[Vector2] = [
+const ROUTE_6_UPPER_BOTTOM: Array[Vector2] = [
 	Vector2(995, 108), Vector2(844, 106), Vector2(758, 126), Vector2(690, 165),
 	Vector2(611, 190), Vector2(526, 179), Vector2(448, 191), Vector2(365, 216),
 	Vector2(260, 227), Vector2(125, 210), Vector2(-35, 196)
 ]
-const ROUTE_4_LOWER_TOP: Array[Vector2] = [
+const ROUTE_6_LOWER_TOP: Array[Vector2] = [
 	Vector2(995, 374), Vector2(835, 374), Vector2(738, 390), Vector2(650, 408),
 	Vector2(558, 398), Vector2(484, 365), Vector2(401, 333), Vector2(300, 315),
 	Vector2(170, 303), Vector2(-35, 292)
 ]
-const ROUTE_4_LOWER_BOTTOM: Array[Vector2] = [
+const ROUTE_6_LOWER_BOTTOM: Array[Vector2] = [
 	Vector2(995, 374), Vector2(835, 374), Vector2(738, 390), Vector2(650, 408),
 	Vector2(558, 398), Vector2(484, 407), Vector2(397, 432), Vector2(286, 443),
 	Vector2(150, 438), Vector2(-35, 430)
@@ -325,6 +426,8 @@ var route_length_2_down := 0.0
 var route_length_3_up := 0.0
 var route_length_3_down := 0.0
 var route_length_4: Array[float] = [0.0, 0.0, 0.0, 0.0]
+var route_length_5: Array[float] = [0.0, 0.0, 0.0, 0.0]
+var route_length_6: Array[float] = [0.0, 0.0, 0.0, 0.0]
 var spawn_clock := 0.0
 var spawned := 0
 var scared := 0
@@ -335,12 +438,16 @@ var time_passed := 0.0
 var wave_intro_elapsed := 0.0
 var current_level := 1
 var scare_points := STARTING_SCARE_POINTS
+var total_scare_points_earned := 0
 var scare_meter_points := 0
 var selected_monster := "skeleton"
 var dracula_active := false
 var dracula_distance := -60.0
 var dracula_hit_ids: Dictionary = {}
 var dracula_route_id := 0
+var dracula_used_levels: Dictionary = {}
+var frank_used_levels: Dictionary = {}
+var mummy_used_levels: Dictionary = {}
 var frank_phase := "idle"
 var frank_elapsed := 0.0
 var frank_blast_targets: Array[Vector2] = []
@@ -352,12 +459,21 @@ var last_rites_used_this_wave := false
 var projectile_audio: AudioStreamPlayer
 var lightning_audio: AudioStreamPlayer
 var ambience_audio: AudioStreamPlayer
+var level4_ambience_players: Array[AudioStreamPlayer] = []
 var werewolf_audio: AudioStreamPlayer
+var killian_audio: AudioStreamPlayer
+var sasquatch_audio: AudioStreamPlayer
 var gravewrought_audio: AudioStreamPlayer
 var title_music_audio: AudioStreamPlayer
+var title_music_audio_layer_2: AudioStreamPlayer
 var sky_lightning_timer := 4.0
 var sky_lightning_elapsed := -1.0
 var sky_lightning_x := 500.0
+var level3_mist_timer := 10.0
+var level3_mist_elapsed := -1.0
+var level3_mist_direction := 1.0
+var level3_mist_y := 250.0
+var level3_mist_phase := 0.0
 var boss_mode := false
 var boss_spawned := false
 var boss_defeated := false
@@ -388,11 +504,22 @@ func _ready() -> void:
 	add_child(ambience_audio)
 	var looping_swamp_stream := LEVEL_3_AMBIENCE as AudioStreamOggVorbis
 	looping_swamp_stream.loop = true
+	_setup_level4_ambience()
 	werewolf_audio = AudioStreamPlayer.new()
 	werewolf_audio.stream = WEREWOLF_GROWL_SOUND
 	werewolf_audio.volume_db = -6.0
 	werewolf_audio.max_polyphony = 4
 	add_child(werewolf_audio)
+	killian_audio = AudioStreamPlayer.new()
+	killian_audio.stream = KILLIAN_ATTACK_SOUND
+	killian_audio.volume_db = -5.0
+	killian_audio.max_polyphony = 4
+	add_child(killian_audio)
+	sasquatch_audio = AudioStreamPlayer.new()
+	sasquatch_audio.stream = SASQUATCH_ATTACK_SOUND
+	sasquatch_audio.volume_db = -5.0
+	sasquatch_audio.max_polyphony = 4
+	add_child(sasquatch_audio)
 	gravewrought_audio = AudioStreamPlayer.new()
 	gravewrought_audio.stream = GRAVEWROUGHT_SCREAM_SOUND
 	gravewrought_audio.volume_db = -5.0
@@ -403,6 +530,12 @@ func _ready() -> void:
 	title_music_audio.stream = looping_title_stream
 	title_music_audio.volume_db = -10.0
 	add_child(title_music_audio)
+	title_music_audio_layer_2 = AudioStreamPlayer.new()
+	var looping_title_layer_2 := TITLE_SCREEN_MUSIC_LAYER_2 as AudioStreamOggVorbis
+	looping_title_layer_2.loop = true
+	title_music_audio_layer_2.stream = looping_title_layer_2
+	title_music_audio_layer_2.volume_db = -14.0
+	add_child(title_music_audio_layer_2)
 	for i in range(ROUTE.size() - 1):
 		route_length += ROUTE[i].distance_to(ROUTE[i + 1])
 	for i in range(ROUTE_2_UP.size() - 1):
@@ -413,16 +546,25 @@ func _ready() -> void:
 		route_length_3_up += ROUTE_3_UP[i].distance_to(ROUTE_3_UP[i + 1])
 	for i in range(ROUTE_3_DOWN.size() - 1):
 		route_length_3_down += ROUTE_3_DOWN[i].distance_to(ROUTE_3_DOWN[i + 1])
-	var level_4_routes: Array[Array] = [ROUTE_4_UPPER_TOP, ROUTE_4_UPPER_BOTTOM, ROUTE_4_LOWER_TOP, ROUTE_4_LOWER_BOTTOM]
+	var level_4_routes: Array[Array] = [ROUTE_4_LEFT_OUTER, ROUTE_4_LEFT_INNER, ROUTE_4_RIGHT_INNER, ROUTE_4_RIGHT_OUTER]
 	for route_index in range(level_4_routes.size()):
 		for i in range(level_4_routes[route_index].size() - 1):
 			route_length_4[route_index] += level_4_routes[route_index][i].distance_to(level_4_routes[route_index][i + 1])
+	var level_5_routes: Array[Array] = [ROUTE_5_TOP, ROUTE_5_UPPER_MIDDLE, ROUTE_5_LOWER_MIDDLE, ROUTE_5_BOTTOM]
+	for route_index in range(level_5_routes.size()):
+		for i in range(level_5_routes[route_index].size() - 1):
+			route_length_5[route_index] += level_5_routes[route_index][i].distance_to(level_5_routes[route_index][i + 1])
+	var level_6_routes: Array[Array] = [ROUTE_6_UPPER_TOP, ROUTE_6_UPPER_BOTTOM, ROUTE_6_LOWER_TOP, ROUTE_6_LOWER_BOTTOM]
+	for route_index in range(level_6_routes.size()):
+		for i in range(level_6_routes[route_index].size() - 1):
+			route_length_6[route_index] += level_6_routes[route_index][i].distance_to(level_6_routes[route_index][i + 1])
 	start_level(1, false)
 	splash_active = true
 	Engine.time_scale = 1.0
 	if is_instance_valid(ambience_audio) and ambience_audio.playing:
 		ambience_audio.stop()
 	title_music_audio.play()
+	title_music_audio_layer_2.play()
 	queue_redraw()
 
 
@@ -444,18 +586,25 @@ func start_level(level_number: int, keep_monsters: bool) -> void:
 	splash_active = false
 	if is_instance_valid(title_music_audio) and title_music_audio.playing:
 		title_music_audio.stop()
+	if is_instance_valid(title_music_audio_layer_2) and title_music_audio_layer_2.playing:
+		title_music_audio_layer_2.stop()
 	var old_display_level := display_level()
 	current_level = clampi(level_number, 1, LEVEL_COUNT)
 	ghosts.clear()
 	if not keep_monsters:
 		placed.clear()
 		scare_points = STARTING_SCARE_POINTS
+		total_scare_points_earned = 0
 		scare_meter_points = 0
+		dracula_used_levels.clear()
+		frank_used_levels.clear()
+		mummy_used_levels.clear()
 	elif display_level() != old_display_level:
 		placed.clear()
 	else:
 		for monster in placed:
 			monster["cooldown"] = 0.0
+			monster["silence_timer"] = 0.0
 	projectiles.clear()
 	howls.clear()
 	dracula_active = false
@@ -488,6 +637,8 @@ func start_level(level_number: int, keep_monsters: bool) -> void:
 	time_passed = 0.0
 	sky_lightning_timer = randf_range(4.0, 9.0)
 	sky_lightning_elapsed = -1.0
+	level3_mist_timer = randf_range(7.0, 14.0)
+	level3_mist_elapsed = -1.0
 	wave_intro_elapsed = 0.0
 	_update_level_ambience()
 	queue_redraw()
@@ -510,6 +661,8 @@ func build_pads_for_level(level_number: int) -> Array[Vector2]:
 		2: return BUILD_PADS_2
 		3: return BUILD_PADS_3
 		4: return BUILD_PADS_4
+		5: return BUILD_PADS_5
+		6: return BUILD_PADS_6
 		_: return BUILD_PADS
 
 
@@ -533,21 +686,25 @@ func enemy_kind_for_spawn(index: int) -> int:
 func enemy_hp_for_kind(kind: int) -> int:
 	if kind == 10:
 		return FIRE_DEMON_HP + int(LEVEL_BONUS_HP[current_level - 1])
+	if kind == 11:
+		return HELLHOUND_HP + int(LEVEL_BONUS_HP[current_level - 1])
 	return int(LEVEL_HP[kind - 1]) + int(LEVEL_BONUS_HP[current_level - 1])
 
 
 func enemy_speed_for_kind(kind: int) -> float:
-	var base_speed := FIRE_DEMON_SPEED if kind == 10 else float(LEVEL_SPEED[kind - 1])
+	var base_speed := FIRE_DEMON_SPEED if kind == 10 or kind == 11 else float(LEVEL_SPEED[kind - 1])
 	var speed := base_speed + float(LEVEL_BONUS_SPEED[current_level - 1])
 	if display_level() == 2:
 		speed *= 1.10
-	elif display_level() == 4:
+	elif display_level() == 6:
 		speed *= LEVEL_4_SPEED_MULTIPLIER
+	if kind == 11:
+		speed *= HELLHOUND_SPEED_MULTIPLIER
 	return speed
 
 
 func boss_speed_for_level(base_speed: float, level_number: int) -> float:
-	return base_speed * LEVEL_4_SPEED_MULTIPLIER if level_number == 4 else base_speed
+	return base_speed * LEVEL_4_SPEED_MULTIPLIER if level_number == 6 else base_speed
 
 
 func wave_complete() -> bool:
@@ -584,17 +741,18 @@ func start_boss_battle() -> void:
 		if not monster.has("hp"):
 			monster["hp"] = int(monster["max_hp"])
 		monster["hit_flash"] = 0.0
+		monster["silence_timer"] = 0.0
 	queue_redraw()
 
 
 func can_summon_dracula() -> bool:
-	return not game_lost and scare_meter_points >= DRACULA_COST and not dracula_active and frank_phase == "idle" and mummy_phase == "idle" and not wave_complete()
+	return not game_lost and scare_points >= DRACULA_UNLOCK_POINTS and not dracula_used_levels.has(display_level()) and not dracula_active and frank_phase == "idle" and mummy_phase == "idle" and not wave_complete()
 
 
 func summon_dracula() -> bool:
 	if not can_summon_dracula():
 		return false
-	scare_meter_points = 0
+	dracula_used_levels[display_level()] = true
 	dracula_active = true
 	dracula_distance = -60.0
 	dracula_route_id = 0
@@ -604,13 +762,13 @@ func summon_dracula() -> bool:
 
 
 func can_summon_frank() -> bool:
-	return not game_lost and scare_meter_points >= FRANK_COST and frank_phase == "idle" and mummy_phase == "idle" and not dracula_active and not wave_complete()
+	return not game_lost and scare_points >= FRANK_UNLOCK_POINTS and not frank_used_levels.has(display_level()) and frank_phase == "idle" and mummy_phase == "idle" and not dracula_active and not wave_complete()
 
 
 func summon_frank() -> bool:
 	if not can_summon_frank():
 		return false
-	scare_meter_points = 0
+	frank_used_levels[display_level()] = true
 	frank_phase = "portal_opening"
 	frank_elapsed = 0.0
 	frank_blast_targets.clear()
@@ -619,13 +777,13 @@ func summon_frank() -> bool:
 
 
 func can_summon_mummy() -> bool:
-	return not game_lost and scare_meter_points >= MUMMY_COST and mummy_phase == "idle" and frank_phase == "idle" and not dracula_active and not wave_complete()
+	return not game_lost and scare_points >= MUMMY_UNLOCK_POINTS and not mummy_used_levels.has(display_level()) and mummy_phase == "idle" and frank_phase == "idle" and not dracula_active and not wave_complete()
 
 
 func summon_mummy() -> bool:
 	if not can_summon_mummy():
 		return false
-	scare_meter_points = 0
+	mummy_used_levels[display_level()] = true
 	mummy_phase = "fall"
 	mummy_elapsed = 0.0
 	queue_redraw()
@@ -647,14 +805,20 @@ func damage_enemy(enemy: Dictionary, damage: int) -> void:
 				boss_reward = SOUL_REAPER_REWARD
 			elif boss_level == 3:
 				boss_reward = DROWNED_KING_REWARD
+			elif boss_level == 4:
+				boss_reward = MIASMA_REWARD
+			elif boss_level == 5:
+				boss_reward = HEADLESS_HORSEMAN_REWARD
 			boss_reward = nightmare_reward(boss_reward)
 			scare_points += boss_reward
+			total_scare_points_earned += boss_reward
 			scare_meter_points = mini(SCARE_METER_MAX, scare_meter_points + boss_reward)
 		else:
 			var enemy_kind := int(enemy["kind"])
-			var base_reward := FIRE_DEMON_REWARD if enemy_kind == 10 else int(SCARE_REWARD[enemy_kind - 1])
+			var base_reward := FIRE_DEMON_REWARD if enemy_kind == 10 else (HELLHOUND_REWARD if enemy_kind == 11 else int(SCARE_REWARD[enemy_kind - 1]))
 			var reward := nightmare_reward(base_reward)
 			scare_points += reward
+			total_scare_points_earned += reward
 			scare_meter_points = mini(SCARE_METER_MAX, scare_meter_points + reward)
 		if nightmare_upgrade_active("siphon"):
 			for monster in placed:
@@ -701,6 +865,7 @@ func _process(delta: float) -> void:
 		queue_redraw()
 		return
 	_advance_sky_lightning(delta)
+	_advance_level3_mist(delta)
 	wave_intro_elapsed = minf(wave_intro_elapsed + delta, WAVE_INTRO_DURATION)
 	if boss_mode:
 		boss_intro_elapsed = minf(boss_intro_elapsed + delta, BOSS_INTRO_DURATION)
@@ -716,6 +881,14 @@ func _process(delta: float) -> void:
 				boss_hp = DROWNED_KING_HP
 				boss_speed = DROWNED_KING_SPEED
 				boss_kind = 9
+			elif boss_level == 4:
+				boss_hp = MIASMA_HP
+				boss_speed = MIASMA_SPEED
+				boss_kind = 13
+			elif boss_level == 5:
+				boss_hp = HEADLESS_HORSEMAN_HP
+				boss_speed = HEADLESS_HORSEMAN_SPEED
+				boss_kind = 12
 			boss_speed = boss_speed_for_level(boss_speed, boss_level)
 			ghosts.append({"id": 10000, "kind": boss_kind, "is_boss": true, "route_id": 0, "distance": 0.0, "flee": 0.0, "phase": 0.0, "hp": boss_hp, "max_hp": boss_hp, "speed": boss_speed, "hit_flash": 0.0})
 			boss_spawned = true
@@ -724,7 +897,9 @@ func _process(delta: float) -> void:
 		if spawn_clock <= 0.0:
 			var enemy_kind := enemy_kind_for_spawn(spawned)
 			var enemy_hp := enemy_hp_for_kind(enemy_kind)
-			var route_count := 4 if display_level() == 4 else (2 if display_level() >= 2 else 1)
+			# Pumpkin Run intentionally uses only its upper three paths; the former
+			# bottom route is no longer an enemy entrance or exit.
+			var route_count := 3 if display_level() == 5 else (4 if display_level() >= 4 else (2 if display_level() >= 2 else 1))
 			ghosts.append({"id": spawned, "kind": enemy_kind, "route_id": spawned % route_count, "distance": 0.0, "flee": 0.0, "phase": float(spawned) * 1.7, "hp": enemy_hp, "max_hp": enemy_hp, "speed": enemy_speed_for_kind(enemy_kind), "hit_flash": 0.0, "attack_cooldown": randf_range(0.5, FIRE_DEMON_ATTACK_COOLDOWN)})
 			spawned += 1
 			spawn_clock = float(LEVEL_SPAWN_INTERVAL[current_level - 1])
@@ -760,7 +935,10 @@ func _process(delta: float) -> void:
 		monster["cooldown"] = maxf(0.0, float(monster["cooldown"]) - delta)
 		monster["howl_time"] = maxf(0.0, float(monster.get("howl_time", 0.0)) - delta)
 		monster["hit_flash"] = maxf(0.0, float(monster.get("hit_flash", 0.0)) - delta)
+		monster["silence_timer"] = maxf(0.0, float(monster.get("silence_timer", 0.0)) - delta)
 		if not attacks_allowed:
+			continue
+		if float(monster["silence_timer"]) > 0.0:
 			continue
 		var kind: String = str(monster.get("kind", "moss"))
 		var monster_pos: Vector2 = active_build_pads()[int(monster["pad"])]
@@ -778,10 +956,13 @@ func _process(delta: float) -> void:
 					"damage": monster_damage_for(kind),
 					"kind": kind
 				})
+				if is_instance_valid(killian_audio):
+					killian_audio.pitch_scale = randf_range(0.96, 1.04)
+					killian_audio.play()
 				monster["cooldown"] = nightmare_cooldown(KILLIAN_COOLDOWN)
 			continue
 		var nearest: Dictionary = {}
-		var base_range := WEREWOLF_RANGE if kind == "werewolf" else (140.0 if kind == "gargoyle" else (125.0 if kind == "bog" else SCARE_RANGE))
+		var base_range := WEREWOLF_RANGE if kind == "werewolf" else (140.0 if kind == "gargoyle" else (SASQUATCH_RANGE if kind == "sasquatch" else (125.0 if kind == "bog" else SCARE_RANGE)))
 		var nearest_distance := nightmare_range(base_range)
 		for ghost in ghosts:
 			if ghost["flee"] > 0.0:
@@ -810,7 +991,10 @@ func _process(delta: float) -> void:
 						"damage": monster_damage_for(kind),
 						"kind": kind
 					})
-					var base_cooldown := 1.35 if kind == "gargoyle" else (1.2 if kind == "bog" else SCARE_COOLDOWN)
+					if kind == "sasquatch" and is_instance_valid(sasquatch_audio):
+						sasquatch_audio.pitch_scale = randf_range(0.96, 1.04)
+						sasquatch_audio.play()
+					var base_cooldown := 1.35 if kind == "gargoyle" else (SASQUATCH_COOLDOWN if kind == "sasquatch" else (1.2 if kind == "bog" else SCARE_COOLDOWN))
 					monster["cooldown"] = nightmare_cooldown(base_cooldown)
 
 	for i in range(projectiles.size() - 1, -1, -1):
@@ -837,7 +1021,12 @@ func _process(delta: float) -> void:
 		projectile["rotation"] = float(projectile["rotation"]) + PROJECTILE_SPIN * delta
 		if (projectile["position"] as Vector2).distance_to(target_pos) < 12.0:
 			if target_type == "monster":
-				damage_monster_at_pad(int(projectile.get("target_pad", -1)), int(projectile.get("damage", PROJECTILE_DAMAGE)))
+				var target_pad := int(projectile.get("target_pad", -1))
+				damage_monster_at_pad(target_pad, int(projectile.get("damage", PROJECTILE_DAMAGE)))
+				if str(projectile.get("kind", "")) == "miasma":
+					var monster_index := monster_index_at_pad(target_pad)
+					if monster_index >= 0:
+						placed[monster_index]["silence_timer"] = MIASMA_CHOKE_DURATION
 			elif str(projectile.get("kind", "")) == "mummy":
 				target["slow_timer"] = MUMMY_SLOW_DURATION
 			else:
@@ -1004,7 +1193,7 @@ func _update_level_ambience() -> void:
 		desired_stream = GRAVEYARD_AMBIENCE
 	elif display_level() == 2:
 		desired_stream = LEVEL_2_AMBIENCE
-	elif display_level() == 3:
+	elif display_level() == 3 or display_level() == 4:
 		desired_stream = LEVEL_3_AMBIENCE
 	var should_play := desired_stream != null and not game_lost and not splash_active
 	if should_play and ambience_audio.stream != desired_stream:
@@ -1014,6 +1203,30 @@ func _update_level_ambience() -> void:
 		ambience_audio.play()
 	elif not should_play and ambience_audio.playing:
 		ambience_audio.stop()
+	var level4_should_play := display_level() == 6 and not game_lost and not splash_active
+	for player in level4_ambience_players:
+		if level4_should_play and not player.playing:
+			player.play()
+		elif not level4_should_play and player.playing:
+			player.stop()
+
+
+func _setup_level4_ambience() -> void:
+	var streams: Array[AudioStream] = [LEVEL_4_HOWLS, LEVEL_4_FIRE_AMBIENCE, LEVEL_4_FIRE_ROAR, DEAD_FOREST_DARK_RITUAL]
+	var volumes := [-17.0, -20.0, -19.0, -16.0]
+	for stream_index in range(streams.size()):
+		var stream := streams[stream_index].duplicate(true)
+		if stream is AudioStreamWAV:
+			(stream as AudioStreamWAV).loop_mode = AudioStreamWAV.LOOP_FORWARD
+		elif stream is AudioStreamMP3:
+			(stream as AudioStreamMP3).loop = true
+		elif stream is AudioStreamOggVorbis:
+			(stream as AudioStreamOggVorbis).loop = true
+		var player := AudioStreamPlayer.new()
+		player.stream = stream
+		player.volume_db = volumes[stream_index]
+		add_child(player)
+		level4_ambience_players.append(player)
 
 
 func _on_ambience_finished() -> void:
@@ -1040,6 +1253,24 @@ func _advance_sky_lightning(delta: float) -> void:
 			lightning_audio.stream = LIGHTNING_STRIKE_SOUND if randi() % 2 == 0 else LIGHTNING_STRIKE_CLOSE_SOUND
 			lightning_audio.pitch_scale = randf_range(0.94, 1.06)
 			lightning_audio.play()
+
+
+func _advance_level3_mist(delta: float) -> void:
+	if (display_level() != 3 and display_level() != 4) or game_lost:
+		level3_mist_elapsed = -1.0
+		return
+	if level3_mist_elapsed >= 0.0:
+		level3_mist_elapsed += delta
+		if level3_mist_elapsed >= LEVEL_3_MIST_DURATION:
+			level3_mist_elapsed = -1.0
+			level3_mist_timer = randf_range(LEVEL_3_MIST_MIN_INTERVAL, LEVEL_3_MIST_MAX_INTERVAL)
+		return
+	level3_mist_timer -= delta
+	if level3_mist_timer <= 0.0:
+		level3_mist_elapsed = 0.0
+		level3_mist_direction = 1.0 if randf() >= 0.5 else -1.0
+		level3_mist_y = randf_range(135.0, 385.0)
+		level3_mist_phase = randf_range(0.0, TAU)
 
 
 func nightmare_upgrade_active(kind: String) -> bool:
@@ -1119,6 +1350,12 @@ func _advance_gravewrought(delta: float) -> void:
 	if boss_level == 3:
 		_advance_drowned_king(delta, boss)
 		return
+	if boss_level == 4:
+		_advance_miasma(delta, boss)
+		return
+	if boss_level == 5:
+		_advance_headless_horseman(delta, boss)
+		return
 	if boss_gravewail_elapsed < 0.0:
 		boss_attack_cooldown -= delta
 		if boss_attack_cooldown <= 0.0:
@@ -1158,6 +1395,10 @@ func boss_attack_interval() -> float:
 		return SOUL_LIGHTNING_COOLDOWN
 	if boss_level == 3:
 		return DROWNED_KING_ATTACK_COOLDOWN
+	if boss_level == 4:
+		return MIASMA_ATTACK_COOLDOWN
+	if boss_level == 5:
+		return HEADLESS_HORSEMAN_ATTACK_COOLDOWN
 	return GRAVEWAIL_COOLDOWN
 
 
@@ -1185,7 +1426,59 @@ func _advance_drowned_king(delta: float, boss: Dictionary) -> void:
 		})
 
 
+func _advance_miasma(delta: float, boss: Dictionary) -> void:
+	boss_attack_cooldown -= delta
+	if boss_attack_cooldown > 0.0:
+		return
+	boss_attack_cooldown = MIASMA_ATTACK_COOLDOWN
+	var boss_pos := point_on_route(float(boss["distance"]), int(boss.get("route_id", 0)))
+	var candidate_pads: Array[int] = []
+	for monster in placed:
+		var pad := int(monster["pad"])
+		if boss_pos.distance_to(active_build_pads()[pad]) <= MIASMA_ATTACK_RANGE:
+			candidate_pads.append(pad)
+	if candidate_pads.is_empty():
+		return
+	var target_pad := candidate_pads[randi() % candidate_pads.size()]
+	throw_projectile({
+		"position": boss_pos + Vector2(0, -80),
+		"target_type": "monster",
+		"target_pad": target_pad,
+		"rotation": randf_range(0.0, TAU),
+		"damage": MIASMA_PROJECTILE_DAMAGE,
+		"kind": "miasma"
+	})
+
+
+func _advance_headless_horseman(delta: float, boss: Dictionary) -> void:
+	boss_attack_cooldown -= delta
+	if boss_attack_cooldown > 0.0:
+		return
+	boss_attack_cooldown = HEADLESS_HORSEMAN_ATTACK_COOLDOWN
+	var boss_pos := point_on_route(float(boss["distance"]), int(boss.get("route_id", 0)))
+	var candidate_pads: Array[int] = []
+	for monster in placed:
+		var pad := int(monster["pad"])
+		if boss_pos.distance_to(active_build_pads()[pad]) <= HEADLESS_HORSEMAN_ATTACK_RANGE:
+			candidate_pads.append(pad)
+	if candidate_pads.is_empty():
+		return
+	candidate_pads.shuffle()
+	throw_projectile({
+		"position": boss_pos + Vector2(-52, -86),
+		"target_type": "monster",
+		"target_pad": candidate_pads[0],
+		"rotation": randf_range(0.0, TAU),
+		"damage": HEADLESS_HORSEMAN_PROJECTILE_DAMAGE,
+		"kind": "headless_horseman"
+	})
+
+
 func route_length_for(route_id: int = 0) -> float:
+	if display_level() == 6:
+		return route_length_6[clampi(route_id, 0, 3)]
+	if display_level() == 5:
+		return route_length_5[clampi(route_id, 0, 2)]
 	if display_level() == 4:
 		return route_length_4[clampi(route_id, 0, 3)]
 	if display_level() == 3:
@@ -1197,12 +1490,23 @@ func route_length_for(route_id: int = 0) -> float:
 
 func point_on_route(distance: float, route_id: int = 0) -> Vector2:
 	var route: Array[Vector2] = ROUTE
-	if display_level() == 4:
+	if display_level() == 6:
 		match clampi(route_id, 0, 3):
-			0: route = ROUTE_4_UPPER_TOP
-			1: route = ROUTE_4_UPPER_BOTTOM
-			2: route = ROUTE_4_LOWER_TOP
-			_: route = ROUTE_4_LOWER_BOTTOM
+			0: route = ROUTE_6_UPPER_TOP
+			1: route = ROUTE_6_UPPER_BOTTOM
+			2: route = ROUTE_6_LOWER_TOP
+			_: route = ROUTE_6_LOWER_BOTTOM
+	elif display_level() == 5:
+		match clampi(route_id, 0, 2):
+			0: route = ROUTE_5_TOP
+			1: route = ROUTE_5_UPPER_MIDDLE
+			_: route = ROUTE_5_LOWER_MIDDLE
+	elif display_level() == 4:
+		match clampi(route_id, 0, 3):
+			0: route = ROUTE_4_LEFT_OUTER
+			1: route = ROUTE_4_LEFT_INNER
+			2: route = ROUTE_4_RIGHT_INNER
+			_: route = ROUTE_4_RIGHT_OUTER
 	elif display_level() == 3:
 		route = ROUTE_3_DOWN if route_id == 1 else ROUTE_3_UP
 	elif display_level() == 2:
@@ -1336,7 +1640,7 @@ func werewolf_mouth_position(monster_pos: Vector2, facing: String) -> Vector2:
 
 
 func advance_after_complete() -> void:
-	if display_wave() == WAVES_PER_LEVEL and display_level() <= 3 and not boss_mode:
+	if display_wave() == WAVES_PER_LEVEL and display_level() <= 5 and not boss_mode:
 		start_boss_battle()
 	elif current_level < LEVEL_COUNT:
 		start_level(current_level + 1, true)
@@ -1369,7 +1673,7 @@ func try_place_monster(kind: String) -> bool:
 	scare_points -= cost
 	selected_monster = kind
 	var max_hp := monster_max_hp_for(kind)
-	placed.append({"pad": selected_pad, "kind": kind, "facing": "front", "cooldown": 0.0, "howl_time": 0.0, "hp": max_hp, "max_hp": max_hp, "hit_flash": 0.0})
+	placed.append({"pad": selected_pad, "kind": kind, "facing": "front", "cooldown": 0.0, "howl_time": 0.0, "hp": max_hp, "max_hp": max_hp, "hit_flash": 0.0, "silence_timer": 0.0})
 	selected_pad = -1
 	queue_redraw()
 	return true
@@ -1409,8 +1713,14 @@ func _unhandled_input(event: InputEvent) -> void:
 				start_level(event.keycode - KEY_1 + 1, false)
 		return
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		if MUMMY_METER_BUTTON.has_point(event.position):
+		if SPECIAL_DRACULA_ICON.has_point(event.position):
+			summon_dracula()
+			return
+		if SPECIAL_MUMMY_ICON.has_point(event.position):
 			summon_mummy()
+			return
+		if SPECIAL_FRANK_ICON.has_point(event.position):
+			summon_frank()
 			return
 		var clicked_upgrade := nightmare_kind_at_position(event.position)
 		if not clicked_upgrade.is_empty():
@@ -1425,6 +1735,9 @@ func _unhandled_input(event: InputEvent) -> void:
 		if SHOP_BOG.has_point(event.position):
 			try_place_monster("bog")
 			return
+		if SHOP_SASQUATCH.has_point(event.position):
+			try_place_monster("sasquatch")
+			return
 		if SHOP_GARGOYLE.has_point(event.position):
 			try_place_monster("gargoyle")
 			return
@@ -1433,15 +1746,6 @@ func _unhandled_input(event: InputEvent) -> void:
 			return
 		if SHOP_KILLIAN.has_point(event.position):
 			try_place_monster("killian")
-			return
-		if SHOP_DRACULA.has_point(event.position):
-			summon_dracula()
-			return
-		if SHOP_FRANK.has_point(event.position):
-			summon_frank()
-			return
-		if SHOP_MUMMY.has_point(event.position):
-			summon_mummy()
 			return
 		if wave_complete() and Rect2(293, 222, 375, 96).has_point(event.position):
 			advance_after_complete()
@@ -1466,6 +1770,8 @@ func _unhandled_input(event: InputEvent) -> void:
 			try_place_monster("skeleton")
 		elif event.keycode == KEY_W:
 			try_place_monster("bog")
+		elif event.keycode == KEY_B:
+			try_place_monster("sasquatch")
 		elif event.keycode == KEY_G:
 			try_place_monster("gargoyle")
 		elif event.keycode == KEY_H:
@@ -1489,6 +1795,7 @@ func _unhandled_input(event: InputEvent) -> void:
 				activate_nightmare_upgrade(kind)
 		elif event.keycode == KEY_T:
 			scare_points += 500
+			total_scare_points_earned += 500
 			scare_meter_points = mini(SCARE_METER_MAX, scare_meter_points + 500)
 			queue_redraw()
 
@@ -1517,8 +1824,13 @@ func _draw() -> void:
 		level_background = BACKGROUND_3
 	elif display_level() == 4:
 		level_background = BACKGROUND_4
+	elif display_level() == 5:
+		level_background = BACKGROUND_5
+	elif display_level() == 6:
+		level_background = BACKGROUND_6
 	draw_texture_rect(level_background, Rect2(Vector2.ZERO, SIZE), false)
 	_draw_moving_clouds()
+	_draw_level3_mist()
 	if display_level() == 1:
 		draw_texture_rect(TOMBSTONE_JAY, Rect2(82, 324, 76, 70), false)
 		draw_texture_rect(TOMBSTONE_FRED, Rect2(432, 94, 76, 70), false)
@@ -1554,7 +1866,8 @@ func _draw() -> void:
 		if is_boss:
 			continue
 		var is_fire_demon := int(ghost["kind"]) == 10
-		var sprite_rect := Rect2(pos + Vector2(-51, -83 + bob), Vector2(102, 102)) if is_fire_demon else (Rect2(pos + Vector2(-70, -118 + bob), Vector2(140, 140)) if is_boss else Rect2(pos + Vector2(-34, -55 + bob), Vector2(68, 68)))
+		var is_hellhound := int(ghost["kind"]) == 11
+		var sprite_rect := Rect2(pos + Vector2(-51, -83 + bob), Vector2(102, 102)) if is_fire_demon else (Rect2(pos + Vector2(-37.5, -56 + bob), Vector2(75, 75)) if is_hellhound else (Rect2(pos + Vector2(-70, -118 + bob), Vector2(140, 140)) if is_boss else Rect2(pos + Vector2(-34, -55 + bob), Vector2(68, 68))))
 		match int(ghost["kind"]):
 			2:
 				draw_texture_rect(SPECTRE, sprite_rect, false, tint)
@@ -1577,6 +1890,9 @@ func _draw() -> void:
 				var fire_frame := int(floor(time_passed * 5.0 + float(ghost["phase"]))) % 3
 				var fire_texture := FIRE_DEMON_FRONT if fire_frame == 0 else (FIRE_DEMON_RIGHT_STEP if fire_frame == 1 else FIRE_DEMON_LEFT_STEP)
 				draw_texture_rect(fire_texture, sprite_rect, false, tint)
+			11:
+				var hound_frame := int(floor(time_passed * 10.0 + float(ghost["phase"]))) % 6
+				draw_texture_rect_region(HELLHOUND_RUN_LEFT, sprite_rect, Rect2(hound_frame * 128, 0, 128, 128), tint)
 			_:
 				draw_texture_rect(GHOST, sprite_rect, false, tint)
 		if not fleeing:
@@ -1585,7 +1901,7 @@ func _draw() -> void:
 				draw_rect(Rect2(pos + Vector2(-51, -130 + bob), Vector2(102, 9)), Color(0.10, 0.04, 0.08, 0.50))
 				draw_rect(Rect2(pos + Vector2(-50, -129 + bob), Vector2(100.0 * health_ratio, 7)), Color(0.84, 0.12, 0.28, 0.50))
 			else:
-				var meter_y := -93.0 if is_fire_demon else -65.0
+				var meter_y := -93.0 if is_fire_demon else (-66.0 if is_hellhound else -65.0)
 				draw_rect(Rect2(pos + Vector2(-17, meter_y + bob), Vector2(34, 6)), Color(0.10, 0.11, 0.12, 0.50))
 				draw_rect(Rect2(pos + Vector2(-16, meter_y + 1.0 + bob), Vector2(32.0 * health_ratio, 4)), Color(0.45, 0.9, 0.53, 0.50))
 
@@ -1593,13 +1909,18 @@ func _draw() -> void:
 		var pos: Vector2 = active_build_pads()[int(monster["pad"])]
 		var kind: String = str(monster.get("kind", "moss"))
 		var texture := werewolf_texture_for_facing(str(monster["facing"]), true) if kind == "werewolf" and float(monster.get("howl_time", 0.0)) > 0.0 else monster_texture_for_facing(kind, str(monster["facing"]))
-		var monster_tint := Color(1.0, 0.55, 0.55) if float(monster.get("hit_flash", 0.0)) > 0.0 else Color.WHITE
+		var monster_tint := Color(0.58, 1.0, 0.32, 0.82) if float(monster.get("silence_timer", 0.0)) > 0.0 else (Color(1.0, 0.55, 0.55) if float(monster.get("hit_flash", 0.0)) > 0.0 else Color.WHITE)
 		draw_texture_rect(texture, Rect2(pos + Vector2(-37, -56), Vector2(74, 74)), false, monster_tint)
+		if float(monster.get("silence_timer", 0.0)) > 0.0:
+			var gas_phase := time_passed * 3.5 + float(monster["pad"])
+			for gas_index in range(4):
+				var gas_offset := Vector2(cos(gas_phase + gas_index * 1.6) * (15.0 + gas_index * 2.0), -28.0 + sin(gas_phase * 1.3 + gas_index) * 18.0)
+				draw_circle(pos + gas_offset, 7.0 + gas_index, Color(0.45, 0.95, 0.12, 0.18))
 		if monster.has("hp") and (boss_mode or int(monster["hp"]) < int(monster["max_hp"])):
 			var monster_health := float(monster["hp"]) / float(monster["max_hp"])
 			draw_rect(Rect2(pos + Vector2(-19, -66), Vector2(38, 5)), Color(0.08, 0.09, 0.10, 0.50))
 			draw_rect(Rect2(pos + Vector2(-18, -65), Vector2(36.0 * monster_health, 3)), Color(0.30, 0.78, 0.92, 0.50))
-		if kind != "werewolf" and monster["cooldown"] > (1.13 if kind == "gargoyle" else (0.98 if kind == "bog" else SCARE_COOLDOWN - 0.22)):
+		if kind != "werewolf" and monster["cooldown"] > (1.13 if kind == "gargoyle" else (1.08 if kind == "sasquatch" else (0.98 if kind == "bog" else SCARE_COOLDOWN - 0.22))):
 			draw_arc(pos, 35.0, 0.0, TAU, 32, Color(0.8, 1.0, 0.48, 0.7), 2.0)
 
 	for howl in howls:
@@ -1628,12 +1949,15 @@ func _draw() -> void:
 		match str(projectile.get("kind", "moss")):
 			"skeleton": projectile_texture = SKELETON_PROJECTILE
 			"bog": projectile_texture = BOG_PROJECTILE
+			"sasquatch": projectile_texture = SASQUATCH_PROJECTILE
 			"gargoyle": projectile_texture = GARGOYLE_PROJECTILE
 			"killian": projectile_texture = KILLIAN_MACHETE
 			"drowned_king": projectile_texture = DROWNED_KING_PROJECTILE
+			"miasma": projectile_texture = MIASMA_GAS_CLOUD
+			"headless_horseman": projectile_texture = HEADLESS_HORSEMAN_PROJECTILE
 			"mummy": projectile_texture = MUMMY_BANDAGE
 			"fire_demon": projectile_texture = FIRE_DEMON_FIREBALL
-		var projectile_size := 48.0 if ["drowned_king", "mummy"].has(str(projectile.get("kind", "moss"))) else 32.0
+		var projectile_size := 48.0 if ["sasquatch", "drowned_king", "miasma", "headless_horseman", "mummy"].has(str(projectile.get("kind", "moss"))) else 32.0
 		draw_texture_rect(projectile_texture, Rect2(Vector2.ONE * projectile_size * -0.5, Vector2.ONE * projectile_size), false)
 		draw_set_transform(Vector2.ZERO)
 	if dracula_active:
@@ -1655,28 +1979,26 @@ func _draw() -> void:
 	_draw_shop_card(SHOP_SKELETON, "skeleton", SKELETON_FRONT, PORTRAIT_SKELETON, "SKELETON", "15 damage", font)
 	_draw_shop_card(SHOP_MOSS, "moss", MOSS_FRONT, PORTRAIT_MOSS, "MOSS MONSTER", "30 damage", font)
 	_draw_shop_card(SHOP_BOG, "bog", BOG_FRONT, PORTRAIT_BOG, "BOG GUARDIAN", "60 damage", font)
+	_draw_shop_card(SHOP_SASQUATCH, "sasquatch", SASQUATCH_FRONT, PORTRAIT_SASQUATCH, "SASQUATCH", "75 damage", font)
 	_draw_shop_card(SHOP_GARGOYLE, "gargoyle", GARGOYLE_FRONT, PORTRAIT_GARGOYLE, "GARGOYLE", "90 damage", font)
 	_draw_shop_card(SHOP_WEREWOLF, "werewolf", WEREWOLF_FRONT, PORTRAIT_WEREWOLF, "WEREWOLF", "120 howl", font)
 	_draw_shop_card(SHOP_KILLIAN, "killian", KILLIAN_FRONT, PORTRAIT_KILLIAN, "KILLIAN CLOWN", "2x100 wild", font)
-	_draw_dracula_card(font)
-	_draw_frank_card(font)
-	_draw_mummy_card(font)
 	_draw_test_speed_button(font)
 	_draw_hover_tooltips(font)
 	if wave_complete():
 		draw_rect(Rect2(293, 222, 375, 96), Color(0.03, 0.07, 0.12, 0.92))
 		if boss_mode:
 			draw_string(font, Vector2(324, 261), "LEVEL %d COMPLETE" % boss_level, HORIZONTAL_ALIGNMENT_LEFT, -1, 25, Color(1.0, 0.84, 0.25))
-			var next_text := "Click here or N: begin Level %d" % (boss_level + 1) if boss_level < 3 else "Click here or N: restart"
+			var next_text := "Click here or N: begin Level %d" % (boss_level + 1) if current_level < LEVEL_COUNT else "Click here or N: restart"
 			draw_string(font, Vector2(324, 292), next_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.66, 0.85, 0.73))
-		elif display_wave() == WAVES_PER_LEVEL and display_level() <= 3:
+		elif display_wave() == WAVES_PER_LEVEL and display_level() <= 5:
 			draw_string(font, Vector2(324, 261), "WAVE %d COMPLETE" % display_wave(), HORIZONTAL_ALIGNMENT_LEFT, -1, 25, Color(0.94, 0.97, 0.89))
 			draw_string(font, Vector2(324, 292), "Click here or N: BOSS BATTLE", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(1.0, 0.58, 0.46))
 		elif current_level < LEVEL_COUNT:
 			draw_string(font, Vector2(324, 261), "WAVE %d COMPLETE" % display_wave(), HORIZONTAL_ALIGNMENT_LEFT, -1, 25, Color(0.94, 0.97, 0.89))
 			draw_string(font, Vector2(324, 292), "Click here or N: next wave  |  R: replay", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.66, 0.85, 0.73))
 		else:
-			var cleared_text := "DEAD FOREST CLEARED" if display_level() == 4 else "SWAMP CLEARED"
+			var cleared_text := "DEAD FOREST CLEARED" if display_level() == 6 else "PUMPKIN PATCH CLEARED"
 			draw_string(font, Vector2(324, 261), cleared_text, HORIZONTAL_ALIGNMENT_LEFT, -1, 25, Color(0.94, 0.97, 0.89))
 			draw_string(font, Vector2(324, 292), "Click to restart", HORIZONTAL_ALIGNMENT_LEFT, -1, 16, Color(0.66, 0.85, 0.73))
 	_draw_wave_intro()
@@ -1720,36 +2042,22 @@ func _draw_wave_intro() -> void:
 
 
 func _draw_scare_meter(_font: Font) -> void:
-	# Layer 1: a dark backing that is exactly the size of the open channel.
-	draw_rect(SCARE_METER_FILL_RECT, Color(0.025, 0.008, 0.012, 0.94))
-	# Layer 2: keep the bar's top edge fixed and extend its previous height
-	# downward by 40%. The frame is drawn last, so both rails stay stationary.
-	var maximum_squares := int(SCARE_METER_MAX / SCARE_METER_POINTS_PER_SQUARE)
-	var filled_squares := scare_meter_square_count()
-	var segment_width := roundf(SCARE_METER_FILL_RECT.size.y * 0.65)
-	var bar_height := roundf(segment_width * 1.40)
-	var travel_width := SCARE_METER_FILL_RECT.size.x - segment_width
-	# A soft pulse behind the filled portion gives the red bar an eerie glow.
-	if filled_squares > 0:
-		var last_segment_x := SCARE_METER_FILL_RECT.position.x
-		if maximum_squares > 1:
-			last_segment_x += travel_width * float(filled_squares - 1) / float(maximum_squares - 1)
-		var filled_width := last_segment_x - SCARE_METER_FILL_RECT.position.x + segment_width
+	# The red channel sits behind the transparent ornate frame, restoring the
+	# original gothic meter treatment without reintroducing character faces.
+	draw_rect(SCARE_METER_FILL_RECT, Color(0.018, 0.006, 0.009, 0.96))
+	var fill_ratio := clampf(float(scare_meter_points) / float(SCARE_METER_MAX), 0.0, 1.0)
+	if fill_ratio > 0.0:
+		var filled_width := SCARE_METER_FILL_RECT.size.x * fill_ratio
 		var glow_alpha := 0.18 + sin(time_passed * 3.5) * 0.05
-		draw_rect(Rect2(SCARE_METER_FILL_RECT.position - Vector2(2, 2), Vector2(filled_width + 4, bar_height + 4)), Color(1.0, 0.02, 0.03, glow_alpha))
-	for square_index in range(filled_squares):
-		var square_x := SCARE_METER_FILL_RECT.position.x
-		if maximum_squares > 1:
-			square_x += travel_width * float(square_index) / float(maximum_squares - 1)
-		draw_rect(Rect2(Vector2(square_x, SCARE_METER_FILL_RECT.position.y), Vector2(segment_width, bar_height)), Color(0.92, 0.015, 0.025, 1.0))
-	# Seal the final segment against the right rail at the exact unlock value.
-	if filled_squares >= maximum_squares:
-		draw_rect(Rect2(SCARE_METER_FILL_RECT.position, Vector2(SCARE_METER_FILL_RECT.size.x, bar_height)), Color(0.92, 0.015, 0.025, 1.0))
-	# Layer 3: transparent-channel frame and portraits always render over the fill.
-	draw_texture_rect_region(SCARE_METER_FRAME, SCARE_METER_RECT, SCARE_METER_SOURCE)
+		draw_rect(Rect2(SCARE_METER_FILL_RECT.position - Vector2(2, 2), Vector2(filled_width + 4, SCARE_METER_FILL_RECT.size.y + 4)), Color(1.0, 0.02, 0.03, glow_alpha))
+		draw_rect(Rect2(SCARE_METER_FILL_RECT.position, Vector2(filled_width, SCARE_METER_FILL_RECT.size.y)), Color(0.92, 0.015, 0.025, 1.0))
+	draw_texture_rect(SCARE_METER_FRAME, SCARE_METER_RECT, false)
 
 
 func _draw_nightmare_upgrades() -> void:
+	_draw_special_unlock_icon(SPECIAL_DRACULA_ICON, DRACULA_DOWN_1, scare_points >= DRACULA_UNLOCK_POINTS, dracula_used_levels.has(display_level()), Color(0.92, 0.34, 0.45))
+	_draw_special_unlock_icon(SPECIAL_MUMMY_ICON, MUMMY_FRONT, scare_points >= MUMMY_UNLOCK_POINTS, mummy_used_levels.has(display_level()), Color(0.92, 0.72, 0.28))
+	_draw_special_unlock_icon(SPECIAL_FRANK_ICON, FRANK_FRONT, scare_points >= FRANK_UNLOCK_POINTS, frank_used_levels.has(display_level()), Color(0.38, 0.70, 1.0))
 	if scare_meter_points >= SCARE_METER_MAX and nightmare_upgrades.size() < 9:
 		draw_rect(Rect2(386, 61, 172, 174), Color(0.025, 0.018, 0.035, 0.94))
 		draw_rect(Rect2(386, 61, 172, 174), Color(0.62, 0.28, 0.78, 0.95), false, 2.0)
@@ -1769,6 +2077,16 @@ func _draw_nightmare_upgrades() -> void:
 		draw_texture_rect(texture, rect, false, tint)
 		draw_arc(rect.get_center(), radius - 1.0, 0.0, TAU, 32, outline, 2.0)
 	_draw_nightmare_tooltip()
+
+
+func _draw_special_unlock_icon(rect: Rect2, texture: Texture2D, unlocked: bool, used_this_level: bool, accent: Color) -> void:
+	var center := rect.get_center()
+	var tint := Color.WHITE if unlocked else Color(0.45, 0.45, 0.45, 0.50)
+	if unlocked and used_this_level:
+		tint = Color(0.62, 0.62, 0.62, 0.62)
+	draw_circle(center, rect.size.x * 0.52, Color(0.025, 0.03, 0.04, 0.94))
+	draw_texture_rect(texture, rect.grow(-3.0), false, tint)
+	draw_arc(center, rect.size.x * 0.49, 0.0, TAU, 32, accent if unlocked else Color(0.34, 0.36, 0.37, 0.70), 2.0)
 
 
 func nightmare_upgrade_items() -> Array:
@@ -1800,7 +2118,7 @@ func nightmare_upgrade_display_rect(kind: String, choice_rect: Rect2) -> Rect2:
 	var selected_index := nightmare_upgrades.find(kind)
 	# Selected upgrades leave the battlefield choice grid and form one compact
 	# horizontal status row immediately to the right of the Scare Meter.
-	return Rect2(458.0 + float(selected_index) * 34.0, 12.0, 30.0, 30.0)
+	return Rect2(382.0 + float(selected_index) * 34.0, 12.0, 30.0, 30.0)
 
 
 func _draw_nightmare_tooltip() -> void:
@@ -1846,7 +2164,7 @@ func _draw_nightmare_tooltip() -> void:
 
 func _draw_top_status(font: Font) -> void:
 	var shown_level := boss_level if boss_mode else display_level()
-	var location_names := ["GRAVEYARD", "GRAVEYARD II", "SWAMP", "DEAD FOREST"]
+	var location_names := ["GRAVEYARD", "GRAVEYARD II", "SWAMP", "SWAMP II", "PUMPKIN RUN", "DEAD FOREST"]
 	var location_name: String = location_names[clampi(shown_level - 1, 0, location_names.size() - 1)]
 	draw_string(font, Vector2(780, 18), "LEVEL %d: %s" % [shown_level, location_name], HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(0.94, 0.97, 0.89))
 	draw_string(font, Vector2(780, 35), "SCARE POINTS: %d" % scare_points, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color(1.0, 0.88, 0.42))
@@ -1889,6 +2207,14 @@ func _draw_boss_intro() -> void:
 			boss_title = "THE SWAMP KING"
 			title_color = Color(0.52, 1.0, 0.48)
 			title_glow = Color(0.02, 0.55, 0.36)
+		elif boss_level == 4:
+			boss_title = "THE MIASMA"
+			title_color = Color(0.72, 1.0, 0.22)
+			title_glow = Color(0.18, 0.62, 0.02)
+		elif boss_level == 5:
+			boss_title = "THE HEADLESS HORSEMAN"
+			title_color = Color(1.0, 0.66, 0.18)
+			title_glow = Color(1.0, 0.18, 0.01)
 		_draw_intro_title(boss_title, 326.0, 52, title_color, title_glow, name_alpha)
 
 
@@ -1972,13 +2298,20 @@ func _draw_boss_foreground() -> void:
 		boss_texture = SOUL_REAPER_ATTACK if boss_gravewail_elapsed >= 0.0 and not fleeing else SOUL_REAPER_IDLE
 	elif int(boss["kind"]) == 9:
 		boss_texture = drowned_king_texture()
+	elif int(boss["kind"]) == 13:
+		boss_texture = MIASMA_BOSS
+		sprite_rect = Rect2(pos + Vector2(-86, -151 + bob), Vector2(172, 172))
+	elif int(boss["kind"]) == 12:
+		boss_texture = HEADLESS_HORSEMAN
+		sprite_rect = Rect2(pos + Vector2(-96, -158 + bob), Vector2(192, 192))
 	else:
 		boss_texture = GRAVEWROUGHT_GRAVEWAIL if boss_gravewail_elapsed >= 0.0 and not fleeing else GRAVEWROUGHT_IDLE
 	draw_texture_rect(boss_texture, sprite_rect, false, tint)
 	if not fleeing:
 		var health_ratio := float(boss["hp"]) / float(boss["max_hp"])
-		draw_rect(Rect2(pos + Vector2(-51, -130 + bob), Vector2(102, 9)), Color(0.10, 0.04, 0.08, 0.50))
-		draw_rect(Rect2(pos + Vector2(-50, -129 + bob), Vector2(100.0 * health_ratio, 7)), Color(0.84, 0.12, 0.28, 0.50))
+		var health_y := -170.0 if int(boss["kind"]) == 12 else (-163.0 if int(boss["kind"]) == 13 else -130.0)
+		draw_rect(Rect2(pos + Vector2(-51, health_y + bob), Vector2(102, 9)), Color(0.10, 0.04, 0.08, 0.50))
+		draw_rect(Rect2(pos + Vector2(-50, health_y + 1.0 + bob), Vector2(100.0 * health_ratio, 7)), Color(0.84, 0.12, 0.28, 0.50))
 
 
 func drowned_king_texture() -> Texture2D:
@@ -2024,6 +2357,28 @@ func _draw_moving_clouds() -> void:
 		draw_rect(Rect2(x + 8, y - 4, 38, 4), tint)
 		draw_rect(Rect2(x + 20, y - 7, 15, 3), tint)
 		draw_rect(Rect2(x + 35, y + 4, 32, 3), Color(0.37, 0.47, 0.62, 0.11))
+
+
+func _draw_level3_mist() -> void:
+	if (display_level() != 3 and display_level() != 4) or level3_mist_elapsed < 0.0:
+		return
+	var progress := clampf(level3_mist_elapsed / LEVEL_3_MIST_DURATION, 0.0, 1.0)
+	var fade_in := smoothstep(0.0, 0.16, progress)
+	var fade_out := 1.0 - smoothstep(0.76, 1.0, progress)
+	var alpha := fade_in * fade_out
+	var start_x := -300.0 if level3_mist_direction > 0.0 else SIZE.x + 300.0
+	var end_x := SIZE.x + 300.0 if level3_mist_direction > 0.0 else -300.0
+	var center_x := lerpf(start_x, end_x, progress)
+	var center_y := level3_mist_y + sin(progress * TAU * 1.5 + level3_mist_phase) * 9.0
+	var offsets := [Vector2(-190, 12), Vector2(-145, -8), Vector2(-98, 7), Vector2(-48, -14), Vector2(4, 4), Vector2(58, -10), Vector2(112, 9), Vector2(160, -5), Vector2(205, 13)]
+	var radii := [54.0, 66.0, 58.0, 74.0, 68.0, 72.0, 59.0, 64.0, 50.0]
+	for mist_index in range(offsets.size()):
+		var mist_center: Vector2 = Vector2(center_x, center_y) + offsets[mist_index]
+		var pulse := 1.0 + sin(level3_mist_elapsed * 0.55 + float(mist_index) * 1.7 + level3_mist_phase) * 0.08
+		draw_set_transform(mist_center, 0.0, Vector2(1.75, 0.52))
+		draw_circle(Vector2.ZERO, radii[mist_index] * pulse, Color(0.72, 0.82, 0.78, 0.026 * alpha))
+		draw_circle(Vector2.ZERO, radii[mist_index] * 0.72 * pulse, Color(0.80, 0.88, 0.84, 0.035 * alpha))
+	draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
 
 func _draw_lightning() -> void:
@@ -2148,6 +2503,14 @@ func bog_texture_for_facing(facing: String) -> Texture2D:
 		_: return BOG_FRONT
 
 
+func sasquatch_texture_for_facing(facing: String) -> Texture2D:
+	match facing:
+		"back": return SASQUATCH_BACK
+		"right": return SASQUATCH_RIGHT
+		"left": return SASQUATCH_LEFT
+		_: return SASQUATCH_FRONT
+
+
 func gargoyle_texture_for_facing(facing: String) -> Texture2D:
 	match facing:
 		"back": return GARGOYLE_BACK
@@ -2182,6 +2545,7 @@ func monster_texture_for_facing(kind: String, facing: String) -> Texture2D:
 	match kind:
 		"skeleton": return skeleton_texture_for_facing(facing)
 		"bog": return bog_texture_for_facing(facing)
+		"sasquatch": return sasquatch_texture_for_facing(facing)
 		"gargoyle": return gargoyle_texture_for_facing(facing)
 		"werewolf": return werewolf_texture_for_facing(facing)
 		"killian": return killian_texture_for_facing(facing)
@@ -2208,6 +2572,7 @@ func monster_tooltip_at_position(position: Vector2) -> Dictionary:
 		[SHOP_SKELETON, "SKELETON", "skeleton", SCARE_RANGE, SCARE_COOLDOWN, "Throws a spinning bone."],
 		[SHOP_MOSS, "MOSS MONSTER", "moss", SCARE_RANGE, SCARE_COOLDOWN, "Throws a seed clump."],
 		[SHOP_BOG, "BOG GUARDIAN", "bog", 125.0, 1.2, "Throws a heavy swamp projectile."],
+		[SHOP_SASQUATCH, "SASQUATCH", "sasquatch", SASQUATCH_RANGE, SASQUATCH_COOLDOWN, "Throws a large spinning boulder."],
 		[SHOP_GARGOYLE, "GARGOYLE", "gargoyle", 140.0, 1.35, "Throws a stone projectile."],
 		[SHOP_WEREWOLF, "WEREWOLF", "werewolf", WEREWOLF_RANGE, WEREWOLF_COOLDOWN, "Howl sends damaging shockwaves."],
 		[SHOP_KILLIAN, "KILLIAN CLOWN", "killian", KILLIAN_RANGE, KILLIAN_COOLDOWN, "With an enemy nearby, may hit an ally."]
@@ -2217,17 +2582,20 @@ func monster_tooltip_at_position(position: Vector2) -> Dictionary:
 		if rect.has_point(position):
 			var kind: String = item[2]
 			return {"rect": rect, "title": item[1], "line1": "%d points  |  %d damage  |  %d health" % [monster_purchase_cost(kind), monster_damage_for(kind), monster_max_hp_for(kind)], "line2": "%d px range  |  %.2f sec attack" % [int(nightmare_range(float(item[3]))), nightmare_cooldown(float(item[4]))], "line3": item[5]}
-	if SHOP_DRACULA.has_point(position):
-		return {"rect": SHOP_DRACULA, "title": "DRACULA", "line1": "%d meter points  |  %d contact damage" % [DRACULA_COST, DRACULA_DAMAGE], "line2": "One-use special: flies along every route.", "line3": "Damages every enemy he contacts."}
-	if SHOP_FRANK.has_point(position):
-		return {"rect": SHOP_FRANK, "title": "FRANKENSTEIN", "line1": "%d meter points  |  %d lightning damage" % [FRANK_COST, FRANK_DAMAGE], "line2": "One-use special: damages all enemies.", "line3": "Rises through an electrical portal."}
-	if SHOP_MUMMY.has_point(position):
-		return {"rect": SHOP_MUMMY, "title": "THE MUMMY", "line1": "%d meter points  |  global slowdown" % MUMMY_COST, "line2": "One-use special: targets every enemy.", "line3": "Bandages halve movement speed for 10 seconds."}
 	return {}
 
 
 func _draw_hover_tooltips(font: Font) -> void:
 	var mouse := get_global_mouse_position()
+	var special_info := special_unlock_tooltip_at_position(mouse)
+	if not special_info.is_empty():
+		var special_panel := Rect2(clampf(mouse.x - 145.0, 8.0, SIZE.x - 298.0), 58, 290, 60)
+		draw_rect(special_panel, Color(0.025, 0.04, 0.045, 0.97))
+		draw_rect(special_panel, Color(0.54, 0.62, 0.70, 0.96), false, 2.0)
+		draw_string(font, special_panel.position + Vector2(10, 18), str(special_info["title"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(0.93, 0.98, 0.91))
+		draw_string(font, special_panel.position + Vector2(10, 37), str(special_info["line1"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(1.0, 0.86, 0.42))
+		draw_string(font, special_panel.position + Vector2(10, 53), str(special_info["line2"]), HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.76, 0.88, 0.83))
+		return
 	var monster_info := monster_tooltip_at_position(mouse)
 	if not monster_info.is_empty():
 		var source_rect: Rect2 = monster_info["rect"]
@@ -2248,6 +2616,16 @@ func _draw_hover_tooltips(font: Font) -> void:
 	draw_string(font, panel.position + Vector2(10, 19), "SCARE METER: %d / %d" % [scare_meter_points, SCARE_METER_MAX], HORIZONTAL_ALIGNMENT_LEFT, -1, 14, Color(1.0, 0.83, 0.72))
 	var meter_help := "Nightmare Upgrade ready—choose a remaining icon." if scare_meter_points >= SCARE_METER_MAX and nightmare_upgrades.size() < 9 else "Fill the meter completely to unlock another upgrade."
 	draw_string(font, panel.position + Vector2(10, 38), meter_help, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color(0.78, 0.82, 0.86))
+
+
+func special_unlock_tooltip_at_position(position: Vector2) -> Dictionary:
+	if SPECIAL_DRACULA_ICON.has_point(position):
+		return {"title": "DRACULA", "line1": "%d / %d current scare points" % [scare_points, DRACULA_UNLOCK_POINTS], "line2": "Available once per level while unlocked."}
+	if SPECIAL_MUMMY_ICON.has_point(position):
+		return {"title": "THE MUMMY", "line1": "%d / %d current scare points" % [scare_points, MUMMY_UNLOCK_POINTS], "line2": "Available once per level while unlocked."}
+	if SPECIAL_FRANK_ICON.has_point(position):
+		return {"title": "FRANKENSTEIN", "line1": "%d / %d current scare points" % [scare_points, FRANK_UNLOCK_POINTS], "line2": "Available once per level while unlocked."}
+	return {}
 
 
 func _draw_dracula_card(_font: Font) -> void:

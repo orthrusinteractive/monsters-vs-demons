@@ -9,9 +9,9 @@ func run_test() -> void:
 	var level = load("res://graveyard_level_01.tscn").instantiate()
 	root.add_child(level)
 	level.set_process(false)
-	level.scare_meter_points = level.FRANK_COST
-	if not level.summon_frank() or level.scare_meter_points != 0 or level.scare_points != 200 or level.summon_frank():
-		push_error("Frankenstein meter reset or one-use lock failed")
+	level.scare_points = level.FRANK_UNLOCK_POINTS
+	if not level.summon_frank() or level.scare_meter_points != 0 or level.scare_points != level.FRANK_UNLOCK_POINTS or level.summon_frank():
+		push_error("Frankenstein current-point unlock or per-level use lock failed")
 		quit(1)
 		return
 	if level.FRANK_PORTAL_STRIP.get_size() != Vector2(768, 128) or level.FRANK_LIGHTNING_ATLAS.get_size() != Vector2(1920, 1080):
@@ -49,7 +49,7 @@ func run_test() -> void:
 		quit(1)
 		return
 	level._advance_frank(level.FRANK_WALK_TIME)
-	if level.frank_phase != "blast" or level.scared != 1 or level.scare_points != 220 or level.scare_meter_points != 20 or int(level.ghosts[1]["hp"]) != 70 or level.frank_blast_targets.size() != 2:
+	if level.frank_phase != "blast" or level.scared != 1 or level.scare_points != level.FRANK_UNLOCK_POINTS + 20 or level.scare_meter_points != 20 or int(level.ghosts[1]["hp"]) != 70 or level.frank_blast_targets.size() != 2:
 		push_error("Map-wide lightning damage or reward failed")
 		quit(1)
 		return

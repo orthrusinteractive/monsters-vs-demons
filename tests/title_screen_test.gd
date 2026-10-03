@@ -13,8 +13,8 @@ func run_test() -> void:
 		push_error("Opening title screen was not active at startup")
 		quit(1)
 		return
-	if not level.title_music_audio.playing:
-		push_error("Opening title music did not start")
+	if not level.title_music_audio.playing or not level.title_music_audio_layer_2.playing:
+		push_error("Both opening title music layers did not start")
 		quit(1)
 		return
 	var click := InputEventMouseButton.new()
@@ -22,7 +22,7 @@ func run_test() -> void:
 	click.pressed = true
 	click.position = level.PLAY_BUTTON.get_center()
 	level._unhandled_input(click)
-	if level.splash_active or level.current_level != 1 or level.wave_intro_elapsed != 0.0 or level.title_music_audio.playing:
+	if level.splash_active or level.current_level != 1 or level.wave_intro_elapsed != 0.0 or level.title_music_audio.playing or level.title_music_audio_layer_2.playing:
 		push_error("PLAY did not begin Level 1 from a clean introduction")
 		quit(1)
 		return
